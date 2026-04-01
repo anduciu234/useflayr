@@ -1,0 +1,8 @@
+{
+  "routes": [
+    { "src": "/auth/callback", "dest": "/auth/callback.html" },
+    { "src": "/api/deauth", "dest": "/api/deauth.html" },
+    { "src": "/api/delete", "dest": "/api/delete.html" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
