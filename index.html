@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flayr — Drop your URL. Get ads that convert.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    /* ── Variables ─────────────────────────────────────────────────── */
+    :root {
+      --bg:      #060608;
+      --s1:      #0A0A0E;
+      --s2:      #0C0C10;
+      --s3:      #111116;
+      --s4:      #161620;
+      --purple:  #7C6EE6;
+      --purple-l:#B8B0F5;
+      --white:   #F0EEF8;
+      --muted:   rgba(240,238,248,0.42);
+      --border:  rgba(240,238,248,0.08);
+      --font-d:  'Bricolage Grotesque', sans-serif;
+      --font-b:  'DM Sans', sans-serif;
+      --ease:    cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* ── Reset ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-b);
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Scrollbar ─────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 2px; }
+    ::selection { background: rgba(124,110,230,0.35); color: var(--white); }
+
+    /* ── Cursor glow ───────────────────────────────────────────────── */
+    #cursor-glow {
+      position: fixed;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,110,230,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+      transform: translate(-50%,-50%);
+      transition: opacity 0.3s;
+      left: -300px; top: -300px;
+      will-change: left, top;
+    }
+
+    /* ── Announcement bar ──────────────────────────────────────────── */
+    .ann-bar {
+      position: relative;
+      z-index: 200;
+      width: 100%;
+      padding: 10px 20px;
+      text-align: center;
+      font-family: var(--font-b);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--white);
+      background: linear-gradient(90deg,
+        rgba(124,110,230,0.12) 0%,
+        rgba(184,176,245,0.09) 50%,
+        rgba(124,110,230,0.12) 100%);
+      border-bottom: 1px solid rgba(124,110,230,0.18);
+      letter-spacing: 0.01em;
+    }
+    .ann-bar .ann-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--purple-l);
+      margin-right: 8px;
+      vertical-align: middle;
+      animation: pulse-dot 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(184,176,245,0.5); }
+      50%      { opacity:.6; box-shadow:0 0 0 5px rgba(184,176,245,0); }
+    }
+
+    /* ── Navbar ────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      left: 50%; transform: translateX(-50%);
+      z-index: 999;
+      width: calc(100% - 48px);
+      max-width: 1100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px;
+      border-radius: 100px;
+      background: rgba(6,6,8,0.35);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: background 0.35s, border-color 0.35s, box-shadow 0.35s, top 0.35s;
+    }
+    .nav.scrolled {
+      background: rgba(6,6,8,0.88);
+      border-color: rgba(124,110,230,0.22);
+      box-shadow: 0 4px 48px rgba(0,0,0,0.45);
+    }
+    .nav-logo {
+      font-family: var(--font-d);
+      font-size: 22px; font-weight: 800;
+      letter-spacing: -0.035em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--purple-l); }
+    .nav-links { display:flex; gap:28px; list-style:none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 14px; font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--purple) !important;
+      color: var(--white) !important;
+      padding: 9px 20px !important;
+      border-radius: 100px;
+      font-weight: 500 !important;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: var(--purple-l) !important;
+      color: var(--bg) !important;
+      transform: scale(1.03) !important;
+      box-shadow: 0 4px 20px rgba(124,110,230,0.38) !important;
+    }
+
+    /* ── Hero ──────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      width: 100%; height: 100vh;
+      min-height: 720px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      filter: saturate(0.6);
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% 0%,
+          rgba(124,110,230,0.22) 0%, transparent 70%),
+        linear-gradient(to bottom, transparent 25%, rgba(6,6,8,0.6) 70%, var(--bg) 100%);
+    }
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 2;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      mix-blend-mode: screen;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 0 24px;
+      max-width: 960px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 16px;
+      background: rgba(124,110,230,0.1);
+      border: 1px solid rgba(124,110,230,0.3);
+      border-radius: 100px;
+      font-size: 13px; font-weight: 400;
+      color: var(--purple-l);
+      margin-bottom: 30px;
+      letter-spacing: 0.02em;
+    }
+    .hero-badge .b-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--purple-l);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .hero-h1 {
+      font-family: var(--font-d);
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      color: var(--white);
+      margin-bottom: 26px;
+    }
+    .hero-h1 .line2 {
+      display: block;
+      background: linear-gradient(90deg,
+        var(--white) 0%, var(--purple-l) 35%,
+        var(--purple) 65%, var(--white) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: grad-shift 4s linear infinite;
+    }
+    @keyframes grad-shift {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    .hero-sub {
+      font-size: 18px; font-weight: 300;
+      color: var(--muted);
+      max-width: 500px; margin: 0 auto 38px;
+      line-height: 1.65;
+    }
+    .pill-form {
+      display: flex; gap: 0;
+      max-width: 420px; margin: 0 auto 22px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .pill-form:focus-within {
+      border-color: rgba(124,110,230,0.55);
+      box-shadow: 0 0 0 3px rgba(124,110,230,0.1);
+    }
+    .pill-form input {
+      flex: 1; background: transparent; border: none; outline: none;
+      padding: 14px 20px; color: var(--white);
+      font-family: var(--font-b); font-size: 15px; font-weight: 300;
+    }
+    .pill-form input::placeholder { color: var(--muted); }
+    .pill-form button {
+      background: var(--purple); color: var(--white);
+      border: none; padding: 12px 22px;
+      font-family: var(--font-b); font-size: 14px; font-weight: 500;
+      cursor: pointer; white-space: nowrap;
+      border-radius: 100px; margin: 3px;
+      transition: background 0.2s, transform 0.15s, color 0.2s;
+    }
+    .pill-form button:hover {
+      background: var(--purple-l); color: var(--bg);
+      transform: scale(1.04);
+    }
+    .pill-form button.success { background: #22c55e !important; color: #fff !important; }
+    .trust-line {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px;
+      font-size: 13px; color: var(--muted);
+    }
+    .avatar-stack { display: flex; }
+    .av {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700; color: #fff;
+      margin-left: -8px; flex-shrink: 0;
+    }
+    .av:first-child { margin-left: 0; }
+
+    /* Stagger hero in */
+    .hero-badge, .hero-h1, .hero-sub, .pill-form, .trust-line {
+      opacity: 0; transform: translateY(22px);
+      animation: hero-in 0.8s var(--ease) forwards;
+    }
+    .hero-badge  { animation-delay: 0.05s; }
+    .hero-h1     { animation-delay: 0.18s; }
+    .hero-sub    { animation-delay: 0.30s; }
+    .pill-form   { animation-delay: 0.42s; }
+    .trust-line  { animation-delay: 0.54s; }
+    @keyframes hero-in {
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── Ticker ────────────────────────────────────────────────────── */
+    .ticker {
+      position: relative; z-index: 10;
+      background: var(--s1);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 13px 0; overflow: hidden;
+    }
+    .ticker-track {
+      display: flex; width: max-content;
+      animation: tick 22s linear infinite;
+      will-change: transform;
+    }
+    .ticker-item {
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); padding: 0 28px;
+      white-space: nowrap;
+    }
+    .ticker-sep { color: var(--purple); padding: 0 4px; }
+    @keyframes tick {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── Section utilities ─────────────────────────────────────────── */
+    .sec-label {
+      display: inline-block;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--purple); margin-bottom: 14px;
+    }
+    .sec-h2 {
+      font-family: var(--font-d);
+      font-size: clamp(30px, 5vw, 58px);
+      font-weight: 800; letter-spacing: -0.03em;
+      color: var(--white); line-height: 1.08;
+      margin-bottom: 16px;
+    }
+    .sec-sub {
+      font-size: 16px; font-weight: 300;
+      color: var(--muted);
+      max-width: 520px; margin: 0 auto;
+      line-height: 1.65;
+    }
+    .sec-header { text-align: center; padding: 0 24px; margin-bottom: 64px; }
+
+    /* ── Ad Wall ───────────────────────────────────────────────────── */
+    .ad-wall {
+      padding: 96px 0 80px;
+      overflow: hidden;
+      position: relative;
+    }
+    .ad-wall::before,
+    .ad-wall::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .ad-wall::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg), transparent);
+    }
+    .ad-wall::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg), transparent);
+    }
+    .wall-row {
+      display: flex; gap: 12px; padding: 6px 0;
+      width: max-content; will-change: transform;
+    }
+    .wall-row.r1 { animation: wall-l 28s linear infinite; }
+    .wall-row.r2 { animation: wall-r 22s linear infinite; margin-top: 12px; }
+    @keyframes wall-l {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes wall-r {
+      0%   { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .ad-card {
+      width: 152px; height: 270px;
+      border-radius: 18px;
+      flex-shrink: 0; position: relative;
+      overflow: hidden; padding: 16px 14px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.28s var(--ease), box-shadow 0.28s;
+    }
+    .ad-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(145deg,
+        rgba(255,255,255,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .ad-card:hover {
+      transform: scale(1.06);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,110,230,0.2);
+    }
+    .ad-card-niche {
+      font-size: 9px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.48); margin-bottom: 8px;
+    }
+    .ad-card-hook {
+      font-family: var(--font-d);
+      font-size: 13px; font-weight: 700;
+      color: #fff; line-height: 1.32;
+    }
+    .ad-card-spend {
+      font-size: 9px; color: rgba(255,255,255,0.38);
+      margin-bottom: 6px;
+    }
+    .ad-card-ctr {
+      display: inline-block;
+      padding: 3px 8px;
+      background: rgba(124,110,230,0.22);
+      border: 1px solid rgba(124,110,230,0.38);
+      border-radius: 100px;
+      font-size: 10px; font-weight: 600;
+      color: var(--purple-l);
+    }
+
+    /* ── Inline text ───────────────────────────────────────────────── */
+    .inline-sec {
+      background: var(--s2);
+      padding: 96px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .inline-sec::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%, var(--purple) 25%,
+        var(--purple-l) 50%, var(--purple) 75%, transparent 100%);
+      background-size: 200% auto;
+      animation: shimmer 3.5s linear infinite;
+    }
+    .inline-sec::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%, rgba(124,110,230,0.4) 30%,
+        rgba(184,176,245,0.35) 50%, rgba(124,110,230,0.4) 70%, transparent 100%);
+    }
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    .inline-inner {
+      max-width: 920px; margin: 0 auto;
+    }
+    .inline-txt {
+      font-family: var(--font-d);
+      font-size: clamp(26px, 4.5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.38;
+      color: var(--muted);
+    }
+    .inline-txt strong { color: var(--white); font-weight: 800; }
+    .vid-pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 80px; height: 52px;
+      border-radius: 10px;
+      border: 1px solid rgba(124,110,230,0.25);
+      background: linear-gradient(135deg, #1A1230 0%, #0E0A1C 100%);
+      vertical-align: middle;
+      margin: 0 6px 4px;
+      font-size: 20px;
+      flex-shrink: 0;
+      position: relative; overflow: hidden;
+      box-shadow: 0 2px 16px rgba(124,110,230,0.12);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .vid-pill:hover {
+      transform: scale(1.06) translateY(-1px);
+      box-shadow: 0 4px 24px rgba(124,110,230,0.22);
+    }
+    .vid-pill::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg,
+        rgba(124,110,230,0.18) 0%, transparent 55%);
+    }
+    .vid-pill::after {
+      content: '';
+      position: absolute; bottom: 0; right: 0;
+      width: 32px; height: 32px;
+      background: radial-gradient(circle,
+        rgba(184,176,245,0.12) 0%, transparent 70%);
+    }
+
+    /* ── How it works ──────────────────────────────────────────────── */
+    .how {
+      padding: 96px 24px;
+      position: relative;
+    }
+    .how::before {
+      content: '';
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 500px; height: 300px;
+      background: radial-gradient(circle,
+        rgba(124,110,230,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .steps-grid {
+      max-width: 880px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      border-radius: 26px; overflow: hidden;
+      background: rgba(255,255,255,0.04);
+    }
+    .step-cell {
+      background: var(--s2);
+      padding: 44px 40px;
+      position: relative; overflow: hidden;
+      transition: background 0.28s;
+    }
+    .step-cell::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--purple-l));
+      opacity: 0; transition: opacity 0.28s;
+    }
+    .step-cell:hover { background: var(--s3); }
+    .step-cell:hover::before { opacity: 1; }
+    .step-num {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--purple); margin-bottom: 18px;
+    }
+    .step-icon { font-size: 34px; display: block; margin-bottom: 16px; }
+    .step-h3 {
+      font-family: var(--font-d);
+      font-size: 22px; font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .step-p {
+      font-size: 15px; font-weight: 300;
+      color: var(--muted); line-height: 1.65;
+    }
+
+    /* ── Swipe section ─────────────────────────────────────────────── */
+    .swipe-sec {
+      background: var(--s1);
+      padding: 96px 24px;
+    }
+    .swipe-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .swipe-h2 {
+      font-family: var(--font-d);
+      font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 800; letter-spacing: -0.03em;
+      color: var(--white); margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .swipe-p {
+      font-size: 16px; font-weight: 300;
+      color: var(--muted); line-height: 1.65;
+      margin-bottom: 36px;
+    }
+    .action-rows { display: flex; flex-direction: column; gap: 6px; }
+    .action-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-radius: 14px;
+      background: rgba(255,255,255,0.028);
+      border: 1px solid var(--border);
+      transition: transform 0.22s, background 0.22s;
+      cursor: default;
+    }
+    .action-row:hover {
+      transform: translateX(4px);
+      background: rgba(255,255,255,0.05);
+    }
+    .ai-icon {
+      width: 38px; height: 38px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .ai-green  { background: rgba(34,197,94,0.12);  color: #4ade80; }
+    .ai-purple { background: rgba(124,110,230,0.12); color: var(--purple-l); }
+    .ai-dim    { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); }
+    .at-h4 {
+      font-size: 14px; font-weight: 500;
+      color: var(--white); margin-bottom: 3px;
+    }
+    .at-p {
+      font-size: 12px; font-weight: 300; color: var(--muted);
+    }
+
+    /* Phone */
+    .phone-wrap {
+      display: flex; justify-content: center;
+      align-items: center; position: relative;
+    }
+    .phone-glow {
+      position: absolute;
+      width: 260px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(124,110,230,0.22) 0%, transparent 70%);
+      filter: blur(48px); z-index: 0;
+    }
+    .phone-frame {
+      position: relative; z-index: 1;
+      width: 206px;
+      background: #0D0D14;
+      border-radius: 48px;
+      padding: 10px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.6),
+        0 24px 72px rgba(0,0,0,0.65),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+    .phone-notch-bar {
+      display: flex; align-items: center; justify-content: center;
+      height: 24px; position: relative;
+    }
+    .phone-notch {
+      width: 64px; height: 18px;
+      background: #0D0D14;
+      border-radius: 0 0 16px 16px;
+      position: absolute; top: -10px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 5px;
+    }
+    .notch-cam {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #1a1a22;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .notch-speaker {
+      width: 22px; height: 5px; border-radius: 3px;
+      background: #1a1a22;
+    }
+    .phone-screen {
+      border-radius: 36px;
+      aspect-ratio: 9/16;
+      background: linear-gradient(160deg, #1C102E 0%, #0D091C 45%, #1A0B16 100%);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      padding: 14px 12px;
+    }
+    .phone-grain {
+      position: absolute; inset: 0; z-index: 0;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      pointer-events: none;
+    }
+    .phone-top-area { position: relative; z-index: 2; }
+    .p-niche {
+      display: inline-block;
+      padding: 3px 9px;
+      background: rgba(124,110,230,0.22);
+      border-radius: 100px;
+      font-size: 8px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--purple-l); margin-bottom: 10px;
+    }
+    .p-sparkles {
+      position: absolute; top: 2px; right: -2px;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
+    }
+    .p-sp {
+      font-size: 11px;
+      animation: sp-pulse 2.2s ease-in-out infinite;
+    }
+    .p-sp:nth-child(2) { animation-delay: 0.5s; }
+    .p-sp:nth-child(3) { animation-delay: 1.0s; }
+    @keyframes sp-pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.35; transform:scale(0.78); }
+    }
+    .p-hook {
+      font-family: var(--font-d);
+      font-size: 13px; font-weight: 800;
+      color: #fff; letter-spacing: -0.02em;
+      line-height: 1.3; margin-bottom: 7px;
+    }
+    .p-stat { font-size: 8px; color: rgba(255,255,255,0.38); margin-bottom: 5px; }
+    .p-ctr {
+      display: inline-block; padding: 2px 7px;
+      background: rgba(124,110,230,0.22);
+      border-radius: 100px;
+      font-size: 8px; font-weight: 600;
+      color: var(--purple-l);
+    }
+    .p-actions {
+      position: absolute; right: 8px; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 8px;
+      z-index: 3;
+    }
+    .p-btn {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; border: none; cursor: pointer;
+      transition: transform 0.18s; background: none;
+    }
+    .p-btn.p-like   { background: rgba(34,197,94,0.18);  color: #4ade80; }
+    .p-btn.p-edit   { background: rgba(124,110,230,0.18); color: var(--purple-l); }
+    .p-btn.p-skip   { background: rgba(255,255,255,0.1);  color: rgba(255,255,255,0.45); }
+    .p-btn:hover { transform: scale(1.2); }
+    .p-cta-bar {
+      position: relative; z-index: 2;
+      background: var(--purple);
+      border-radius: 100px; padding: 7px 0;
+      text-align: center; font-size: 9px; font-weight: 600;
+      color: #fff; letter-spacing: 0.03em;
+    }
+
+    /* ── Bento ─────────────────────────────────────────────────────── */
+    .features { padding: 96px 24px; }
+    .bento {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .bc {
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 30px;
+      position: relative; overflow: hidden;
+      transition: transform 0.28s var(--ease), background 0.28s;
+    }
+    .bc::after {
+      content: '';
+      position: absolute; bottom: 0; right: 0;
+      width: 130px; height: 130px;
+      background: radial-gradient(circle,
+        rgba(124,110,230,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .bc::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--purple-l));
+      opacity: 0; transition: opacity 0.28s;
+    }
+    .bc:hover { transform: translateY(-3px); background: var(--s3); }
+    .bc:hover::before { opacity: 1; }
+    .bc.c8 { grid-column: span 8; }
+    .bc.c4 { grid-column: span 4; }
+    .bc.c6 { grid-column: span 6; }
+    .bc-icon { font-size: 28px; display: block; margin-bottom: 16px; }
+    .bc-h3 {
+      font-family: var(--font-d);
+      font-size: 20px; font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .bc-p {
+      font-size: 14px; font-weight: 300;
+      color: var(--muted); line-height: 1.65;
+    }
+    .badge {
+      display: inline-block; margin-top: 16px;
+      padding: 4px 11px; border-radius: 100px;
+      font-size: 11px; font-weight: 500;
+    }
+    .b-pu { background: rgba(124,110,230,0.14); color: var(--purple-l); }
+    .b-gr { background: rgba(34,197,94,0.1);    color: #4ade80; }
+    .b-bl { background: rgba(96,165,250,0.1);   color: #60a5fa; }
+    .b-or { background: rgba(251,146,60,0.1);   color: #fb923c; }
+
+    /* ── Pricing ───────────────────────────────────────────────────── */
+    .pricing {
+      padding: 96px 24px;
+      position: relative; overflow: hidden;
+    }
+    .pricing::after {
+      content: '';
+      position: absolute; bottom: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(circle,
+        rgba(124,110,230,0.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .price-grid {
+      max-width: 1020px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; align-items: start;
+      position: relative; z-index: 1;
+    }
+    .pc {
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 22px; padding: 32px 28px;
+      position: relative;
+      transition: transform 0.28s var(--ease);
+    }
+    .pc:hover { transform: translateY(-4px); }
+    .pc.pop {
+      border-color: var(--purple);
+      background: linear-gradient(170deg,
+        rgba(124,110,230,0.09) 0%, var(--s2) 60%);
+      margin-top: -10px;
+    }
+    .pop-badge {
+      position: absolute; top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--purple); color: #fff;
+      font-size: 11px; font-weight: 600;
+      padding: 4px 14px; border-radius: 100px;
+      white-space: nowrap; letter-spacing: 0.05em;
+    }
+    .pt {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px;
+    }
+    .pp {
+      display: flex; align-items: baseline; gap: 4px;
+      margin-bottom: 6px;
+    }
+    .pp-amt {
+      font-family: var(--font-d);
+      font-size: 52px; font-weight: 800;
+      letter-spacing: -0.04em; color: var(--white);
+    }
+    .pp-per { font-size: 14px; color: var(--muted); }
+    .pdiv { height: 1px; background: var(--border); margin: 22px 0; }
+    .pf { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+    .pf li { font-size: 14px; font-weight: 300; color: rgba(240,238,248,0.35); display: flex; align-items: center; gap: 8px; }
+    .pf li.on { color: var(--white); }
+    .pf .ck { color: var(--purple); font-size: 13px; }
+    .pf .ds { color: rgba(255,255,255,0.18); }
+    .pbtn {
+      width: 100%; padding: 14px; border-radius: 100px;
+      font-family: var(--font-b); font-size: 15px; font-weight: 500;
+      cursor: pointer; transition: transform 0.18s, box-shadow 0.18s;
+      border: none; text-align: center;
+    }
+    .pbtn:hover { transform: scale(1.03); }
+    .pbtn.ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+    }
+    .pbtn.ghost:hover { border-color: var(--purple); box-shadow: 0 4px 20px rgba(124,110,230,0.15); }
+    .pbtn.solid {
+      background: var(--purple); color: #fff;
+      box-shadow: 0 4px 24px rgba(124,110,230,0.28);
+    }
+    .pbtn.solid:hover {
+      background: var(--purple-l); color: var(--bg);
+      box-shadow: 0 8px 32px rgba(124,110,230,0.42);
+    }
+
+    /* ── FAQ ───────────────────────────────────────────────────────── */
+    .faq { padding: 96px 24px; }
+    .faq-list {
+      max-width: 760px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .faq-item {
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .faq-item.open { border-color: rgba(124,110,230,0.38); }
+    .faq-q {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px; cursor: pointer;
+      font-family: var(--font-d);
+      font-size: 16px; font-weight: 700;
+      color: var(--white); gap: 14px;
+      user-select: none;
+    }
+    .faq-ico {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(124,110,230,0.12);
+      border: 1px solid rgba(124,110,230,0.28);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: var(--purple);
+      flex-shrink: 0;
+      transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1),
+                  background 0.22s;
+    }
+    .faq-item.open .faq-ico {
+      transform: rotate(45deg);
+      background: var(--purple); color: #fff;
+      border-color: var(--purple);
+    }
+    .faq-ans {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.42s var(--ease);
+    }
+    .faq-item.open .faq-ans { max-height: 320px; }
+    .faq-ans-in {
+      padding: 0 24px 20px;
+      font-size: 15px; font-weight: 300;
+      color: var(--muted); line-height: 1.72;
+    }
+
+    /* ── Final CTA ─────────────────────────────────────────────────── */
+    .final-cta {
+      padding: 120px 24px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(circle,
+        rgba(124,110,230,0.11) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .final-cta::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg,
+        transparent, var(--purple) 25%,
+        var(--purple-l) 50%, var(--purple) 75%, transparent);
+    }
+    .final-h2 {
+      font-family: var(--font-d);
+      font-size: clamp(34px, 6vw, 72px);
+      font-weight: 800; letter-spacing: -0.038em;
+      color: var(--white); line-height: 1.05;
+      margin-bottom: 20px; position: relative; z-index: 1;
+    }
+    .final-h2 em { font-style: normal; color: var(--purple-l); }
+    .final-sub {
+      font-size: 17px; font-weight: 300;
+      color: var(--muted); max-width: 460px;
+      margin: 0 auto 38px; line-height: 1.65;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Footer ────────────────────────────────────────────────────── */
+    footer {
+      padding: 28px 40px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .fl { font-family: var(--font-d); font-size: 18px; font-weight: 800; letter-spacing: -0.03em; color: var(--white); }
+    .fl span { color: var(--purple-l); }
+    .fn { display: flex; gap: 26px; list-style: none; }
+    .fn a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .fn a:hover { color: var(--white); }
+    .fc { font-size: 12px; color: rgba(240,238,248,0.22); }
+
+    /* ── Scroll reveal ─────────────────────────────────────────────── */
+    .rv {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .rv.vi { opacity: 1; transform: translateY(0); }
+    .rv.d1 { transition-delay: 0.1s; }
+    .rv.d2 { transition-delay: 0.2s; }
+    .rv.d3 { transition-delay: 0.32s; }
+    .rv.d4 { transition-delay: 0.44s; }
+
+    /* ── Mobile ────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav { width: calc(100% - 24px); }
+      .nav-links { display: none; }
+      .swipe-inner { grid-template-columns: 1fr; gap: 48px; }
+      .phone-wrap { order: -1; }
+      .bento { grid-template-columns: 1fr; }
+      .bc.c8, .bc.c4, .bc.c6 { grid-column: span 1; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .price-grid { grid-template-columns: 1fr; }
+      .pc.pop { margin-top: 0; }
+      footer { flex-direction: column; text-align: center; }
+      .fn { flex-wrap: wrap; justify-content: center; }
+    }
+    @media (max-width: 480px) {
+      .ann-bar { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Cursor Glow -->
+<div id="cursor-glow"></div>
+
+<!-- Announcement Bar -->
+<div class="ann-bar" id="ann-bar">
+  <span class="ann-dot"></span>
+  Flayr is now in private beta &mdash; <strong>500 spots remaining</strong>. Apply today and skip the queue.
+</div>
+
+<!-- Navbar -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">Flayr<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#cta" class="nav-cta">Get early access</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" type="video/mp4">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_151826_c7218672-6e92-402c-9e45-f1e0f454bdc4.mp4" type="video/mp4">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_074327_a4d6275d-82d9-4c83-bfbe-f1fb2213c17c.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="b-dot"></span>⚡ AI Ad Agent &mdash; Meta &amp; Instagram
+    </div>
+    <h1 class="hero-h1">
+      Drop your URL.<br>
+      <span class="line2">Get ads that convert.</span>
+    </h1>
+    <p class="hero-sub">
+      Flayr scrapes what&rsquo;s working in your niche, builds your video ad, and watches your campaigns 24/7 &mdash; so you never miss a winning moment.
+    </p>
+    <form class="pill-form" id="hero-form">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit">Join waitlist ⚡</button>
+    </form>
+    <div class="trust-line">
+      <div class="avatar-stack" id="avatar-stack"></div>
+      <span>1,200+ founders already waiting</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ AD WALL -->
+<section class="ad-wall">
+  <div class="sec-header rv">
+    <div class="sec-label">Ad Intelligence</div>
+    <h2 class="sec-h2">You&rsquo;ve seen these ads.<br>You didn&rsquo;t know we built them.</h2>
+    <p class="sec-sub">Every format was pulled from Meta Ad Library &mdash; ads with real spend, real results.</p>
+  </div>
+  <div class="wall-row r1" id="wall-r1"></div>
+  <div class="wall-row r2" id="wall-r2"></div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ INLINE TEXT -->
+<section class="inline-sec">
+  <div class="inline-inner rv">
+    <p class="inline-txt">
+      At Flayr we&rsquo;re changing how founders
+      <span class="vid-pill">🎬</span>
+      grow &mdash; turning any product URL into <strong>scroll-stopping ads</strong> that
+      actually convert. Using <strong>proven viral formats</strong>
+      <span class="vid-pill">📊</span>
+      we build creatives that feel <strong>native, not corporate</strong> &mdash; then we
+      watch them for you, so <strong>every dollar</strong> of your ad spend
+      <span class="vid-pill">🚀</span>
+      works harder.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="sec-header rv">
+    <div class="sec-label">Process</div>
+    <h2 class="sec-h2">URL in. Campaign out.</h2>
+    <p class="sec-sub">Four steps from idea to live Meta campaign &mdash; no agency required.</p>
+  </div>
+  <div class="steps-grid rv d1">
+    <div class="step-cell">
+      <div class="step-num">01</div>
+      <span class="step-icon">🔗</span>
+      <h3 class="step-h3">Drop your URL</h3>
+      <p class="step-p">Paste any product or landing page URL. Flayr automatically scrapes your brand, offer, and product details &mdash; no briefs, no forms, no onboarding calls.</p>
+    </div>
+    <div class="step-cell">
+      <div class="step-num">02</div>
+      <span class="step-icon">📱</span>
+      <h3 class="step-h3">Swipe the ad library</h3>
+      <p class="step-p">Flayr surfaces the top-performing ads in your exact niche from Meta&rsquo;s ad library. Swipe right on what you love &mdash; the AI learns your taste in 10 swipes.</p>
+    </div>
+    <div class="step-cell">
+      <div class="step-num">03</div>
+      <span class="step-icon">🎬</span>
+      <h3 class="step-h3">Flayr builds your ads</h3>
+      <p class="step-p">The AI generates scroll-stopping video ads in proven formats &mdash; UGC style, product demos, testimonials. Production-ready in minutes, not weeks.</p>
+    </div>
+    <div class="step-cell">
+      <div class="step-num">04</div>
+      <span class="step-icon">🚀</span>
+      <h3 class="step-h3">Go live. Flayr watches.</h3>
+      <p class="step-p">Launch to Meta and Instagram in one click. Flayr monitors performance 24/7 and alerts you the moment a winner emerges &mdash; or a loser starts bleeding spend.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ SWIPE LIBRARY -->
+<section class="swipe-sec">
+  <div class="swipe-inner">
+    <div class="rv">
+      <div class="sec-label">Taste Engine</div>
+      <h2 class="swipe-h2">Train Flayr on your taste.<br>In 10 swipes.</h2>
+      <p class="swipe-p">Not every brand sounds the same. Swipe through high-performing ads from your niche and Flayr learns exactly what resonates with your audience &mdash; and what to avoid.</p>
+      <div class="action-rows">
+        <div class="action-row">
+          <div class="ai-icon ai-green">♥</div>
+          <div>
+            <div class="at-h4">Like</div>
+            <div class="at-p">Save formats that match your brand voice and convert in your niche</div>
+          </div>
+        </div>
+        <div class="action-row">
+          <div class="ai-icon ai-purple">✎</div>
+          <div>
+            <div class="at-h4">Comment</div>
+            <div class="at-p">Add notes to fine-tune specific hooks, CTAs, or visual styles</div>
+          </div>
+        </div>
+        <div class="action-row">
+          <div class="ai-icon ai-dim">↓</div>
+          <div>
+            <div class="at-h4">Skip</div>
+            <div class="at-p">Dismiss ads that don&rsquo;t fit &mdash; Flayr learns what to avoid too</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-wrap rv d2">
+      <div class="phone-glow"></div>
+      <div class="phone-frame">
+        <div class="phone-notch-bar">
+          <div class="phone-notch">
+            <div class="notch-speaker"></div>
+            <div class="notch-cam"></div>
+          </div>
+        </div>
+        <div class="phone-screen">
+          <div class="phone-grain"></div>
+          <div class="phone-top-area">
+            <div class="p-niche">✦ Skincare &middot; Trending</div>
+            <div class="p-sparkles">
+              <span class="p-sp">✦</span>
+              <span class="p-sp">✧</span>
+              <span class="p-sp">✦</span>
+            </div>
+            <div class="p-hook">&ldquo;I&rsquo;ve been doing this wrong for 3 years...&rdquo;</div>
+            <div class="p-stat">47 days &middot; $14,200 spend</div>
+            <div class="p-ctr">4.2% CTR</div>
+          </div>
+          <div class="p-actions">
+            <button class="p-btn p-like" id="like-btn">♥</button>
+            <button class="p-btn p-edit">✎</button>
+            <button class="p-btn p-skip">↓</button>
+          </div>
+          <div class="p-cta-bar">Use this format &rarr;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ FEATURES BENTO -->
+<section class="features" id="features">
+  <div class="sec-header rv">
+    <div class="sec-label">Features</div>
+    <h2 class="sec-h2">Everything you need to win on Meta.</h2>
+    <p class="sec-sub">One platform that replaces your agency, your editor, and your media buyer.</p>
+  </div>
+  <div class="bento">
+    <div class="bc c8 rv">
+      <span class="bc-icon">📚</span>
+      <h3 class="bc-h3">Meta Ad Library Intelligence</h3>
+      <p class="bc-p">Flayr continuously indexes Meta&rsquo;s ad library across 50+ niches &mdash; surfacing hooks, formats, and spend patterns that are working right now, not six months ago. Every recommendation is backed by real campaign data.</p>
+      <span class="badge b-pu">Live data</span>
+    </div>
+    <div class="bc c4 rv d1">
+      <span class="bc-icon">🕵️</span>
+      <h3 class="bc-h3">Competitor Ad Spy</h3>
+      <p class="bc-p">See exactly which ads your competitors are running, how long they&rsquo;ve been live, and what&rsquo;s driving their best results.</p>
+      <span class="badge b-bl">Competitive edge</span>
+    </div>
+    <div class="bc c4 rv">
+      <span class="bc-icon">🎥</span>
+      <h3 class="bc-h3">AI UGC Video</h3>
+      <p class="bc-p">Production-ready UGC-style video ads generated from your product URL. No actors. No studios. Scroll-stopping content in minutes.</p>
+      <span class="badge b-or">Flagship</span>
+    </div>
+    <div class="bc c8 rv d1">
+      <span class="bc-icon">📊</span>
+      <h3 class="bc-h3">Live Performance Dashboard</h3>
+      <p class="bc-p">Real-time ROAS, CTR, and CPM tracking across every ad. Flayr surfaces winners and losers the moment statistical significance is reached &mdash; so you scale fast and cut waste early. No spreadsheets. No guesswork.</p>
+      <span class="badge b-gr">Real-time</span>
+    </div>
+    <div class="bc c6 rv">
+      <span class="bc-icon">🔔</span>
+      <h3 class="bc-h3">Auto-Replacement Alerts</h3>
+      <p class="bc-p">When an ad starts fatiguing, Flayr automatically generates a replacement with a fresh hook and notifies you before ROAS drops. Stay ahead of ad fatigue without lifting a finger.</p>
+      <span class="badge b-pu">Proactive</span>
+    </div>
+    <div class="bc c6 rv d1">
+      <span class="bc-icon">🧠</span>
+      <h3 class="bc-h3">Taste-Trained AI</h3>
+      <p class="bc-p">The more you swipe, the smarter Flayr gets. Your taste profile improves every ad generation &mdash; compounding your creative advantage over time. An AI media buyer that only gets better.</p>
+      <span class="badge b-bl">Gets smarter</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ PRICING -->
+<section class="pricing" id="pricing">
+  <div class="sec-header rv">
+    <div class="sec-label">Pricing</div>
+    <h2 class="sec-h2">Start free. Scale when it&rsquo;s working.</h2>
+    <p class="sec-sub">No long-term contracts. No setup fees. Cancel anytime.</p>
+  </div>
+  <div class="price-grid">
+    <div class="pc rv">
+      <div class="pt">Starter</div>
+      <div class="pp"><span class="pp-amt">$29</span><span class="pp-per">/month</span></div>
+      <div class="pdiv"></div>
+      <ul class="pf">
+        <li class="on"><span class="ck">✓</span> 5 ad creatives / month</li>
+        <li class="on"><span class="ck">✓</span> Meta Ad Library access</li>
+        <li class="on"><span class="ck">✓</span> 1 active campaign</li>
+        <li class="on"><span class="ck">✓</span> Performance dashboard</li>
+        <li><span class="ds">—</span> Competitor ad spy</li>
+        <li><span class="ds">—</span> Auto-replacement alerts</li>
+        <li><span class="ds">—</span> Taste profile training</li>
+      </ul>
+      <button class="pbtn ghost">Get started</button>
+    </div>
+    <div class="pc pop rv d1">
+      <div class="pop-badge">Most Popular</div>
+      <div class="pt">Pro</div>
+      <div class="pp"><span class="pp-amt">$79</span><span class="pp-per">/month</span></div>
+      <div class="pdiv"></div>
+      <ul class="pf">
+        <li class="on"><span class="ck">✓</span> 25 ad creatives / month</li>
+        <li class="on"><span class="ck">✓</span> Meta + Instagram targeting</li>
+        <li class="on"><span class="ck">✓</span> 5 active campaigns</li>
+        <li class="on"><span class="ck">✓</span> Live performance dashboard</li>
+        <li class="on"><span class="ck">✓</span> Competitor ad spy</li>
+        <li class="on"><span class="ck">✓</span> Auto-replacement alerts</li>
+        <li class="on"><span class="ck">✓</span> Taste profile training</li>
+      </ul>
+      <button class="pbtn solid">Get started</button>
+    </div>
+    <div class="pc rv d2">
+      <div class="pt">Scale</div>
+      <div class="pp"><span class="pp-amt">$149</span><span class="pp-per">/month</span></div>
+      <div class="pdiv"></div>
+      <ul class="pf">
+        <li class="on"><span class="ck">✓</span> Unlimited ad creatives</li>
+        <li class="on"><span class="ck">✓</span> All platforms</li>
+        <li class="on"><span class="ck">✓</span> Unlimited campaigns</li>
+        <li class="on"><span class="ck">✓</span> Priority dashboard</li>
+        <li class="on"><span class="ck">✓</span> Deep competitor analysis</li>
+        <li class="on"><span class="ck">✓</span> Instant replacement</li>
+        <li class="on"><span class="ck">✓</span> White-glove onboarding</li>
+      </ul>
+      <button class="pbtn ghost">Get started</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ FAQ -->
+<section class="faq" id="faq">
+  <div class="sec-header rv">
+    <div class="sec-label">FAQ</div>
+    <h2 class="sec-h2">Questions, answered.</h2>
+  </div>
+  <div class="faq-list" id="faq-list"></div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ FINAL CTA -->
+<section class="final-cta" id="cta">
+  <h2 class="final-h2 rv">Your next winning ad is<br><em>60 seconds away.</em></h2>
+  <p class="final-sub rv d1">Drop your URL, swipe 10 ads, and Flayr handles the rest. No agency. No guesswork. No wasted spend.</p>
+  <form class="pill-form rv d2" id="final-form" style="max-width:420px;margin:0 auto;">
+    <input type="email" placeholder="Enter your email" required>
+    <button type="submit">Join waitlist ⚡</button>
+  </form>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="fl">Flayr<span>.</span></div>
+  <ul class="fn">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="fc">&copy; 2026 Flayr, Inc. All rights reserved.</div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════ SCRIPT -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Cursor glow ──────────────────────────────────────────────────── */
+  const glow = document.getElementById('cursor-glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+  });
+
+  /* ── Nav position + scroll toggle ────────────────────────────────── */
+  const nav    = document.getElementById('nav');
+  const annBar = document.getElementById('ann-bar');
+  function positionNav() {
+    const ah = annBar.getBoundingClientRect().height;
+    nav.style.top = (ah + 8) + 'px';
+  }
+  positionNav();
+  window.addEventListener('resize', positionNav);
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+    if (window.scrollY > annBar.offsetHeight + 20) {
+      nav.style.top = '12px';
+    } else {
+      positionNav();
+    }
+  }, { passive: true });
+
+  /* ── Avatars ──────────────────────────────────────────────────────── */
+  const avatarColors = [
+    'linear-gradient(135deg,#7C6EE6,#B8B0F5)',
+    'linear-gradient(135deg,#6E8EE6,#B0C8F5)',
+    'linear-gradient(135deg,#9C6EE6,#D0B0F5)',
+    'linear-gradient(135deg,#6EC4E6,#B0EBF5)',
+    'linear-gradient(135deg,#E66EAA,#F5B0D8)',
+  ];
+  const initials = ['JR','SK','MA','TB','PK'];
+  const stack = document.getElementById('avatar-stack');
+  initials.forEach((ini, i) => {
+    const d = document.createElement('div');
+    d.className = 'av';
+    d.style.background = avatarColors[i];
+    d.textContent = ini;
+    stack.appendChild(d);
+  });
+
+  /* ── Ticker ───────────────────────────────────────────────────────── */
+  const tickItems = [
+    'Shopify Brands','SaaS Founders','D2C Products',
+    'E-Commerce','App Launches','Performance Marketers'
+  ];
+  const track = document.getElementById('ticker-track');
+  // 8 copies = seamless loop with -50% translate
+  const full = Array(8).fill(tickItems).flat();
+  track.innerHTML = full.map((t,i) =>
+    `<span class="ticker-item"><span class="ticker-sep">${i % tickItems.length === 0 ? '✦' : '·'}</span>${t}</span>`
+  ).join('');
+
+  /* ── Ad wall ──────────────────────────────────────────────────────── */
+  const ADS = [
+    { niche:'Skincare',    hook:'&ldquo;I&rsquo;ve been doing this wrong for 3 years...&rdquo;', spend:'47 days · $14k spend', ctr:'4.2% CTR', bg:'linear-gradient(160deg,#1C102E 0%,#0D091C 100%)' },
+    { niche:'SaaS',        hook:'Still doing this manually??',                                    spend:'62 days · $28k spend', ctr:'3.8% CTR', bg:'linear-gradient(160deg,#0A1528 0%,#060D1C 100%)' },
+    { niche:'E-commerce',  hook:'Why is nobody talking about this?',                              spend:'31 days · $9k spend',  ctr:'5.1% CTR', bg:'linear-gradient(160deg,#0C1A09 0%,#060E06 100%)' },
+    { niche:'App Demo',    hook:'I saved 4 hours last week with this',                            spend:'55 days · $19k spend', ctr:'3.2% CTR', bg:'linear-gradient(160deg,#1A1909 0%,#0E0E06 100%)' },
+    { niche:'Fitness',     hook:'My trainer never told me this existed',                          spend:'28 days · $7k spend',  ctr:'6.0% CTR', bg:'linear-gradient(160deg,#1A0A0C 0%,#120608 100%)' },
+    { niche:'Beauty',      hook:'300k women can&rsquo;t be wrong...',                             spend:'71 days · $41k spend', ctr:'4.8% CTR', bg:'linear-gradient(160deg,#1C0D1C 0%,#0D060D 100%)' },
+    { niche:'Productivity',hook:'POV: you stopped wasting $500/mo',                               spend:'44 days · $16k spend', ctr:'3.5% CTR', bg:'linear-gradient(160deg,#0A0E1C 0%,#060810 100%)' },
+    { niche:'Food',        hook:'I tried this every day for 30 days',                             spend:'19 days · $5k spend',  ctr:'7.2% CTR', bg:'linear-gradient(160deg,#1A0E08 0%,#0D0806 100%)' },
+    { niche:'Health',      hook:'Doctor said I shouldn&rsquo;t share this',                       spend:'83 days · $62k spend', ctr:'5.5% CTR', bg:'linear-gradient(160deg,#081C12 0%,#060D0A 100%)' },
+    { niche:'Tech',        hook:'This replaced 3 tools I was paying for',                         spend:'37 days · $11k spend', ctr:'4.1% CTR', bg:'linear-gradient(160deg,#0A0C1C 0%,#060810 100%)' },
+  ];
+
+  function makeCard(ad) {
+    return `<div class="ad-card" style="background:${ad.bg}">
+      <div>
+        <div class="ad-card-niche">${ad.niche}</div>
+        <div class="ad-card-hook">${ad.hook}</div>
+      </div>
+      <div>
+        <div class="ad-card-spend">${ad.spend}</div>
+        <span class="ad-card-ctr">${ad.ctr}</span>
+      </div>
+    </div>`;
+  }
+
+  // Repeat 4 times = 40 cards, animate -50% = seamless loop of 20
+  const allCards = [...ADS, ...ADS, ...ADS, ...ADS];
+  document.getElementById('wall-r1').innerHTML = allCards.map(makeCard).join('');
+  document.getElementById('wall-r2').innerHTML = allCards.map(makeCard).join('');
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  const FAQS = [
+    {
+      q: 'Where does the ad library data come from?',
+      a: "Flayr indexes Meta&rsquo;s public Ad Library daily across 50+ niches. We surface ads that have been running for 14+ days &mdash; a strong signal of profitability &mdash; along with estimated spend data, giving you a real-time pulse on what&rsquo;s converting right now."
+    },
+    {
+      q: 'Do I need to connect my Meta ad account?',
+      a: "You&rsquo;ll need to connect a Meta Business account to run campaigns through Flayr. The connection is OAuth-secured and Flayr only requests the minimum permissions needed to create and monitor ads. Your billing stays in Meta."
+    },
+    {
+      q: 'Is a human reviewing my ads before they go live?',
+      a: "By default, every ad goes through a 60-second review step where you can approve, tweak, or reject before anything launches. You can enable fully-automated mode once you&rsquo;ve built up a taste profile and trust the AI."
+    },
+    {
+      q: 'How good is the video quality?',
+      a: "Flayr generates 1080p vertical video in 9:16 format &mdash; native for Reels and Stories. The UGC-style generation uses natural voiceovers, real product footage (or royalty-free B-roll), and scroll-stopping hooks pulled from winning ad patterns in your niche."
+    },
+    {
+      q: 'Does this work for both e-com brands and SaaS?',
+      a: "Yes &mdash; Flayr works for any URL-based product. E-commerce brands get product demos, testimonial-style UGC, and unboxing formats. SaaS companies get screen-capture walkthroughs, before/after problem-solution ads, and founder-style talking head scripts."
+    },
+    {
+      q: 'Will Flayr ever support TikTok Ads?',
+      a: "TikTok Ads Manager integration is on our roadmap for Q3 2026. All creatives Flayr generates are already in 9:16 vertical format, so the transition will be seamless. Join the waitlist to be first in line."
+    },
+  ];
+
+  const faqList = document.getElementById('faq-list');
+  faqList.innerHTML = FAQS.map((f, i) => `
+    <div class="faq-item rv${i > 0 ? ' d' + Math.min(i, 4) : ''}">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>${f.q}</span>
+        <div class="faq-ico">+</div>
+      </div>
+      <div class="faq-ans">
+        <div class="faq-ans-in">${f.a}</div>
+      </div>
+    </div>
+  `).join('');
+
+  /* ── Forms ────────────────────────────────────────────────────────── */
+  function wireForm(id) {
+    document.getElementById(id).addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button');
+      const inp = this.querySelector('input');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ You&rsquo;re on the list!';
+      btn.classList.add('success');
+      inp.value = '';
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.classList.remove('success');
+      }, 4000);
+    });
+  }
+  wireForm('hero-form');
+  wireForm('final-form');
+
+  /* ── Like button ──────────────────────────────────────────────────── */
+  document.getElementById('like-btn').addEventListener('click', function() {
+    this.style.transform = 'scale(1.55) rotate(-12deg)';
+    this.style.transition = 'transform 0.15s cubic-bezier(0.34,1.56,0.64,1)';
+    setTimeout(() => {
+      this.style.transform = '';
+      this.style.transition = 'transform 0.28s';
+    }, 280);
+  });
+
+  /* ── Scroll reveal ────────────────────────────────────────────────── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add('vi');
+        // don't unobserve so re-entry still works after FAQ generation
+      }
+    });
+  }, { threshold: 0.08 });
+
+  function observeAll() {
+    document.querySelectorAll('.rv').forEach(el => io.observe(el));
+  }
+  observeAll();
+  // Re-observe after FAQ is injected
+  setTimeout(observeAll, 100);
+
+})();
+
+/* ── FAQ toggle (needs to be global for onclick) ──────────────────── */
+function toggleFaq(el) {
+  const item   = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
