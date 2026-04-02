@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flayr — Drop your URL. Get ads that convert.</title>
+  <meta name="description" content="Drop your URL. Get ads that convert. Flayr scrapes proven Meta ad formats, generates AI UGC video ads, and watches your campaigns 24/7.">
+  <meta property="og:title" content="Flayr — Get ads that convert">
+  <meta property="og:description" content="AI ad agent for Meta & Instagram. From URL to converting campaign in 60 seconds.">
+  <meta property="og:url" content="https://useflayr.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Flayr — Get ads that convert">
+  <meta name="twitter:description" content="Drop your URL. Get ads that convert. Flayr builds AI UGC video ads from proven viral formats.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
@@ -127,12 +134,20 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--white); }
+    .nav-login {
+      font-size: 13.5px; font-weight: 400;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-login:hover { color: var(--white); }
     .nav-cta {
-      background: var(--purple) !important;
-      color: var(--white) !important;
+      background: var(--white) !important;
+      color: var(--bg) !important;
       padding: 9px 20px !important;
       border-radius: 100px;
-      font-weight: 500 !important;
+      font-weight: 700 !important;
+      font-size: 13.5px !important;
+      letter-spacing: -0.01em;
       transition: background 0.2s, transform 0.2s, box-shadow 0.2s !important;
     }
     .nav-cta:hover {
@@ -223,66 +238,44 @@
     .hero-sub {
       font-size: 18px; font-weight: 300;
       color: var(--muted);
-      max-width: 500px; margin: 0 auto 38px;
+      max-width: 500px; margin: 0 auto 40px;
       line-height: 1.65;
     }
-    .pill-form {
-      display: flex; gap: 0;
-      max-width: 420px; margin: 0 auto 22px;
+    .hero-cta-btn {
+      display: inline-block;
+      background: var(--white);
+      color: var(--bg);
       border-radius: 100px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-b);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 14px;
     }
-    .pill-form:focus-within {
-      border-color: rgba(124,110,230,0.55);
-      box-shadow: 0 0 0 3px rgba(124,110,230,0.1);
+    .hero-cta-btn:hover {
+      background: var(--purple-l);
+      transform: scale(1.03);
+      box-shadow: 0 8px 40px rgba(124,110,230,0.35);
     }
-    .pill-form input {
-      flex: 1; background: transparent; border: none; outline: none;
-      padding: 14px 20px; color: var(--white);
-      font-family: var(--font-b); font-size: 15px; font-weight: 300;
+    .hero-cta-sub {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
     }
-    .pill-form input::placeholder { color: var(--muted); }
-    .pill-form button {
-      background: var(--purple); color: var(--white);
-      border: none; padding: 12px 22px;
-      font-family: var(--font-b); font-size: 14px; font-weight: 500;
-      cursor: pointer; white-space: nowrap;
-      border-radius: 100px; margin: 3px;
-      transition: background 0.2s, transform 0.15s, color 0.2s;
-    }
-    .pill-form button:hover {
-      background: var(--purple-l); color: var(--bg);
-      transform: scale(1.04);
-    }
-    .pill-form button.success { background: #22c55e !important; color: #fff !important; }
-    .trust-line {
-      display: flex; align-items: center; justify-content: center;
-      gap: 10px;
-      font-size: 13px; color: var(--muted);
-    }
-    .avatar-stack { display: flex; }
-    .av {
-      width: 28px; height: 28px; border-radius: 50%;
-      border: 2px solid var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 9px; font-weight: 700; color: #fff;
-      margin-left: -8px; flex-shrink: 0;
-    }
-    .av:first-child { margin-left: 0; }
 
     /* Stagger hero in */
-    .hero-badge, .hero-h1, .hero-sub, .pill-form, .trust-line {
+    .hero-badge, .hero-h1, .hero-sub, .hero-cta-wrap {
       opacity: 0; transform: translateY(22px);
       animation: hero-in 0.8s var(--ease) forwards;
     }
-    .hero-badge  { animation-delay: 0.05s; }
-    .hero-h1     { animation-delay: 0.18s; }
-    .hero-sub    { animation-delay: 0.30s; }
-    .pill-form   { animation-delay: 0.42s; }
-    .trust-line  { animation-delay: 0.54s; }
+    .hero-badge    { animation-delay: 0.05s; }
+    .hero-h1       { animation-delay: 0.18s; }
+    .hero-sub      { animation-delay: 0.30s; }
+    .hero-cta-wrap { animation-delay: 0.42s; }
     @keyframes hero-in {
       to { opacity:1; transform:translateY(0); }
     }
@@ -372,7 +365,7 @@
       100% { transform: translateX(0); }
     }
     .ad-card {
-      width: 152px; height: 270px;
+      width: 168px; height: 320px;
       border-radius: 18px;
       flex-shrink: 0; position: relative;
       overflow: hidden; padding: 16px 14px;
@@ -834,10 +827,10 @@
     .pf .ck { color: var(--purple); font-size: 13px; }
     .pf .ds { color: rgba(255,255,255,0.18); }
     .pbtn {
-      width: 100%; padding: 14px; border-radius: 100px;
+      display: block; width: 100%; padding: 14px; border-radius: 100px;
       font-family: var(--font-b); font-size: 15px; font-weight: 500;
       cursor: pointer; transition: transform 0.18s, box-shadow 0.18s;
-      border: none; text-align: center;
+      border: none; text-align: center; text-decoration: none;
     }
     .pbtn:hover { transform: scale(1.03); }
     .pbtn.ghost {
@@ -1003,7 +996,8 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#cta" class="nav-cta">Get early access</a></li>
+    <li><a href="/login" class="nav-login">Sign in</a></li>
+    <li><a href="/signup" class="nav-cta">Start free</a></li>
   </ul>
 </nav>
 
@@ -1027,13 +1021,9 @@
     <p class="hero-sub">
       Flayr scrapes what&rsquo;s working in your niche, builds your video ad, and watches your campaigns 24/7 &mdash; so you never miss a winning moment.
     </p>
-    <form class="pill-form" id="hero-form">
-      <input type="email" placeholder="Enter your email" required>
-      <button type="submit">Join waitlist ⚡</button>
-    </form>
-    <div class="trust-line">
-      <div class="avatar-stack" id="avatar-stack"></div>
-      <span>1,200+ founders already waiting</span>
+    <div class="hero-cta-wrap" style="display:flex;flex-direction:column;align-items:center;">
+      <a href="/signup" class="hero-cta-btn">Start free — no credit card</a>
+      <span class="hero-cta-sub">7-day free trial &middot; Cancel anytime</span>
     </div>
   </div>
 </section>
@@ -1239,7 +1229,7 @@
         <li><span class="ds">—</span> Auto-replacement alerts</li>
         <li><span class="ds">—</span> Taste profile training</li>
       </ul>
-      <button class="pbtn ghost">Get started</button>
+      <a href="/signup?plan=starter" class="pbtn ghost">Start free trial</a>
     </div>
     <div class="pc pop rv d1">
       <div class="pop-badge">Most Popular</div>
@@ -1255,7 +1245,7 @@
         <li class="on"><span class="ck">✓</span> Auto-replacement alerts</li>
         <li class="on"><span class="ck">✓</span> Taste profile training</li>
       </ul>
-      <button class="pbtn solid">Get started</button>
+      <a href="/signup?plan=pro" class="pbtn solid">Start free trial ⚡</a>
     </div>
     <div class="pc rv d2">
       <div class="pt">Scale</div>
@@ -1270,7 +1260,7 @@
         <li class="on"><span class="ck">✓</span> Instant replacement</li>
         <li class="on"><span class="ck">✓</span> White-glove onboarding</li>
       </ul>
-      <button class="pbtn ghost">Get started</button>
+      <a href="/signup?plan=scale" class="pbtn ghost">Start free trial</a>
     </div>
   </div>
 </section>
@@ -1287,11 +1277,11 @@
 <!-- ════════════════════════════════════════════════════════════ FINAL CTA -->
 <section class="final-cta" id="cta">
   <h2 class="final-h2 rv">Your next winning ad is<br><em>60 seconds away.</em></h2>
-  <p class="final-sub rv d1">Drop your URL, swipe 10 ads, and Flayr handles the rest. No agency. No guesswork. No wasted spend.</p>
-  <form class="pill-form rv d2" id="final-form" style="max-width:420px;margin:0 auto;">
-    <input type="email" placeholder="Enter your email" required>
-    <button type="submit">Join waitlist ⚡</button>
-  </form>
+  <p class="final-sub rv d1">Join hundreds of founders already running smarter campaigns with Flayr.</p>
+  <div class="rv d2" style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:8px">
+    <a href="/signup" class="hero-cta-btn">Start free — no credit card</a>
+    <span class="hero-cta-sub">7-day free trial on all plans</span>
+  </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════ FOOTER -->
@@ -1335,24 +1325,6 @@
       positionNav();
     }
   }, { passive: true });
-
-  /* ── Avatars ──────────────────────────────────────────────────────── */
-  const avatarColors = [
-    'linear-gradient(135deg,#7C6EE6,#B8B0F5)',
-    'linear-gradient(135deg,#6E8EE6,#B0C8F5)',
-    'linear-gradient(135deg,#9C6EE6,#D0B0F5)',
-    'linear-gradient(135deg,#6EC4E6,#B0EBF5)',
-    'linear-gradient(135deg,#E66EAA,#F5B0D8)',
-  ];
-  const initials = ['JR','SK','MA','TB','PK'];
-  const stack = document.getElementById('avatar-stack');
-  initials.forEach((ini, i) => {
-    const d = document.createElement('div');
-    d.className = 'av';
-    d.style.background = avatarColors[i];
-    d.textContent = ini;
-    stack.appendChild(d);
-  });
 
   /* ── Ticker ───────────────────────────────────────────────────────── */
   const tickItems = [
@@ -1438,25 +1410,6 @@
       </div>
     </div>
   `).join('');
-
-  /* ── Forms ────────────────────────────────────────────────────────── */
-  function wireForm(id) {
-    document.getElementById(id).addEventListener('submit', function(e) {
-      e.preventDefault();
-      const btn = this.querySelector('button');
-      const inp = this.querySelector('input');
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✓ You&rsquo;re on the list!';
-      btn.classList.add('success');
-      inp.value = '';
-      setTimeout(() => {
-        btn.innerHTML = orig;
-        btn.classList.remove('success');
-      }, 4000);
-    });
-  }
-  wireForm('hero-form');
-  wireForm('final-form');
 
   /* ── Like button ──────────────────────────────────────────────────── */
   document.getElementById('like-btn').addEventListener('click', function() {
