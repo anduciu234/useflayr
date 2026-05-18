@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Flayr</title>
+  <meta name="description" content="How Flayr collects, uses, and protects your data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #060608;
+      --s3:      #111116;
+      --s4:      #161620;
+      --purple:  #7C6EE6;
+      --purple-l:#B8B0F5;
+      --white:   #F0EEF8;
+      --muted:   rgba(240,238,248,0.55);
+      --border:  rgba(240,238,248,0.08);
+      --font-d:  'Bricolage Grotesque', sans-serif;
+      --font-b:  'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-b);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 2px; }
+    ::selection { background: rgba(124,110,230,0.35); color: var(--white); }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 16px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(6,6,8,0.92);
+      backdrop-filter: blur(20px);
+    }
+    .logo { font-family: var(--font-d); font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--white); text-decoration: none; }
+    .logo span { color: var(--purple-l); }
+    .back-link { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 16px; border: 1px solid var(--border); border-radius: 100px; transition: color 0.2s, border-color 0.2s; }
+    .back-link:hover { color: var(--white); border-color: rgba(240,238,248,0.2); }
+
+    /* Layout */
+    .container { max-width: 960px; margin: 0 auto; padding: 56px 40px 96px; }
+
+    /* Header */
+    .page-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple-l); margin-bottom: 14px; }
+    h1 { font-family: var(--font-d); font-size: 44px; font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; color: var(--white); margin-bottom: 16px; }
+    .meta { font-size: 13px; color: var(--muted); margin-bottom: 56px; }
+    .meta strong { color: var(--white); font-weight: 500; }
+
+    /* Grid */
+    .grid { display: grid; grid-template-columns: 200px 1fr; gap: 64px; align-items: start; }
+
+    /* TOC */
+    .toc { position: sticky; top: 80px; }
+    .toc-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,238,248,0.25); margin-bottom: 14px; }
+    .toc a { display: block; font-size: 12px; color: var(--muted); text-decoration: none; padding: 4px 0; line-height: 1.4; transition: color 0.15s; }
+    .toc a:hover { color: var(--purple-l); }
+
+    /* Article */
+    article { color: rgba(240,238,248,0.75); }
+    section { margin-bottom: 52px; scroll-margin-top: 90px; }
+    h2 { font-family: var(--font-d); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--white); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 14px; font-weight: 600; color: var(--white); margin: 18px 0 8px; }
+    p { margin-bottom: 12px; }
+    ul, ol { padding-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 4px; }
+    a { color: var(--purple-l); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: var(--s4); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: 12px; color: var(--purple-l); font-family: monospace; }
+    strong { color: var(--white); font-weight: 500; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 8px 12px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(240,238,248,0.3); border-bottom: 1px solid var(--border); }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(240,238,248,0.05); }
+    td:first-child { color: var(--white); font-weight: 500; white-space: nowrap; }
+
+    /* Contact box */
+    .contact-box { background: var(--s3); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-top: 16px; }
+    .contact-box p { margin-bottom: 4px; }
+
+    /* Footer */
+    footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; gap: 24px; flex-wrap: wrap; }
+    footer a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    footer a:hover { color: var(--white); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .container { padding: 40px 20px 80px; }
+      h1 { font-size: 32px; }
+      .grid { grid-template-columns: 1fr; gap: 40px; }
+      .toc { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="https://useflayr.com" class="logo">Flayr<span>.</span></a>
+  <a href="https://app.useflayr.com/dashboard" class="back-link">← Open app</a>
+</nav>
+
+<div class="container">
+  <div class="page-tag">Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="meta"><strong>Effective date:</strong> May 18, 2026 &nbsp;&middot;&nbsp; <strong>Last updated:</strong> May 18, 2026</p>
+
+  <div class="grid">
+    <!-- TOC -->
+    <nav class="toc" aria-label="Table of contents">
+      <div class="toc-label">Contents</div>
+      <a href="#introduction">1. Introduction</a>
+      <a href="#information">2. Information We Collect</a>
+      <a href="#how-we-use">3. How We Use Your Information</a>
+      <a href="#third-parties">4. Third-Party Services</a>
+      <a href="#meta-data">5. Meta Platform Data</a>
+      <a href="#security">6. Data Storage &amp; Security</a>
+      <a href="#your-rights">7. Your Rights</a>
+      <a href="#children">8. Children&rsquo;s Privacy</a>
+      <a href="#international">9. International Transfers</a>
+      <a href="#cookies">10. Cookies &amp; Tracking</a>
+      <a href="#changes">11. Changes to This Policy</a>
+      <a href="#gdpr">12. GDPR (EU Users)</a>
+      <a href="#ccpa">13. CCPA (California)</a>
+      <a href="#contact">14. Contact Us</a>
+    </nav>
+
+    <!-- Body -->
+    <article>
+
+      <section id="introduction">
+        <h2>1. Introduction</h2>
+        <p>Flayr (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is an AI-powered advertising platform that generates video advertisements, analyzes competitive advertising strategies, and manages Meta (Facebook &amp; Instagram) ad campaigns on behalf of its users.</p>
+        <p>This Privacy Policy explains what data we collect when you use Flayr at <a href="https://app.useflayr.com">https://app.useflayr.com</a>, how we use it, who we share it with, and what rights you have over your data.</p>
+        <p>By using Flayr you agree to this policy. If you do not agree, please stop using the service.</p>
+      </section>
+
+      <section id="information">
+        <h2>2. Information We Collect</h2>
+
+        <h3>2.1 Account Information</h3>
+        <ul>
+          <li>Email address and display name, collected via Google OAuth or email/password sign-up through Supabase Auth</li>
+          <li>Authentication tokens and session cookies required to keep you logged in</li>
+        </ul>
+
+        <h3>2.2 Brand &amp; Business Information</h3>
+        <ul>
+          <li>Brand name, website URL, and product descriptions you provide</li>
+          <li>Target audience profiles, pricing information, and value propositions</li>
+          <li>Product images and demo videos you upload</li>
+          <li>Character reference images you use for AI avatar generation</li>
+        </ul>
+
+        <h3>2.3 Meta Ads Data (when you connect your Meta account)</h3>
+        <ul>
+          <li>Ad account ID and name</li>
+          <li>Campaign names, statuses, and budgets</li>
+          <li>Ad performance metrics: spend, impressions, clicks, CTR, CPC, ROAS, conversions, and cost per action</li>
+          <li>Ad creative data: headlines, body copy, and thumbnails</li>
+        </ul>
+        <p>We access this data through Meta&rsquo;s Marketing API using OAuth tokens you explicitly authorize. Permissions requested: <code>ads_management</code>, <code>ads_read</code>, <code>business_management</code>.</p>
+
+        <h3>2.4 Competitor Intelligence Data</h3>
+        <ul>
+          <li>Publicly available competitor ad data sourced from Meta Ad Library</li>
+          <li>Ad creative text, run dates, advertiser names, and platform data</li>
+          <li>AI-analyzed creative formulas, hooks, and emotional triggers derived from public ad content</li>
+          <li>Video and audio analysis of publicly available competitor ad content</li>
+        </ul>
+
+        <h3>2.5 AI-Generated Content</h3>
+        <ul>
+          <li>Video scripts generated by AI based on your brand information</li>
+          <li>Video files generated through third-party AI models on your behalf</li>
+          <li>Ad creative assets including first frames and thumbnails</li>
+          <li>Creative strategy recommendations and ad copy suggestions</li>
+        </ul>
+
+        <h3>2.6 Usage Data</h3>
+        <ul>
+          <li>Pages visited, features used, and actions taken within Flayr</li>
+          <li>Browser type, device information, and IP address</li>
+          <li>Error logs and performance diagnostics</li>
+        </ul>
+      </section>
+
+      <section id="how-we-use">
+        <h2>3. How We Use Your Information</h2>
+
+        <h3>3.1 Core Service Delivery</h3>
+        <ul>
+          <li>Generate AI-powered video advertisements for your brand</li>
+          <li>Analyze your brand&rsquo;s competitive landscape using publicly available data</li>
+          <li>Read and display your Meta ad campaign performance data within Flayr</li>
+          <li>Create, modify, pause, and manage Meta ad campaigns on your behalf</li>
+          <li>Generate scripts, creative strategies, and ad recommendations</li>
+        </ul>
+
+        <h3>3.2 AI Processing</h3>
+        <ul>
+          <li>Your brand information is sent to AI language models (Anthropic Claude, Google Gemini) to generate scripts and analyze competitors</li>
+          <li>Character images are processed by AI image and video generation services (OpenAI, fal.ai) to create video content</li>
+          <li>Competitor ad videos may be analyzed using AI transcription (Groq) and visual analysis (Google Gemini)</li>
+        </ul>
+        <p><strong>We do NOT use your data to train any AI models.</strong></p>
+
+        <h3>3.3 Service Improvement</h3>
+        <ul>
+          <li>Analyze aggregate usage patterns to improve features and usability</li>
+          <li>Debug technical issues and fix errors</li>
+          <li>Develop new capabilities requested by users</li>
+        </ul>
+      </section>
+
+      <section id="third-parties">
+        <h2>4. Third-Party Services</h2>
+        <p>We share data with the following third-party services to provide our core functionality. Each service has its own privacy policy.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Service</th><th>Purpose</th><th>Data Shared</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Supabase</td><td>Authentication, database, file storage</td><td>Account data, brand data, uploaded files</td></tr>
+              <tr><td>Meta (Facebook)</td><td>Ad campaign management, Ad Library</td><td>OAuth tokens, campaign actions</td></tr>
+              <tr><td>Anthropic (Claude)</td><td>Script generation, ad analysis</td><td>Brand info, competitor ad text</td></tr>
+              <tr><td>Google (Gemini)</td><td>Video visual analysis</td><td>Competitor video content</td></tr>
+              <tr><td>Groq</td><td>Audio transcription</td><td>Competitor video audio</td></tr>
+              <tr><td>fal.ai</td><td>Video generation (Kling)</td><td>Character images, motion prompts</td></tr>
+              <tr><td>OpenAI</td><td>Image generation (GPT Image 2)</td><td>Scene descriptions, character references</td></tr>
+              <tr><td>Apify</td><td>Competitor ad data collection</td><td>Brand name search keywords</td></tr>
+              <tr><td>Vercel</td><td>Application hosting</td><td>All application data in transit</td></tr>
+              <tr><td>Stripe</td><td>Payment processing (future)</td><td>Payment information</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="meta-data">
+        <h2>5. Meta Platform Data</h2>
+
+        <h3>5.1 What We Access</h3>
+        <p>When you connect your Meta ad account, we request:</p>
+        <ul>
+          <li><code>ads_read</code> &mdash; to view your campaign performance data</li>
+          <li><code>ads_management</code> &mdash; to create and manage ads on your behalf</li>
+          <li><code>business_management</code> &mdash; to access your business portfolio</li>
+        </ul>
+
+        <h3>5.2 How We Use Meta Data</h3>
+        <ul>
+          <li>Display campaign performance metrics (spend, CTR, ROAS) inside Flayr</li>
+          <li>Push AI-generated video ads to your Meta ad account</li>
+          <li>Modify campaign budgets and pause or enable ads on your instruction</li>
+          <li>Provide AI-powered recommendations based on your ad performance</li>
+        </ul>
+
+        <h3>5.3 Data Storage</h3>
+        <ul>
+          <li>Your Meta OAuth access token is stored encrypted in our database</li>
+          <li>Campaign performance data may be cached temporarily for faster loading</li>
+          <li>We do NOT store your Meta password</li>
+          <li>You can disconnect your Meta account at any time from Settings</li>
+        </ul>
+
+        <h3>5.4 Meta Platform Terms</h3>
+        <p>Our use of Meta data complies with <a href="https://developers.facebook.com/terms/">Meta&rsquo;s Platform Terms</a> and Developer Policies. We do not sell Meta user data or use it for any purpose other than providing our advertising management service to you.</p>
+        <p>Data deletion requests: <a href="mailto:andrewbussiness123@gmail.com">andrewbussiness123@gmail.com</a></p>
+      </section>
+
+      <section id="security">
+        <h2>6. Data Storage &amp; Security</h2>
+        <ul>
+          <li>All data is stored in Supabase (hosted on AWS eu-west-1) with row-level security</li>
+          <li>All data in transit is encrypted via TLS/HTTPS</li>
+          <li>OAuth tokens are stored encrypted at rest</li>
+          <li>File uploads are stored in Supabase Storage with access controls</li>
+          <li>We use Vercel for hosting with enterprise-grade infrastructure</li>
+          <li>Your data is retained for as long as your account is active; upon deletion, personal data is purged within 30 days</li>
+        </ul>
+        <p>While we implement industry-standard security measures, no internet transmission is 100% secure.</p>
+      </section>
+
+      <section id="your-rights">
+        <h2>7. Your Rights</h2>
+
+        <h3>7.1 Access &amp; Portability</h3>
+        <p>You can view all your data within Flayr. To request a machine-readable export, email <a href="mailto:andrewbussiness123@gmail.com">andrewbussiness123@gmail.com</a>.</p>
+
+        <h3>7.2 Deletion</h3>
+        <p>Delete your account from Settings &rarr; Account. Personal data, brand data, and generated content are deleted within 30 days.</p>
+
+        <h3>7.3 Disconnect Services</h3>
+        <p>Disconnect your Meta account at any time from Settings, immediately revoking our API access.</p>
+
+        <h3>7.4 Correction</h3>
+        <p>Update your brand information and account data directly within Flayr. For other corrections, contact us.</p>
+      </section>
+
+      <section id="children">
+        <h2>8. Children&rsquo;s Privacy</h2>
+        <p>Flayr is intended solely for users 18 years of age or older. We do not knowingly collect personal data from children under 18. If you believe we have inadvertently collected such data, please contact us immediately.</p>
+      </section>
+
+      <section id="international">
+        <h2>9. International Data Transfers</h2>
+        <p>Data is primarily stored in the EU (AWS eu-west-1). Some third-party service providers (Anthropic, OpenAI, Vercel, Groq) process data in the United States and other countries. By using Flayr you consent to this transfer.</p>
+      </section>
+
+      <section id="cookies">
+        <h2>10. Cookies &amp; Tracking</h2>
+        <ul>
+          <li><strong>Essential cookies</strong> &mdash; authentication and session management; required for the service to function</li>
+          <li><strong>Analytics</strong> &mdash; Vercel Analytics for basic, anonymized usage metrics</li>
+          <li>We do NOT use advertising cookies, third-party trackers, or sell browsing data</li>
+        </ul>
+      </section>
+
+      <section id="changes">
+        <h2>11. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you via email and/or a prominent in-app notice at least 7 days before material changes take effect. Continued use after changes constitutes acceptance.</p>
+      </section>
+
+      <section id="gdpr">
+        <h2>12. GDPR Compliance (EU/EEA Users)</h2>
+        <p><strong>Legal bases for processing:</strong></p>
+        <ul>
+          <li><strong>Contract performance</strong> &mdash; processing necessary to deliver the Flayr service</li>
+          <li><strong>Legitimate interests</strong> &mdash; service improvement, security, fraud prevention</li>
+          <li><strong>Consent</strong> &mdash; connecting your Meta account (withdraw anytime from Settings)</li>
+        </ul>
+        <p><strong>Your GDPR rights:</strong> access, rectification, erasure, restriction of processing, data portability, and right to object.</p>
+        <p>To exercise these rights, email <a href="mailto:andrewbussiness123@gmail.com">andrewbussiness123@gmail.com</a>. We respond within 30 days. You may also lodge a complaint with your local data protection authority.</p>
+      </section>
+
+      <section id="ccpa">
+        <h2>13. CCPA Compliance (California Residents)</h2>
+        <ul>
+          <li><strong>Right to know</strong> &mdash; the categories and specific pieces of personal information we have collected and how it is used</li>
+          <li><strong>Right to delete</strong> &mdash; request deletion of your personal information</li>
+          <li><strong>Right to opt out</strong> &mdash; we do <strong>not</strong> sell your personal information</li>
+          <li><strong>Right to non-discrimination</strong> &mdash; we will not discriminate for exercising CCPA rights</li>
+        </ul>
+        <p>To submit a CCPA request: <a href="mailto:andrewbussiness123@gmail.com">andrewbussiness123@gmail.com</a></p>
+      </section>
+
+      <section id="contact">
+        <h2>14. Contact Us</h2>
+        <p>For privacy-related questions, requests, or concerns:</p>
+        <div class="contact-box">
+          <p><strong>Flayr</strong></p>
+          <p>Email: <a href="mailto:andrewbussiness123@gmail.com">andrewbussiness123@gmail.com</a></p>
+          <p>Website: <a href="https://useflayr.com">https://useflayr.com</a></p>
+        </div>
+        <p style="margin-top:16px;">We aim to respond within 5 business days, and within 30 days at most.</p>
+      </section>
+
+      <footer>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="https://useflayr.com">← Back to Flayr</a>
+        <a href="https://app.useflayr.com/dashboard">Open app</a>
+      </footer>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>
