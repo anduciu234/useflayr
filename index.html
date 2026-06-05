@@ -94,9 +94,9 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.52;
-  mask-image:linear-gradient(to bottom,black 0%,black 35%,rgba(0,0,0,.6) 60%,transparent 82%);
-  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 35%,rgba(0,0,0,.6) 60%,transparent 82%);
+  opacity:.58;
+  mask-image:linear-gradient(to bottom,black 0%,black 52%,rgba(0,0,0,.55) 72%,rgba(0,0,0,.15) 88%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 52%,rgba(0,0,0,.55) 72%,rgba(0,0,0,.15) 88%,transparent 100%);
 }
 #hero-overlay{
   position:absolute;inset:0;
@@ -300,6 +300,12 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .phase-eyebrow{font-size:12px;color:var(--accent);font-family:var(--font-body);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;text-align:center;}
 .phase-title{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,3.5vw,44px);color:#fff;line-height:1.12;letter-spacing:-.02em;text-align:center;margin-bottom:0;}
 .phase-title em{font-family:var(--font-accent);font-weight:400;font-style:italic;}
+
+/* Phase 2 phone row */
+.p2-phone{position:relative;}
+/* Phase 4 footer positioning */
+#p4-footer-pre,#p4-footer-live{transition:opacity .4s ease;}
+#p4-footer-live{top:16px;}
 
 /* Phase 1 — Brand intel */
 .url-bar{
@@ -807,49 +813,120 @@ footer{
 
     <!-- Phase 2: Competitor Learning -->
     <div class="phase" id="phase-2" style="opacity:0;pointer-events:none">
-      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
-        <div style="text-align:center">
-          <div class="phase-eyebrow">02 — Competitor Learning</div>
-          <h2 class="phase-title">Study what <em>works</em> — then beat it</h2>
+      <!-- Title -->
+      <div id="p2-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10;transition:opacity .15s">
+        <div class="phase-eyebrow">02 — Competitor Learning</div>
+        <h2 class="phase-title">Study what <em>works</em> — then beat it</h2>
+      </div>
+      <!-- Scrolling phones row with edge fade -->
+      <div id="p2-container" style="position:relative;width:100vw;overflow:hidden;height:430px;display:flex;align-items:center;
+        mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%);
+        -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%)">
+        <div id="p2-row" style="display:flex;gap:28px;align-items:center;will-change:transform;padding:0 35vw;flex-shrink:0"></div>
+      </div>
+      <!-- Your version — pops up centered -->
+      <div id="p2-your" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.6);opacity:0;z-index:20;pointer-events:none;text-align:center;transition:none">
+        <!-- green aura -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:320px;height:450px;border-radius:50%;
+          background:radial-gradient(ellipse,rgba(52,211,153,.18),rgba(0,212,255,.06) 50%,transparent 75%);
+          filter:blur(30px);pointer-events:none;z-index:-1"></div>
+        <div class="iphone" style="width:220px;display:inline-block;box-shadow:0 0 80px rgba(52,211,153,.15),0 30px 80px rgba(0,0,0,.5)">
+          <div class="iphone-shell">
+            <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
+            <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
+              <div class="iphone-content" style="padding-top:48px;flex:1;display:flex;flex-direction:column;background:linear-gradient(160deg,var(--accent-dim),#000)">
+                <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:14px">
+                  <div>
+                    <div style="font-size:8px;color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase">YOUR AD</div>
+                    <div style="font-size:14px;font-weight:700;color:#fff;margin-top:6px;line-height:1.2">Better hooks.<br/>Better results.</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:rgba(255,255,255,.5)">Est. CTR</span><span style="color:#34d399;font-weight:700">4.2%</span></div>
+                    <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:rgba(255,255,255,.5)">ROAS</span><span style="color:#34d399;font-weight:700">5.1x</span></div>
+                    <div style="background:var(--accent);border-radius:12px;padding:8px 0;text-align:center;font-size:10px;color:#000;font-weight:700;margin-top:4px">Shop Now</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-end;justify-content:center">
-          <div id="competitor-phones" style="display:flex;gap:20px;align-items:center"></div>
+        <div style="margin-top:16px;opacity:0" id="p2-your-label">
+          <div style="font-size:14px;font-weight:700;color:#fff">Powered by <span style="color:var(--accent)">Flayr</span></div>
+          <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:2px">Built from competitor intelligence</div>
         </div>
       </div>
     </div>
 
     <!-- Phase 3: Weekly Ad Gen -->
     <div class="phase" id="phase-3" style="opacity:0;pointer-events:none">
-      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
-        <div style="text-align:center">
-          <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
-          <h2 class="phase-title">5 fresh ads. <em>Every Monday.</em></h2>
+      <div id="p3-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
+        <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
+        <h2 class="phase-title">5 fresh ads, <em>every week</em></h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:clamp(32px,4vw,72px)">
+        <!-- Left: status list -->
+        <div id="p3-status" style="width:220px;display:flex;flex-direction:column;gap:10px;will-change:transform,opacity">
+          <!-- filled by JS -->
         </div>
-        <div class="weekly-cards">
-          <div class="weekly-card" id="wc-0"><div class="weekly-card-icon">🎤</div><div><div class="weekly-card-label">Talking UGC</div><div class="weekly-card-sub">9:16 · AI Creator · Kling 3.0</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
-          <div class="weekly-card" id="wc-1"><div class="weekly-card-icon">📸</div><div><div class="weekly-card-label">Photo Ad</div><div class="weekly-card-sub">1:1 · GPT Image 2</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
-          <div class="weekly-card" id="wc-2"><div class="weekly-card-icon">😲</div><div><div class="weekly-card-label">Reaction UGC</div><div class="weekly-card-sub">9:16 · 3s reaction + demo</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
-          <div class="weekly-card" id="wc-3"><div class="weekly-card-icon">🖼</div><div><div class="weekly-card-label">Photo Ad</div><div class="weekly-card-sub">4:5 · Before/after angle</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
-          <div class="weekly-card" id="wc-4"><div class="weekly-card-icon">🎬</div><div><div class="weekly-card-label">Custom Video</div><div class="weekly-card-sub">9:16 · Competitor remix</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
+        <!-- Center: iPhone -->
+        <div id="p3-phone-wrap" style="will-change:transform,opacity">
+          <div class="iphone" style="width:220px">
+            <div class="iphone-shell">
+              <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
+              <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
+                <div id="p3-feed" class="iphone-content" style="padding-top:48px;flex:1;display:flex;flex-direction:column;background:#000">
+                  <div id="p3-feed-items" style="flex:1;padding:8px;display:flex;flex-direction:column;gap:6px;overflow:hidden"></div>
+                  <div style="padding:8px 10px 16px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:center">
+                    <div id="p3-launch-pill" style="font-size:8px;color:var(--accent);background:var(--accent-dim);padding:5px 14px;border-radius:8px;font-weight:700;opacity:0;transition:opacity .4s">5/5 Ads Ready — Review &amp; Launch →</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Right: counter -->
+        <div id="p3-counter" style="text-align:center;opacity:0;will-change:transform,opacity">
+          <div id="p3-count-num" style="font-size:clamp(48px,6vw,80px);font-weight:800;font-family:var(--font-head);color:var(--accent);line-height:1;opacity:.15">0/5</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.25);margin-top:8px">ads generated<br>this week</div>
         </div>
       </div>
     </div>
 
     <!-- Phase 4: Launch to Meta -->
     <div class="phase" id="phase-4" style="opacity:0;pointer-events:none">
-      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
-        <div style="text-align:center">
-          <div class="phase-eyebrow">04 — Launch to Meta</div>
-          <h2 class="phase-title">One click. <em>Live campaign.</em></h2>
-        </div>
-        <div class="launch-box">
-          <div class="launch-icon">🚀</div>
-          <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:#fff;margin-bottom:8px">Campaign Live</div>
-          <div style="font-size:14px;color:rgba(255,255,255,.4)">Flayr monitors 24/7 and alerts you when a winner emerges</div>
-          <div class="launch-metrics">
-            <div class="launch-metric"><div class="launch-metric-val" style="color:#34d399">4.8x</div><div class="launch-metric-lbl">ROAS</div></div>
-            <div class="launch-metric"><div class="launch-metric-val" style="color:var(--accent)">3.2%</div><div class="launch-metric-lbl">CTR</div></div>
-            <div class="launch-metric"><div class="launch-metric-val">$2.4k</div><div class="launch-metric-lbl">Spend</div></div>
+      <div id="p4-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
+        <div class="phase-eyebrow">04 — Launch to Meta</div>
+        <h2 class="phase-title">One click to <em>live campaigns</em></h2>
+      </div>
+      <!-- Meta Campaign Manager mockup -->
+      <div id="p4-dash" style="width:90vw;max-width:680px;opacity:0;will-change:transform,opacity">
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;overflow:hidden;backdrop-filter:blur(20px)">
+          <!-- Top bar -->
+          <div style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--accent)" stroke-width="1.5"/><path d="M8 12c0-2.5 1-4.5 2.5-4.5s2 1.5 2.5 3c.5 1.5 1 3 2.5 3s2.5-2 2.5-4.5" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span style="font-size:14px;font-weight:600;color:#fff">Meta Campaign Manager</span>
+            </div>
+            <div id="p4-status-bar" style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:rgba(255,255,255,.3)">3 campaigns ready</span>
+            </div>
+          </div>
+          <!-- Campaign rows -->
+          <div style="padding:8px 12px" id="p4-rows">
+            <!-- filled by JS -->
+          </div>
+          <!-- Footer: launch btn / live stats -->
+          <div style="padding:16px 24px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
+            <div id="p4-footer-pre" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <span style="font-size:12px;color:rgba(255,255,255,.3)">Total budget: $80/day</span>
+              <div id="p4-launch-btn" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);padding:10px 24px;border-radius:100px;font-size:13px;font-weight:600;transition:all .4s">Launch All →</div>
+            </div>
+            <div id="p4-footer-live" style="display:flex;align-items:center;justify-content:space-between;width:100%;opacity:0;position:absolute;left:24px;right:24px">
+              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">24.8K</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Impressions</div></div>
+              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">892</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Clicks</div></div>
+              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--accent)">4.8x</div><div style="font-size:10px;color:rgba(255,255,255,.3)">ROAS</div></div>
+              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">$3.20</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Cost/Conv</div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1187,11 +1264,12 @@ const phases = [1,2,3,4].map(n => document.getElementById('phase-'+n));
   `).join('');
 })();
 
-// Utility functions matching the design's scroll engine
+/* ── Scroll showcase utilities ──────────── */
 function mr(p, a, b) { return Math.max(0, Math.min(1, (p - a) / (b - a))); }
 function eo(t) { return 1 - Math.pow(1 - t, 3); }
+function lerp(a, b, t) { return a + (b - a) * t; }
 
-// Phase 1 URL animation
+/* ── Phase 1: Brand Intelligence ──────── */
 let phase1Animated = false;
 function animatePhase1() {
   if (phase1Animated) return;
@@ -1202,76 +1280,306 @@ function animatePhase1() {
   const urlBtn = document.getElementById('url-btn');
   const analysisBox = document.getElementById('analysis-box');
   let i = 0;
-  const typeInterval = setInterval(() => {
+  const timer = setInterval(() => {
     i++;
     typedEl.style.color = '#fff';
     typedEl.innerHTML = url.substring(0, i) + '<span style="color:var(--accent);animation:blink .9s infinite">|</span>';
     if (i >= url.length) {
-      clearInterval(typeInterval);
+      clearInterval(timer);
       setTimeout(() => {
         urlBar.classList.add('active');
         urlBtn.classList.add('active');
         urlBtn.textContent = 'Analyzing...';
         setTimeout(() => {
-          urlBtn.textContent = 'Done';
+          urlBtn.textContent = 'Done ✓';
           analysisBox.style.opacity = '1';
           analysisBox.style.transform = 'translateY(0)';
-        }, 1200);
-      }, 400);
+        }, 1100);
+      }, 350);
     }
   }, 55);
 }
 
-// Phase 3 card animations
-let phase3Animated = false;
-function animatePhase3() {
-  if (phase3Animated) return;
-  phase3Animated = true;
-  [0,1,2,3,4].forEach(i => {
-    setTimeout(() => {
-      const card = document.getElementById('wc-'+i);
-      if (!card) return;
-      const status = card.querySelector('.weekly-card-status');
-      card.classList.add('generating');
-      if (status) { status.textContent = 'Generating…'; status.style.color = 'var(--accent)'; }
-      setTimeout(() => {
-        card.classList.remove('generating');
-        card.classList.add('done');
-        if (status) { status.textContent = '✓ Ready'; status.style.color = '#34d399'; }
-      }, 900 + i * 180);
-    }, i * 300);
+/* ── Phase 2: Competitor Learning ──────── */
+(function setupPhase2() {
+  const row = document.getElementById('p2-row');
+  if (!row) return;
+  const competitors = [
+    { name: 'AdAgency Pro', hook: 'Hook → Demo → CTA', accent: '#64748b' },
+    { name: 'CreativeHQ', hook: 'UGC-first strategy', accent: '#78716c' },
+    { name: 'Brandwise', hook: 'Emotional appeal', accent: '#71717a' },
+    { name: 'AdFlow', hook: 'Discount-led hooks', accent: '#6b7280' },
+    { name: 'ViralAds', hook: 'Trend-jacking', accent: '#94a3b8' },
+    { name: 'CreatorLab', hook: 'Influencer UGC', accent: '#a1a1aa' },
+    { name: 'MetaBoost', hook: 'Dynamic product ads', accent: '#9ca3af' },
+  ];
+  row.innerHTML = competitors.map((c, i) => `
+    <div class="p2-phone" data-idx="${i}" style="flex-shrink:0;text-align:center;transition:filter .4s,opacity .4s">
+      <div class="iphone" style="width:160px;display:inline-block">
+        <div class="iphone-shell" style="border-radius:32px">
+          <div class="iphone-screen" style="border-radius:28px">
+            <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:70px;height:20px;background:#000;border-radius:16px;z-index:10"></div>
+            <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:80px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;z-index:10"></div>
+            <div style="padding:38px 12px 12px;flex:1;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:5">
+              <div>
+                <div style="width:20px;height:20px;border-radius:50%;background:${c.accent}20;border:1px solid ${c.accent}40;display:flex;align-items:center;justify-content:center;margin-bottom:8px">
+                  <div style="width:6px;height:6px;border-radius:50%;background:${c.accent}"></div>
+                </div>
+                <div style="font-size:9px;font-weight:700;color:#fff">${c.name}</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.3);margin-top:3px">${c.hook}</div>
+              </div>
+              <div style="background:${c.accent}15;border-radius:8px;padding:5px 0;text-align:center;font-size:7px;color:${c.accent};font-weight:600">View Ad</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,.3)">${c.name}</div>
+      <div class="p2-red-aura" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:300px;border-radius:50%;
+        background:radial-gradient(ellipse,rgba(239,68,68,.14),transparent 70%);filter:blur(20px);pointer-events:none;opacity:0;transition:opacity .3s"></div>
+    </div>
+  `).join('');
+})();
+
+function updatePhase2(progress) {
+  const row = document.getElementById('p2-row');
+  const yourEl = document.getElementById('p2-your');
+  const yourLabel = document.getElementById('p2-your-label');
+  const titleEl = document.getElementById('p2-title');
+  if (!row || !yourEl) return;
+
+  const enterP = eo(mr(progress, 0, 0.35, 0, 1));
+  const grayP = mr(progress, 0.4, 0.6, 0, 1);
+  const yourP = eo(mr(progress, 0.55, 0.75, 0, 1));
+  const exitP = eo(mr(progress, 0.8, 1.0, 0, 1));
+  const titleOp = mr(progress, 0, 0.15, 0, 1) - mr(progress, 0.85, 1, 0, 1);
+
+  // Scroll row in from right as enterP increases
+  const totalW = row.scrollWidth;
+  const offsetX = lerp(220, -totalW * 0.15, enterP);
+  row.style.transform = `translateX(${offsetX}px)`;
+
+  // Gray out + red aura each competitor
+  const phones = row.querySelectorAll('.p2-phone');
+  phones.forEach(phone => {
+    phone.style.filter = `grayscale(${grayP * 100}%)`;
+    phone.style.opacity = lerp(1, 0.15, grayP);
+    const aura = phone.querySelector('.p2-red-aura');
+    if (aura) aura.style.opacity = grayP > 0.3 ? grayP : 0;
+  });
+
+  // Your version phone
+  yourEl.style.opacity = yourP * (1 - exitP);
+  yourEl.style.transform = `translate(-50%,-50%) scale(${lerp(0.6, 1.05, yourP)})`;
+  yourEl.style.transition = 'none';
+  if (yourLabel) yourLabel.style.opacity = yourP > 0.8 ? '1' : '0';
+
+  if (titleEl) titleEl.style.opacity = Math.max(0, Math.min(1, titleOp));
+}
+
+/* ── Phase 3: Weekly Ad Gen ───────────── */
+const P3_ADS = [
+  { type: 'Talking UGC', format: '9:16', icon: '🎤', color: 'var(--accent)' },
+  { type: 'Photo Ad', format: '1:1', icon: '📸', color: '#34d399' },
+  { type: 'Reaction UGC', format: '9:16', icon: '😲', color: '#a78bfa' },
+  { type: 'Photo Ad', format: '4:5', icon: '🖼', color: '#fb923c' },
+  { type: 'Custom Video', format: '9:16', icon: '🎬', color: '#f472b6' },
+];
+
+(function setupPhase3() {
+  const statusEl = document.getElementById('p3-status');
+  const feedEl = document.getElementById('p3-feed-items');
+  if (!statusEl || !feedEl) return;
+  statusEl.innerHTML = P3_ADS.map((ad, i) => `
+    <div class="p3-si" data-i="${i}" style="opacity:0;transform:translateX(-20px);display:flex;align-items:center;gap:12px;padding:12px 16px;
+      background:rgba(255,255,255,.01);border-radius:12px;border:1px solid rgba(255,255,255,.03);transition:none">
+      <span style="font-size:18px">${ad.icon}</span>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#fff">${ad.type}</div><div style="font-size:10px;color:rgba(255,255,255,.3)">${ad.format}</div></div>
+      <div class="p3-dot" style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .4s"></div>
+    </div>
+  `).join('');
+  feedEl.innerHTML = P3_ADS.map((ad, i) => `
+    <div class="p3-fi" data-i="${i}" style="opacity:0;transform:translateY(20px) scale(.95);
+      background:rgba(255,255,255,.04);border-radius:10px;padding:10px;
+      display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.04);transition:none">
+      <div style="width:36px;height:44px;border-radius:6px;flex-shrink:0;
+        background:linear-gradient(135deg,${ad.color.replace('var(--accent)','rgba(0,212,255,.6)')}30,rgba(255,255,255,.02));
+        display:flex;align-items:center;justify-content:center;font-size:14px">${ad.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:9px;font-weight:600;color:#fff">${ad.type}</div>
+        <div style="font-size:7px;color:rgba(255,255,255,.3)">${ad.format} · Ready</div>
+      </div>
+      <div style="font-size:6px;color:#34d399;font-weight:700;background:rgba(52,211,153,.1);padding:2px 5px;border-radius:4px">✓</div>
+    </div>
+  `).join('');
+})();
+
+function updatePhase3(progress) {
+  const statusEl = document.getElementById('p3-status');
+  const phoneWrap = document.getElementById('p3-phone-wrap');
+  const counterEl = document.getElementById('p3-counter');
+  const countNum = document.getElementById('p3-count-num');
+  const launchPill = document.getElementById('p3-launch-pill');
+  if (!statusEl || !phoneWrap) return;
+
+  const enterP = eo(mr(progress, 0, 0.25, 0, 1));
+  const buildP = mr(progress, 0.15, 0.75, 0, 1);
+  const exitP = eo(mr(progress, 0.8, 1, 0, 1));
+
+  statusEl.style.opacity = enterP * (1 - exitP);
+  statusEl.style.transform = `translateX(${lerp(-40, 0, enterP)}px)`;
+  phoneWrap.style.opacity = enterP * (1 - exitP);
+  phoneWrap.style.transform = `scale(${lerp(0.9, 1, enterP)})`;
+  if (counterEl) {
+    counterEl.style.opacity = enterP * (buildP > 0.25 ? 1 : 0) * (1 - exitP);
+    counterEl.style.transform = `translateX(${lerp(40, 0, enterP)}px)`;
+  }
+  if (countNum) countNum.textContent = `${Math.round(lerp(0, 5, Math.min(1, buildP * 1.5)))}/5`;
+  if (launchPill) launchPill.style.opacity = buildP > 0.72 ? '1' : '0';
+
+  // Animate each status + feed item
+  const statusItems = statusEl.querySelectorAll('.p3-si');
+  const feedItems = document.querySelectorAll('#p3-feed-items .p3-fi');
+  [statusItems, feedItems].forEach(list => {
+    list.forEach((el, i) => {
+      const cardP = eo(mr(buildP, i * 0.14, i * 0.14 + 0.28, 0, 1));
+      const isReady = cardP > 0.8;
+      el.style.opacity = cardP * (1 - exitP);
+      el.style.transform = el.classList.contains('p3-si')
+        ? `translateX(${lerp(-20, 0, cardP)}px)`
+        : `translateY(${lerp(20, 0, cardP)}px) scale(${lerp(0.95, 1, cardP)})`;
+      if (el.classList.contains('p3-si')) {
+        const dot = el.querySelector('.p3-dot');
+        if (dot) dot.style.background = isReady ? '#34d399' : 'rgba(255,255,255,.1)';
+        if (dot && isReady) dot.style.boxShadow = '0 0 8px rgba(52,211,153,.4)';
+      }
+    });
   });
 }
 
-// Set initial state: phase 1 visible, rest invisible
+/* ── Phase 4: Launch to Meta ──────────── */
+const P4_CAMPAIGNS = [
+  { name: 'Summer UGC', type: 'Talking UGC', budget: '$25/day', audience: 'US · 25-45', ctrs: '3.8%' },
+  { name: 'Product Launch', type: 'Photo Ad', budget: '$40/day', audience: 'US+EU · 18-35', ctrs: '4.2%' },
+  { name: 'Retargeting', type: 'Reaction UGC', budget: '$15/day', audience: 'Website visitors', ctrs: '2.9%' },
+];
+
+(function setupPhase4() {
+  const rowsEl = document.getElementById('p4-rows');
+  if (!rowsEl) return;
+  rowsEl.innerHTML = P4_CAMPAIGNS.map((c, i) => `
+    <div class="p4-row" data-i="${i}" style="opacity:0;transform:translateY(12px);
+      display:grid;grid-template-columns:1fr 90px 100px 80px 60px;gap:8px;align-items:center;
+      padding:14px 12px;${i<2?'border-bottom:1px solid rgba(255,255,255,.03)':''};transition:none">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#fff">${c.name}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:2px">${c.type}</div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);text-align:center">${c.budget}</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.3);text-align:center">${c.audience}</div>
+      <div class="p4-status-cell" style="display:flex;align-items:center;gap:5px;justify-content:center">
+        <div class="p4-dot" style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></div>
+        <span class="p4-status-txt" style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.05em">Ready</span>
+      </div>
+      <div class="p4-ctr" style="text-align:center;opacity:0;transition:opacity .5s ${i*0.06}s">
+        <div style="font-size:12px;font-weight:700;color:#fff">${c.ctrs}</div>
+        <div style="font-size:8px;color:rgba(255,255,255,.25)">CTR</div>
+      </div>
+    </div>
+  `).join('');
+})();
+
+function updatePhase4(progress) {
+  const dash = document.getElementById('p4-dash');
+  const titleEl = document.getElementById('p4-title');
+  const statusBar = document.getElementById('p4-status-bar');
+  const launchBtn = document.getElementById('p4-launch-btn');
+  const footerPre = document.getElementById('p4-footer-pre');
+  const footerLive = document.getElementById('p4-footer-live');
+  if (!dash) return;
+
+  const enterP = eo(mr(progress, 0, 0.2, 0, 1));
+  const dashP = eo(mr(progress, 0.15, 0.35, 0, 1));
+  const campaignsP = mr(progress, 0.3, 0.6, 0, 1);
+  const launchP = eo(mr(progress, 0.55, 0.7, 0, 1));
+  const liveP = eo(mr(progress, 0.65, 0.85, 0, 1));
+  const titleOp = mr(progress, 0, 0.12, 0, 1);
+
+  if (titleEl) titleEl.style.opacity = Math.max(0, Math.min(1, titleOp));
+  dash.style.opacity = dashP;
+  dash.style.transform = `translateY(${lerp(30, 0, dashP)}px) scale(${lerp(0.95, 1, dashP)})`;
+  dash.style.transition = 'none';
+
+  // Campaign rows
+  const rows = document.querySelectorAll('.p4-row');
+  rows.forEach((row, i) => {
+    const rowP = eo(mr(campaignsP, i * 0.15, i * 0.15 + 0.35, 0, 1));
+    row.style.opacity = rowP;
+    row.style.transform = `translateY(${lerp(12, 0, rowP)}px)`;
+
+    // Update to Live status
+    const dot = row.querySelector('.p4-dot');
+    const txt = row.querySelector('.p4-status-txt');
+    const ctr = row.querySelector('.p4-ctr');
+    if (dot && txt) {
+      const live = liveP > 0.5;
+      dot.style.background = live ? '#34d399' : 'var(--accent)';
+      if (live) dot.style.boxShadow = '0 0 8px rgba(52,211,153,.4)';
+      txt.style.color = live ? '#34d399' : 'var(--accent)';
+      txt.textContent = live ? 'Live' : 'Ready';
+    }
+    if (ctr) ctr.style.opacity = liveP > 0.5 ? '1' : '0';
+  });
+
+  // Launch button state
+  if (launchBtn) {
+    const goLive = launchP > 0.3;
+    launchBtn.style.background = goLive ? 'var(--accent)' : 'rgba(255,255,255,.06)';
+    launchBtn.style.color = goLive ? '#000' : 'rgba(255,255,255,.4)';
+    launchBtn.style.boxShadow = goLive ? '0 0 20px var(--accent-glow-dim)' : 'none';
+    launchBtn.textContent = launchP > 0.6 ? 'Launching...' : 'Launch All →';
+  }
+
+  // Status bar label
+  if (statusBar) {
+    if (liveP > 0.5) {
+      statusBar.innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4)"></div><span style="font-size:12px;color:#34d399;font-weight:600">Live</span>';
+    } else {
+      statusBar.innerHTML = '<span style="font-size:12px;color:rgba(255,255,255,.3)">3 campaigns ready</span>';
+    }
+  }
+
+  // Footer toggle
+  if (footerPre && footerLive) {
+    footerPre.style.opacity = liveP > 0.5 ? '0' : '1';
+    footerLive.style.opacity = liveP > 0.5 ? '1' : '0';
+  }
+}
+
+/* ── Set initial state ─────────────────── */
 phases[0].style.opacity = '1';
 phases[0].style.pointerEvents = 'auto';
 phases.slice(1).forEach(p => { if (p) { p.style.opacity = '0'; p.style.pointerEvents = 'none'; } });
 
+/* ── Scroll handler ────────────────────── */
 window.addEventListener('scroll', () => {
   if (!showcase) return;
   const rect = showcase.getBoundingClientRect();
   const total = showcase.offsetHeight - window.innerHeight;
-  const scrolled = -rect.top;
-  const prog = Math.max(0, Math.min(1, scrolled / total));
+  const prog = Math.max(0, Math.min(1, -rect.top / total));
   const phase = prog * 4; // 0–4
 
-  // Each phase has its own enter/exit envelope, matching the original design
-  // Phase 1: visible 0 → 1.2, exits 0.8 → 1.0
+  // Phase opacity envelopes — overlapping, matching the original design
   const p1Exit = eo(mr(phase, 0.8, 1.0));
   const p1 = phase < 1.2 ? (1 - p1Exit) : 0;
 
-  // Phase 2: enters 1.0 → 1.35, exits 1.8 → 2.1
   const p2Enter = eo(mr(phase, 1.0, 1.35));
   const p2Exit = eo(mr(phase, 1.8, 2.1));
-  const p2 = (phase >= 0.7 && phase < 2.4) ? Math.max(0, p2Enter * (1 - p2Exit)) : 0;
+  const p2 = (phase >= 0.7 && phase < 2.4) ? p2Enter * (1 - p2Exit) : 0;
 
-  // Phase 3: enters 2.1 → 2.35, exits 2.8 → 3.0
   const p3Enter = eo(mr(phase, 2.1, 2.35));
   const p3Exit = eo(mr(phase, 2.8, 3.0));
-  const p3 = (phase >= 1.8 && phase < 3.3) ? Math.max(0, p3Enter * (1 - p3Exit)) : 0;
+  const p3 = (phase >= 1.8 && phase < 3.3) ? p3Enter * (1 - p3Exit) : 0;
 
-  // Phase 4: enters 3.0 → 3.25, stays visible
   const p4Enter = eo(mr(phase, 3.0, 3.25));
   const p4 = phase >= 2.7 ? p4Enter : 0;
 
@@ -1279,13 +1587,20 @@ window.addEventListener('scroll', () => {
     const el = phases[i];
     if (!el) return;
     el.style.opacity = opacity;
-    el.style.pointerEvents = opacity > 0.1 ? 'auto' : 'none';
-    el.style.transition = 'opacity .15s linear';
+    el.style.pointerEvents = opacity > 0.08 ? 'auto' : 'none';
   });
 
-  // Trigger phase animations at the right scroll point
+  // Per-phase progress for internal animations
+  const p2prog = mr(phase, 1.0, 2.1, 0, 1);
+  const p3prog = mr(phase, 2.1, 3.0, 0, 1);
+  const p4prog = mr(phase, 3.0, 4.0, 0, 1);
+
+  if (p2 > 0.05) updatePhase2(p2prog);
+  if (p3 > 0.05) updatePhase3(p3prog);
+  if (p4 > 0.05) updatePhase4(p4prog);
+
+  // Phase 1 URL animation
   if (phase >= 0.12 && p1 > 0.1) animatePhase1();
-  if (phase >= 2.1 && p3 > 0.05) animatePhase3();
 }, { passive: true });
 
 /* ── Ad Formats carousel ─────────────────── */
