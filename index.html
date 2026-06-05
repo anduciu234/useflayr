@@ -259,9 +259,9 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;
 }
 .sec-h2{
-  font-family:var(--font-head);font-weight:700;
+  font-family:var(--font-head);font-weight:500;
   font-size:clamp(30px,4vw,52px);line-height:1.08;
-  letter-spacing:-.03em;margin-bottom:16px;color:#fff;
+  letter-spacing:-.035em;margin-bottom:16px;color:#fff;
   text-wrap:balance;
 }
 .sec-h2 em{font-family:var(--font-accent);font-weight:400;font-style:italic;color:var(--accent);}
@@ -689,7 +689,13 @@ footer{
 <!-- Nav -->
 <nav id="nav">
   <div id="nav-inner">
-    <a href="#" class="nav-logo">flayr<span>.</span></a>
+    <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:0">
+    <svg viewBox="0 0 112 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:26px;width:auto">
+      <path d="M2 5L11 14L2 23" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 5L19 14L10 23" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="24" y="20" fill="white" font-family="'Instrument Serif',Georgia,serif" font-style="italic" font-size="20" letter-spacing="-0.01em">flayr</text>
+    </svg>
+  </a>
     <ul class="nav-links">
       <li><a href="#showcase">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>
@@ -781,7 +787,7 @@ footer{
 
     <!-- Phase 1: Brand Intelligence -->
     <div class="phase" id="phase-1">
-      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
+      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:28px;width:100%;padding-top:min(140px,18vh)">
         <div style="text-align:center">
           <div class="phase-eyebrow">01 — Brand Intelligence</div>
           <h2 class="phase-title">Paste your link. <em>We do the rest.</em></h2>
@@ -819,7 +825,7 @@ footer{
         <h2 class="phase-title">Study what <em>works</em> — then beat it</h2>
       </div>
       <!-- Scrolling phones row with edge fade -->
-      <div id="p2-container" style="position:relative;width:100vw;overflow:hidden;height:430px;display:flex;align-items:center;
+      <div id="p2-container" style="margin-top:min(140px,18vh);position:relative;width:100vw;overflow:hidden;height:430px;display:flex;align-items:center;
         mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%);
         -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%)">
         <div id="p2-row" style="display:flex;gap:28px;align-items:center;will-change:transform;padding:0 35vw;flex-shrink:0"></div>
@@ -863,7 +869,7 @@ footer{
         <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
         <h2 class="phase-title">5 fresh ads, <em>every week</em></h2>
       </div>
-      <div style="display:flex;align-items:center;gap:clamp(32px,4vw,72px)">
+      <div style="display:flex;align-items:center;gap:clamp(32px,4vw,72px);margin-top:min(140px,18vh)">
         <!-- Left: status list -->
         <div id="p3-status" style="width:220px;display:flex;flex-direction:column;gap:10px;will-change:transform,opacity">
           <!-- filled by JS -->
@@ -899,7 +905,7 @@ footer{
         <h2 class="phase-title">One click to <em>live campaigns</em></h2>
       </div>
       <!-- Meta Campaign Manager mockup -->
-      <div id="p4-dash" style="width:90vw;max-width:680px;opacity:0;will-change:transform,opacity">
+      <div id="p4-dash" style="width:90vw;max-width:680px;opacity:0;will-change:transform,opacity;margin-top:min(140px,18vh)">
         <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;overflow:hidden;backdrop-filter:blur(20px)">
           <!-- Top bar -->
           <div style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
@@ -916,12 +922,12 @@ footer{
             <!-- filled by JS -->
           </div>
           <!-- Footer: launch btn / live stats -->
-          <div style="padding:16px 24px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
-            <div id="p4-footer-pre" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+          <div style="padding:16px 24px;border-top:1px solid rgba(255,255,255,.04);min-height:54px;position:relative;display:flex;align-items:center">
+            <div id="p4-footer-pre" style="display:flex;align-items:center;justify-content:space-between;width:100%;transition:opacity .4s">
               <span style="font-size:12px;color:rgba(255,255,255,.3)">Total budget: $80/day</span>
-              <div id="p4-launch-btn" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);padding:10px 24px;border-radius:100px;font-size:13px;font-weight:600;transition:all .4s">Launch All →</div>
+              <div id="p4-launch-btn" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);padding:10px 24px;border-radius:100px;font-size:13px;font-weight:600;transition:background .4s,color .4s,box-shadow .4s">Launch All →</div>
             </div>
-            <div id="p4-footer-live" style="display:flex;align-items:center;justify-content:space-between;width:100%;opacity:0;position:absolute;left:24px;right:24px">
+            <div id="p4-footer-live" style="display:flex;align-items:center;justify-content:space-between;width:100%;opacity:0;position:absolute;left:24px;right:24px;transition:opacity .4s">
               <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">24.8K</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Impressions</div></div>
               <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">892</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Clicks</div></div>
               <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--accent)">4.8x</div><div style="font-size:10px;color:rgba(255,255,255,.3)">ROAS</div></div>
@@ -942,62 +948,25 @@ footer{
     <h2 class="sec-h2">Every format that <em>converts</em></h2>
   </div>
   <div class="formats-carousel">
-    <!-- Ghost phones -->
+    <!-- Left ghost — shows prev format, content filled by JS -->
     <div class="phone-ghost left" id="ghost-left">
       <div class="iphone" style="width:187px"><div class="iphone-shell">
         <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
         <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
-          <div class="iphone-content" style="background:linear-gradient(180deg,rgba(0,212,255,.04),transparent);padding-top:50px;display:flex;align-items:center;justify-content:center">
-            <div style="width:48px;height:48px;border-radius:50%;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1);display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/></svg>
-            </div>
-          </div>
+          <div id="ghost-left-content" style="flex:1;display:flex;flex-direction:column;overflow:hidden"></div>
         </div>
       </div></div>
     </div>
 
-    <!-- Center phone -->
-    <div class="format-center" id="format-center">
-      <div class="format-stack">
-        <div class="iphone" style="position:relative;z-index:5">
-          <div class="iphone-shell">
-            <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
-            <div class="iphone-screen" id="format-screen">
-              <div class="iphone-island"></div>
-              <div class="iphone-statusbar">
-                <span class="iphone-time">9:41</span>
-                <div class="iphone-icons">
-                  <svg width="14" height="10" viewBox="0 0 14 10"><path d="M0 6h2v4H0zM4 4h2v6H4zM8 2h2v8H8zM12 0h2v10h-2z" fill="rgba(255,255,255,0.5)"/></svg>
-                  <svg width="14" height="10" viewBox="0 0 24 16"><rect x="1" y="3" width="19" height="10" rx="2" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none"/><rect x="21" y="6" width="2" height="4" rx="1" fill="rgba(255,255,255,0.5)"/><rect x="3" y="5" width="12" height="6" rx="1" fill="rgba(255,255,255,0.5)"/></svg>
-                </div>
-              </div>
-              <div class="iphone-bar"></div>
-              <div id="ad-screen-content" class="iphone-content" style="padding-top:44px;flex:1;display:flex;flex-direction:column"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="format-label">
-        <div class="format-name" id="format-name">Talking UGC</div>
-      </div>
-      <div class="format-tabs">
-        <button class="format-tab active" data-fmt="0">UGC</button>
-        <button class="format-tab" data-fmt="1">Photo</button>
-        <button class="format-tab" data-fmt="2">Reaction</button>
-        <button class="format-tab" data-fmt="3">Custom</button>
-      </div>
-    </div>
+    <!-- Center: all format phones stacked — built & controlled by JS -->
+    <div id="format-center" style="position:relative;z-index:5;cursor:pointer"></div>
 
-    <!-- Right ghost -->
+    <!-- Right ghost — shows next format, content filled by JS -->
     <div class="phone-ghost right" id="ghost-right">
       <div class="iphone" style="width:187px"><div class="iphone-shell">
         <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
         <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
-          <div class="iphone-content" style="padding:14px;padding-top:54px;background:linear-gradient(145deg,var(--accent-dim),rgba(255,255,255,.02));display:flex;flex-direction:column;justify-content:space-between;">
-            <div><div style="font-size:14px;font-weight:700;color:#fff">Summer Sale</div><div style="font-size:9px;color:rgba(255,255,255,.35);margin-top:4px">Up to 40% off</div></div>
-            <div style="flex:1;margin:10px 0;border-radius:10px;background:rgba(0,212,255,.03);border:1px dashed rgba(255,255,255,.05);"></div>
-            <div style="background:var(--accent);border-radius:10px;padding:9px 0;text-align:center;font-size:10px;color:#000;font-weight:700;">Shop Now</div>
-          </div>
+          <div id="ghost-right-content" style="flex:1;display:flex;flex-direction:column;overflow:hidden"></div>
         </div>
       </div></div>
     </div>
@@ -1058,7 +1027,7 @@ footer{
   <div class="divider-line"></div>
   <div class="sec-head rv">
     <div class="sec-eyebrow">Why Flayr</div>
-    <h2 class="sec-h2">Agency pricing. <em>None</em> of the hassle.</h2>
+    <h2 class="sec-h2" style="font-weight:400;letter-spacing:-.04em">Agency pricing. <em>None</em> of the hassle.</h2>
   </div>
   <div class="why-wrap">
     <div class="why-headers rv">
@@ -1175,7 +1144,13 @@ footer{
 <!-- Footer -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">flayr<span>.</span></div>
+    <div class="footer-logo" style="display:flex;align-items:center">
+      <svg viewBox="0 0 112 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:24px;width:auto">
+        <path d="M2 5L11 14L2 23" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 5L19 14L10 23" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="24" y="20" fill="white" font-family="'Instrument Serif',Georgia,serif" font-style="italic" font-size="20" letter-spacing="-0.01em">flayr</text>
+      </svg>
+    </div>
     <div class="footer-links">
       <a href="#showcase">Features</a>
       <a href="#pricing">Pricing</a>
@@ -1603,20 +1578,22 @@ window.addEventListener('scroll', () => {
   if (phase >= 0.12 && p1 > 0.1) animatePhase1();
 }, { passive: true });
 
-/* ── Ad Formats carousel ─────────────────── */
+/* ── Ad Formats carousel — Claude design ─── */
+// Real media from Supabase
+const UGC_URL = 'https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4';
+const PHOTO_URL = 'https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png';
+
 const FORMAT_DATA = [
   {
     name: 'Talking UGC',
     render: () => `
-      <div style="flex:1;display:flex;flex-direction:column;padding-top:50px">
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,212,255,.04),transparent)">
-          <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1);display:flex;align-items:center;justify-content:center">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
-        </div>
-        <div style="padding:12px 14px;background:rgba(255,255,255,.02)">
+      <div style="flex:1;position:relative;overflow:hidden">
+        <video src="${UGC_URL}" autoplay muted loop playsinline
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
+          background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
           <div style="font-size:11px;color:#fff;font-weight:600">"This changed everything..."</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.25);margin-top:3px">AI Creator · Kling 3.0</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
         </div>
       </div>
     `
@@ -1624,15 +1601,12 @@ const FORMAT_DATA = [
   {
     name: 'Photo Ad',
     render: () => `
-      <div style="flex:1;display:flex;flex-direction:column;padding:14px;padding-top:54px;justify-content:space-between">
-        <div>
-          <div style="font-size:16px;font-weight:700;color:#fff;line-height:1.2">Summer Sale</div>
-          <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px">Up to 40% off</div>
+      <div style="flex:1;position:relative;overflow:hidden">
+        <img src="${PHOTO_URL}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px">
+          <div style="background:var(--accent);border-radius:10px;padding:9px 0;
+            text-align:center;font-size:10px;color:#000;font-weight:700">Shop Now</div>
         </div>
-        <div style="flex:1;margin:10px 0;border-radius:12px;background:rgba(0,212,255,.03);border:1px dashed rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/></svg>
-        </div>
-        <div style="background:var(--accent);border-radius:12px;padding:10px 0;text-align:center;font-size:11px;color:#000;font-weight:700">Shop Now</div>
       </div>
     `
   },
@@ -1672,57 +1646,92 @@ const FORMAT_DATA = [
 
 let activeFmt = 0;
 let fmtPaused = false;
-const fmtScreen = document.getElementById('ad-screen-content');
-const fmtName = document.getElementById('format-name');
+let fmtDir = 1;
+const N_FMTS = FORMAT_DATA.length;
 
-function setFormat(idx, force) {
-  if (idx === activeFmt && !force) return;
-  const prevIdx = activeFmt;
+function fmtGhostHtml(idx) {
+  // Render a ghost phone's inner content (no status bar, just the ad content)
+  return `<div style="position:relative;flex:1;overflow:hidden;padding-top:44px;display:flex;flex-direction:column">${FORMAT_DATA[idx].render()}</div>`;
+}
+
+function updateGhosts() {
+  const prev = (activeFmt - 1 + N_FMTS) % N_FMTS;
+  const next = (activeFmt + 1) % N_FMTS;
+  const gl = document.getElementById('ghost-left-content');
+  const gr = document.getElementById('ghost-right-content');
+  if (gl) gl.innerHTML = fmtGhostHtml(prev);
+  if (gr) gr.innerHTML = fmtGhostHtml(next);
+}
+
+// Build all phone layers into #format-center
+(function initFormats() {
+  const center = document.getElementById('format-center');
+  if (!center) return;
+  const CHROME = `<div class="iphone-island"></div>
+    <div class="iphone-statusbar">
+      <span class="iphone-time">9:41</span>
+      <div class="iphone-icons">
+        <svg width="14" height="10" viewBox="0 0 14 10"><path d="M0 6h2v4H0zM4 4h2v6H4zM8 2h2v8H8zM12 0h2v10h-2z" fill="rgba(255,255,255,0.5)"/></svg>
+      </div>
+    </div>
+    <div class="iphone-bar"></div>`;
+  center.innerHTML = FORMAT_DATA.map((fmt, i) => `
+    <div id="fmt-${i}" style="${i===0?'position:relative':'position:absolute;top:0;left:0'};
+      opacity:${i===0?1:0};
+      transform:${i===0?'translateX(0) scale(1)':'translateX(60px) scale(.92)'};
+      transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);
+      pointer-events:${i===0?'auto':'none'};z-index:${i===0?5:1}">
+      <div class="iphone" style="width:220px">
+        <div class="iphone-shell">
+          <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div>
+          <div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
+          <div class="iphone-screen">
+            ${CHROME}
+            <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">${fmt.render()}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('') + `
+    <div style="text-align:center;margin-top:24px">
+      <div id="format-name" style="font-family:var(--font-head);font-weight:600;font-size:18px;
+        color:#fff;letter-spacing:-.02em;transition:opacity .25s ease">
+        ${FORMAT_DATA[0].name}
+      </div>
+    </div>`;
+  center.addEventListener('mouseenter', () => { fmtPaused = true; });
+  center.addEventListener('mouseleave', () => { fmtPaused = false; });
+  updateGhosts();
+})();
+
+function setFormat(idx) {
+  if (idx === activeFmt) return;
+  const prev = activeFmt;
+  fmtDir = ((idx - prev + N_FMTS) % N_FMTS) <= N_FMTS / 2 ? 1 : -1;
   activeFmt = idx;
-  const fmt = FORMAT_DATA[idx];
-  const direction = (idx - prevIdx + FORMAT_DATA.length) % FORMAT_DATA.length <= FORMAT_DATA.length / 2 ? 1 : -1;
-  // Slide out
-  fmtScreen.style.transition = 'none';
-  fmtScreen.style.opacity = '1';
-  fmtScreen.style.transform = 'translateX(0)';
-  requestAnimationFrame(() => {
-    fmtScreen.style.transition = 'opacity .22s ease, transform .22s ease';
-    fmtScreen.style.opacity = '0';
-    fmtScreen.style.transform = `translateX(${direction * -40}px)`;
-    setTimeout(() => {
-      fmtScreen.innerHTML = fmt.render();
-      fmtScreen.style.transition = 'none';
-      fmtScreen.style.transform = `translateX(${direction * 40}px)`;
-      requestAnimationFrame(() => {
-        fmtScreen.style.transition = 'opacity .3s ease, transform .3s cubic-bezier(.16,1,.3,1)';
-        fmtScreen.style.opacity = '1';
-        fmtScreen.style.transform = 'translateX(0)';
-      });
-    }, 200);
+  FORMAT_DATA.forEach((_, i) => {
+    const el = document.getElementById(`fmt-${i}`);
+    if (!el) return;
+    if (i === activeFmt) {
+      el.style.opacity = '1'; el.style.transform = 'translateX(0) scale(1)';
+      el.style.zIndex = '5'; el.style.pointerEvents = 'auto';
+    } else if (i === prev) {
+      el.style.opacity = '0'; el.style.transform = `translateX(${-fmtDir*60}px) scale(.92)`;
+      el.style.zIndex = '4'; el.style.pointerEvents = 'none';
+    } else {
+      el.style.opacity = '0'; el.style.transform = `translateX(${fmtDir*60}px) scale(.92)`;
+      el.style.zIndex = '1'; el.style.pointerEvents = 'none';
+    }
   });
-  // Animate label
-  fmtName.style.opacity = '0';
-  setTimeout(() => { fmtName.textContent = fmt.name; fmtName.style.opacity = '1'; }, 200);
-  document.querySelectorAll('.format-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  const nameEl = document.getElementById('format-name');
+  if (nameEl) {
+    nameEl.style.opacity = '0';
+    setTimeout(() => { nameEl.textContent = FORMAT_DATA[activeFmt].name; nameEl.style.opacity = '1'; }, 240);
+  }
+  setTimeout(updateGhosts, 300);
 }
-setFormat(0, true);
 
-document.querySelectorAll('.format-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    fmtPaused = true;
-    setFormat(parseInt(tab.dataset.fmt));
-    setTimeout(() => { fmtPaused = false; }, 5000);
-  });
-});
-
-const fmtCenter = document.getElementById('format-center');
-if (fmtCenter) {
-  fmtCenter.addEventListener('mouseenter', () => { fmtPaused = true; });
-  fmtCenter.addEventListener('mouseleave', () => { fmtPaused = false; });
-}
-setInterval(() => {
-  if (!fmtPaused) setFormat((activeFmt + 1) % FORMAT_DATA.length);
-}, 2200);
+setInterval(() => { if (!fmtPaused) setFormat((activeFmt + 1) % N_FMTS); }, 2200);
 
 /* ── Manifesto ───────────────────────────── */
 const manifestoSection = document.getElementById('manifesto');
