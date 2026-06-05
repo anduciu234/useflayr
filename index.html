@@ -691,7 +691,7 @@ footer{
 <nav id="nav">
   <div id="nav-inner">
     <a href="#" class="nav-logo">
-      <img src="logo2.png" alt="Flayr" style="height:28px;width:auto"/>
+      <img src="logo2.png" alt="Flayr" style="height:30px;width:auto;mix-blend-mode:screen"/>
     </a>
     <ul class="nav-links">
       <li><a href="#showcase">Features</a></li>
@@ -896,13 +896,13 @@ footer{
     </div>
 
     <!-- Phase 4: Launch to Meta -->
-    <div class="phase" id="phase-4" style="opacity:0;pointer-events:none">
-      <div id="p4-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
+    <div class="phase" id="phase-4" style="opacity:0;pointer-events:none;flex-direction:column;padding-top:clamp(50px,8vh,90px)">
+      <div id="p4-title" style="text-align:center;z-index:10;flex-shrink:0;margin-bottom:24px">
         <div class="phase-eyebrow">04 — Launch to Meta</div>
         <h2 class="phase-title">One click to <em>live campaigns</em></h2>
       </div>
       <!-- Meta Campaign Manager mockup -->
-      <div id="p4-dash" style="width:90vw;max-width:620px;opacity:0;will-change:transform,opacity;margin-top:clamp(40px,6vh,70px)">
+      <div id="p4-dash" style="width:90vw;max-width:620px;opacity:0;will-change:transform,opacity">
         <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;overflow:hidden;backdrop-filter:blur(20px)">
           <!-- Top bar -->
           <div style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
@@ -1576,70 +1576,55 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ── Ad Formats carousel — Claude design ─── */
-// Real media from Supabase
-const UGC_URL = 'https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4';
-const PHOTO_URL = 'https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png';
+// Real media from Supabase — different video per format
+const VIDEOS = [
+  'https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4',
+  'https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4',
+  'https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4',
+  'https://v3b.fal.media/files/b/0a9bcb30/_bI8Wmd7FphXKaEKnmdff_output.mp4',
+  'https://v3b.fal.media/files/b/0a9bb9f9/zH8GhG7WrconSsrzOEdJj_output.mp4',
+];
+const PHOTOS = [
+  'https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png',
+  'https://v3b.fal.media/files/b/0a9b5ebc/Z91lFAtTaGwPekBjSRGJG_PoeBbaRW.png',
+  'https://v3b.fal.media/files/b/0a9b5e5f/rKV23hyMWXihvTSK06dPk_wH5YjmAt.png',
+  'https://v3b.fal.media/files/b/0a9afefe/SOpCa8B9fC2la4rkPpnt0_lAz3HTyR.png',
+  'https://v3b.fal.media/files/b/0a9aee18/3UGMsWReSC7VGxGYRuXKR_pthW3fdl.png',
+];
+let vidIdx = 0;
+let photoIdx = 0;
+function nextVid() { const u = VIDEOS[vidIdx % VIDEOS.length]; vidIdx++; return u; }
+function nextPhoto() { const u = PHOTOS[photoIdx % PHOTOS.length]; photoIdx++; return u; }
+
+function videoSlide(caption, sub) {
+  const url = nextVid();
+  return `<div style="flex:1;position:relative;overflow:hidden">
+    <video src="${url}" autoplay muted loop playsinline
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
+      background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
+      <div style="font-size:11px;color:#fff;font-weight:600">${caption}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">${sub}</div>
+    </div>
+  </div>`;
+}
+
+function photoSlide() {
+  const url = nextPhoto();
+  return `<div style="flex:1;position:relative;overflow:hidden">
+    <img src="${url}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
+    <div style="position:absolute;bottom:12px;left:12px;right:12px">
+      <div style="background:var(--accent);border-radius:10px;padding:9px 0;
+        text-align:center;font-size:10px;color:#000;font-weight:700">Shop Now</div>
+    </div>
+  </div>`;
+}
 
 const FORMAT_DATA = [
-  {
-    name: 'Talking UGC',
-    render: () => `
-      <div style="flex:1;position:relative;overflow:hidden">
-        <video src="${UGC_URL}" autoplay muted loop playsinline
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
-          background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
-          <div style="font-size:11px;color:#fff;font-weight:600">"This changed everything..."</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
-        </div>
-      </div>
-    `
-  },
-  {
-    name: 'Photo Ad',
-    render: () => `
-      <div style="flex:1;position:relative;overflow:hidden">
-        <img src="${PHOTO_URL}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
-        <div style="position:absolute;bottom:12px;left:12px;right:12px">
-          <div style="background:var(--accent);border-radius:10px;padding:9px 0;
-            text-align:center;font-size:10px;color:#000;font-weight:700">Shop Now</div>
-        </div>
-      </div>
-    `
-  },
-  {
-    name: 'Reaction UGC',
-    render: () => `
-      <div style="flex:1;position:relative;overflow:hidden">
-        <video src="${UGC_URL}" autoplay muted loop playsinline
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
-        <div style="position:absolute;top:52px;left:0;right:0;text-align:center">
-          <span style="font-size:28px">😲</span>
-        </div>
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
-          background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
-          <div style="font-size:11px;color:#fff;font-weight:600">Silent reaction · 3s clip</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
-        </div>
-      </div>
-    `
-  },
-  {
-    name: 'Custom Video',
-    render: () => `
-      <div style="flex:1;position:relative;overflow:hidden">
-        <video src="${UGC_URL}" autoplay muted loop playsinline
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:hue-rotate(15deg) saturate(1.1)"></video>
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
-          background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
-          <div style="font-size:11px;color:#fff;font-weight:600">"Remixed from TikTok trend"</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">
-            ${['Style','Pacing','Hook'].map(t=>`<span style="font-size:7px;color:var(--accent);background:var(--accent-dim);padding:2px 5px;border-radius:3px;margin-right:3px">${t}</span>`).join('')}
-          </div>
-        </div>
-      </div>
-    `
-  },
+  { name: 'Talking UGC',   render: () => videoSlide('"This changed everything..."', 'AI Creator · Kling 3.0') },
+  { name: 'Photo Ad',      render: () => photoSlide() },
+  { name: 'Reaction UGC',  render: () => videoSlide('Silent reaction · 3s clip', 'AI Creator · Kling 3.0') },
+  { name: 'Custom Video',  render: () => videoSlide('"Remixed from TikTok trend"', 'Reference-driven · Kling 3.0') },
 ];
 
 let activeFmt = 0;
