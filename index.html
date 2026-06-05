@@ -1,1452 +1,1478 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flayr — Drop your URL. Get ads that convert.</title>
-  <meta name="description" content="Drop your URL. Get ads that convert. Flayr scrapes proven Meta ad formats, generates AI UGC video ads, and watches your campaigns 24/7.">
-  <meta property="og:title" content="Flayr — Get ads that convert">
-  <meta property="og:description" content="AI ad agent for Meta & Instagram. From URL to converting campaign in 60 seconds.">
-  <meta property="og:url" content="https://useflayr.com">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Flayr — Get ads that convert">
-  <meta name="twitter:description" content="Drop your URL. Get ads that convert. Flayr builds AI UGC video ads from proven viral formats.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-  <style>
-    /* ── Variables ─────────────────────────────────────────────────── */
-    :root {
-      --bg:      #060608;
-      --s1:      #0A0A0E;
-      --s2:      #0C0C10;
-      --s3:      #111116;
-      --s4:      #161620;
-      --purple:  #7C6EE6;
-      --purple-l:#B8B0F5;
-      --white:   #F0EEF8;
-      --muted:   rgba(240,238,248,0.42);
-      --border:  rgba(240,238,248,0.08);
-      --font-d:  'Bricolage Grotesque', sans-serif;
-      --font-b:  'DM Sans', sans-serif;
-      --ease:    cubic-bezier(0.22,1,0.36,1);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Flayr — Create Meta & TikTok Ads 30x Faster</title>
+<meta name="description" content="Flayr learns your brand, creates weekly ad creatives, and launches them to Meta — all on autopilot. From $49.99/mo."/>
+<meta property="og:title" content="Flayr — AI Ad Creation Platform"/>
+<meta property="og:description" content="Create Meta and TikTok ads 30x faster. AI generates weekly creatives, competitor intelligence, and launches campaigns automatically."/>
+<meta property="og:url" content="https://useflayr.com"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scrollbar-width:none;}
+html::-webkit-scrollbar{display:none;}
 
-    /* ── Reset ─────────────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: var(--font-b);
-      font-weight: 300;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+:root{
+  --accent:#00d4ff;
+  --accent-dim:rgba(0,212,255,0.08);
+  --accent-glow:rgba(0,212,255,0.15);
+  --accent-glow-dim:rgba(0,212,255,0.06);
+  --bg:#000;
+  --card:#0a0a0a;
+  --card2:#111;
+  --card3:#161616;
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(255,255,255,0.04);
+  --txt:#fff;
+  --txt2:rgba(255,255,255,0.5);
+  --txt3:rgba(255,255,255,0.2);
+  --r-sm:12px;--r:16px;--r-lg:24px;--r-pill:100px;
+  --font-head:'Plus Jakarta Sans',-apple-system,sans-serif;
+  --font-body:'DM Sans',-apple-system,sans-serif;
+  --font-accent:'Instrument Serif',Georgia,serif;
+}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 
-    /* ── Scrollbar ─────────────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 2px; }
-    ::selection { background: rgba(124,110,230,0.35); color: var(--white); }
+/* ── Nav ──────────────────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;justify-content:center;
+  padding:12px 24px;pointer-events:none;
+  transition:padding .4s ease;
+}
+#nav-inner{
+  pointer-events:auto;
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:1400px;
+  height:52px;padding:0 28px;
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:0;
+  transition:all .5s cubic-bezier(.16,1,.3,1);
+}
+#nav-inner.scrolled{
+  max-width:700px;
+  background:rgba(10,10,10,.88);
+  border-color:rgba(255,255,255,.08);
+  border-radius:var(--r-pill);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  height:48px;
+}
+.nav-logo{
+  font-family:var(--font-head);font-size:20px;font-weight:700;
+  color:#fff;text-decoration:none;letter-spacing:-.02em;
+}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:28px;list-style:none;align-items:center;}
+.nav-links a{
+  color:rgba(255,255,255,.45);text-decoration:none;
+  font-size:14px;font-weight:500;transition:color .2s;
+}
+.nav-links a:hover{color:#fff;}
+.nav-cta{
+  background:var(--accent);color:#000;border:none;
+  padding:10px 24px;border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:13px;font-weight:600;
+  cursor:pointer;transition:transform .25s,box-shadow .3s,filter .25s;
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,212,255,.3);filter:brightness(1.08);}
 
-    /* ── Cursor glow ───────────────────────────────────────────────── */
-    #cursor-glow {
-      position: fixed;
-      width: 300px; height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,110,230,0.07) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 1;
-      transform: translate(-50%,-50%);
-      transition: opacity 0.3s;
-      left: -300px; top: -300px;
-      will-change: left, top;
-    }
+/* ── Hero ─────────────────────────────────── */
+#hero{
+  min-height:100vh;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:130px 24px 100px;position:relative;overflow:hidden;
+}
+#hero-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:.42;
+  mask-image:linear-gradient(to bottom,black 20%,transparent 72%);
+  -webkit-mask-image:linear-gradient(to bottom,black 20%,transparent 72%);
+}
+#hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.45) 45%,#000 82%);
+  pointer-events:none;
+}
+.hero-glow{
+  position:absolute;top:8%;left:50%;
+  transform:translate(-50%,-50%);
+  width:800px;height:600px;
+  background:radial-gradient(ellipse,rgba(0,212,255,.05),transparent 68%);
+  filter:blur(60px);pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;}
 
-    /* ── Announcement bar ──────────────────────────────────────────── */
-    .ann-bar {
-      position: relative;
-      z-index: 200;
-      width: 100%;
-      padding: 10px 20px;
-      text-align: center;
-      font-family: var(--font-b);
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--white);
-      background: linear-gradient(90deg,
-        rgba(124,110,230,0.12) 0%,
-        rgba(184,176,245,0.09) 50%,
-        rgba(124,110,230,0.12) 100%);
-      border-bottom: 1px solid rgba(124,110,230,0.18);
-      letter-spacing: 0.01em;
-    }
-    .ann-bar .ann-dot {
-      display: inline-block;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--purple-l);
-      margin-right: 8px;
-      vertical-align: middle;
-      animation: pulse-dot 2.2s ease-in-out infinite;
-    }
-    @keyframes pulse-dot {
-      0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(184,176,245,0.5); }
-      50%      { opacity:.6; box-shadow:0 0 0 5px rgba(184,176,245,0); }
-    }
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-pill);padding:8px 20px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  opacity:0;transform:translateY(16px);
+  animation:fadeup .7s .05s cubic-bezier(.16,1,.3,1) forwards;
+}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);}
+.hero-badge span{color:rgba(255,255,255,.7);font-size:13px;font-weight:500;letter-spacing:.04em;}
 
-    /* ── Navbar ────────────────────────────────────────────────────── */
-    .nav {
-      position: fixed;
-      left: 50%; transform: translateX(-50%);
-      z-index: 999;
-      width: calc(100% - 48px);
-      max-width: 1100px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 22px;
-      border-radius: 100px;
-      background: rgba(6,6,8,0.35);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      transition: background 0.35s, border-color 0.35s, box-shadow 0.35s, top 0.35s;
-    }
-    .nav.scrolled {
-      background: rgba(6,6,8,0.88);
-      border-color: rgba(124,110,230,0.22);
-      box-shadow: 0 4px 48px rgba(0,0,0,0.45);
-    }
-    .nav-logo {
-      font-family: var(--font-d);
-      font-size: 22px; font-weight: 800;
-      letter-spacing: -0.035em;
-      color: var(--white); text-decoration: none;
-    }
-    .nav-logo span { color: var(--purple-l); }
-    .nav-links { display:flex; gap:28px; list-style:none; }
-    .nav-links a {
-      color: var(--muted); text-decoration: none;
-      font-size: 14px; font-weight: 400;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-login {
-      font-size: 13.5px; font-weight: 400;
-      color: var(--muted); text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-login:hover { color: var(--white); }
-    .nav-cta {
-      background: var(--white) !important;
-      color: var(--bg) !important;
-      padding: 9px 20px !important;
-      border-radius: 100px;
-      font-weight: 700 !important;
-      font-size: 13.5px !important;
-      letter-spacing: -0.01em;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s !important;
-    }
-    .nav-cta:hover {
-      background: var(--purple-l) !important;
-      color: var(--bg) !important;
-      transform: scale(1.03) !important;
-      box-shadow: 0 4px 20px rgba(124,110,230,0.38) !important;
-    }
+.hero-h1{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(48px,7vw,86px);
+  line-height:1.02;letter-spacing:-.035em;
+  max-width:900px;margin:0 0 26px;
+  opacity:0;transform:translateY(18px);
+  animation:fadeup .7s .13s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-h1 .cycling{
+  color:var(--accent);
+  font-family:var(--font-accent);font-weight:400;font-style:italic;
+  display:inline-block;transition:opacity .3s ease;
+}
+.hero-sub{
+  font-size:clamp(16px,1.3vw,19px);color:rgba(255,255,255,.45);
+  line-height:1.65;max-width:540px;margin:0 0 44px;
+  opacity:0;transform:translateY(16px);
+  animation:fadeup .7s .21s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-ctas{
+  display:flex;gap:14px;margin-bottom:80px;flex-wrap:wrap;justify-content:center;
+  opacity:0;transform:translateY(14px);
+  animation:fadeup .7s .29s cubic-bezier(.16,1,.3,1) forwards;
+}
+.btn-primary{
+  background:var(--accent);color:#000;border:none;
+  padding:16px 40px;border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:15px;font-weight:600;
+  cursor:pointer;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .35s,filter .28s;
+  letter-spacing:-.01em;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,212,255,.28);filter:brightness(1.08);}
+.btn-ghost{
+  background:rgba(255,255,255,.04);color:rgba(255,255,255,.8);
+  border:1px solid rgba(255,255,255,.08);
+  padding:16px 40px;border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:15px;font-weight:500;
+  cursor:pointer;backdrop-filter:blur(16px);
+  transition:background .3s,border-color .3s;
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+.btn-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);}
 
-    /* ── Hero ──────────────────────────────────────────────────────── */
-    .hero {
-      position: relative;
-      width: 100%; height: 100vh;
-      min-height: 720px;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    .hero-video {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0.25;
-      filter: saturate(0.6);
-      z-index: 0;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0; z-index: 1;
-      background:
-        radial-gradient(ellipse 90% 55% at 50% 0%,
-          rgba(124,110,230,0.22) 0%, transparent 70%),
-        linear-gradient(to bottom, transparent 25%, rgba(6,6,8,0.6) 70%, var(--bg) 100%);
-    }
-    .hero-grain {
-      position: absolute; inset: 0; z-index: 2;
-      pointer-events: none;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      mix-blend-mode: screen;
-    }
-    .hero-content {
-      position: relative; z-index: 2;
-      text-align: center;
-      padding: 0 24px;
-      max-width: 960px;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 7px 16px;
-      background: rgba(124,110,230,0.1);
-      border: 1px solid rgba(124,110,230,0.3);
-      border-radius: 100px;
-      font-size: 13px; font-weight: 400;
-      color: var(--purple-l);
-      margin-bottom: 30px;
-      letter-spacing: 0.02em;
-    }
-    .hero-badge .b-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--purple-l);
-      animation: pulse-dot 2.2s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-    .hero-h1 {
-      font-family: var(--font-d);
-      font-size: clamp(52px, 7vw, 88px);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.0;
-      color: var(--white);
-      margin-bottom: 26px;
-    }
-    .hero-h1 .line2 {
-      display: block;
-      background: linear-gradient(90deg,
-        var(--white) 0%, var(--purple-l) 35%,
-        var(--purple) 65%, var(--white) 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: grad-shift 4s linear infinite;
-    }
-    @keyframes grad-shift {
-      0%   { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-    .hero-sub {
-      font-size: 18px; font-weight: 300;
-      color: var(--muted);
-      max-width: 500px; margin: 0 auto 40px;
-      line-height: 1.65;
-    }
-    .hero-cta-btn {
-      display: inline-block;
-      background: var(--white);
-      color: var(--bg);
-      border-radius: 100px;
-      padding: 16px 40px;
-      font-size: 16px;
-      font-weight: 700;
-      font-family: var(--font-b);
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-      margin-bottom: 14px;
-    }
-    .hero-cta-btn:hover {
-      background: var(--purple-l);
-      transform: scale(1.03);
-      box-shadow: 0 8px 40px rgba(124,110,230,0.35);
-    }
-    .hero-cta-sub {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 300;
-    }
+@keyframes fadeup{to{opacity:1;transform:translateY(0);}}
 
-    /* Stagger hero in */
-    .hero-badge, .hero-h1, .hero-sub, .hero-cta-wrap {
-      opacity: 0; transform: translateY(22px);
-      animation: hero-in 0.8s var(--ease) forwards;
-    }
-    .hero-badge    { animation-delay: 0.05s; }
-    .hero-h1       { animation-delay: 0.18s; }
-    .hero-sub      { animation-delay: 0.30s; }
-    .hero-cta-wrap { animation-delay: 0.42s; }
-    @keyframes hero-in {
-      to { opacity:1; transform:translateY(0); }
-    }
+/* ── Hero Dashboard mockup ───────────────── */
+.hero-dash-wrap{
+  width:100%;max-width:1060px;
+  perspective:1400px;perspective-origin:50% 40%;
+  opacity:0;animation:fadeup .8s .45s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-dash{
+  background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);border-radius:var(--r-lg);padding:3px;
+  box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px var(--accent-glow-dim);
+  transform:rotateX(8deg) scale(.96);
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1);
+}
+.hero-dash.revealed{transform:rotateX(0deg) scale(1);}
+.hero-dash-inner{
+  background:var(--card);border-radius:calc(var(--r-lg) - 2px);
+  padding:20px;display:flex;flex-direction:column;gap:14px;
+}
+.win-chrome{display:flex;justify-content:space-between;align-items:center;}
+.win-dots{display:flex;gap:7px;}
+.win-dot{width:11px;height:11px;border-radius:50%;}
+.win-bar{background:rgba(255,255,255,.05);border-radius:8px;padding:5px 40px;font-size:12px;color:rgba(255,255,255,.2);}
+.dash-layout{display:grid;grid-template-columns:180px 1fr;gap:14px;}
+.dash-sidebar{
+  background:rgba(255,255,255,.03);border-radius:10px;
+  padding:16px 12px;display:flex;flex-direction:column;gap:4px;
+}
+.dash-nav-item{
+  padding:8px 12px;border-radius:7px;font-size:12px;
+  color:rgba(255,255,255,.35);font-family:var(--font-body);
+}
+.dash-nav-item.active{background:var(--accent-dim);color:#fff;font-weight:600;}
+.dash-main{display:flex;flex-direction:column;gap:12px;}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.dash-stat{background:rgba(255,255,255,.03);border-radius:10px;padding:14px 16px;}
+.dash-stat-label{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:6px;}
+.dash-stat-val{font-size:22px;font-weight:700;color:#fff;margin-bottom:3px;}
+.dash-stat-sub{font-size:10px;color:var(--accent);}
+.dash-creatives{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.dash-creative{
+  background:linear-gradient(145deg,var(--accent-dim),rgba(255,255,255,.02));
+  border-radius:10px;aspect-ratio:9/14;max-height:180px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:12px;position:relative;overflow:hidden;
+}
+.dash-play{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+}
+.dash-play::after{
+  content:'';width:0;height:0;
+  border-left:8px solid rgba(255,255,255,.5);
+  border-top:5px solid transparent;border-bottom:5px solid transparent;
+  margin-left:2px;
+}
+.dash-creative-footer{display:flex;justify-content:space-between;align-items:flex-end;}
+.dash-creative-type{font-size:10px;color:rgba(255,255,255,.6);font-weight:500;}
+.dash-ready{font-size:9px;color:var(--accent);background:var(--accent-dim);padding:2px 6px;border-radius:4px;}
 
-    /* ── Ticker ────────────────────────────────────────────────────── */
-    .ticker {
-      position: relative; z-index: 10;
-      background: var(--s1);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 13px 0; overflow: hidden;
-    }
-    .ticker-track {
-      display: flex; width: max-content;
-      animation: tick 22s linear infinite;
-      will-change: transform;
-    }
-    .ticker-item {
-      font-size: 12px; font-weight: 400;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      color: var(--muted); padding: 0 28px;
-      white-space: nowrap;
-    }
-    .ticker-sep { color: var(--purple); padding: 0 4px; }
-    @keyframes tick {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+/* ── Stats Bar ───────────────────────────── */
+#stats{
+  background:var(--bg);padding:clamp(60px,8vw,100px) 24px;
+  position:relative;
+}
+.stats-divider{
+  position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);
+}
+.stats-grid{
+  max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat-cell{
+  text-align:center;padding:24px 16px;
+  border-right:1px solid rgba(255,255,255,.04);
+}
+.stat-cell:last-child{border-right:none;}
+.stat-val{
+  font-family:var(--font-head);font-weight:800;
+  font-size:clamp(32px,4vw,52px);color:#fff;
+  letter-spacing:-.03em;line-height:1;margin-bottom:8px;
+}
+.stat-lbl{font-size:13px;color:rgba(255,255,255,.3);letter-spacing:.02em;}
 
-    /* ── Section utilities ─────────────────────────────────────────── */
-    .sec-label {
-      display: inline-block;
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--purple); margin-bottom: 14px;
-    }
-    .sec-h2 {
-      font-family: var(--font-d);
-      font-size: clamp(30px, 5vw, 58px);
-      font-weight: 800; letter-spacing: -0.03em;
-      color: var(--white); line-height: 1.08;
-      margin-bottom: 16px;
-    }
-    .sec-sub {
-      font-size: 16px; font-weight: 300;
-      color: var(--muted);
-      max-width: 520px; margin: 0 auto;
-      line-height: 1.65;
-    }
-    .sec-header { text-align: center; padding: 0 24px; margin-bottom: 64px; }
+/* ── Section utilities ───────────────────── */
+.sec-eyebrow{
+  font-size:12px;color:var(--accent);font-family:var(--font-body);
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;
+}
+.sec-h2{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(30px,4vw,52px);line-height:1.08;
+  letter-spacing:-.03em;margin-bottom:16px;color:#fff;
+  text-wrap:balance;
+}
+.sec-h2 em{font-family:var(--font-accent);font-weight:400;font-style:italic;color:var(--accent);}
+.sec-sub{
+  font-size:clamp(15px,1.2vw,18px);line-height:1.7;
+  max-width:480px;margin:0 auto;color:var(--txt2);
+}
+.sec-head{text-align:center;margin-bottom:64px;}
 
-    /* ── Ad Wall ───────────────────────────────────────────────────── */
-    .ad-wall {
-      padding: 96px 0 80px;
-      overflow: hidden;
-      position: relative;
-    }
-    .ad-wall::before,
-    .ad-wall::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 120px;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .ad-wall::before {
-      left: 0;
-      background: linear-gradient(to right, var(--bg), transparent);
-    }
-    .ad-wall::after {
-      right: 0;
-      background: linear-gradient(to left, var(--bg), transparent);
-    }
-    .wall-row {
-      display: flex; gap: 12px; padding: 6px 0;
-      width: max-content; will-change: transform;
-    }
-    .wall-row.r1 { animation: wall-l 28s linear infinite; }
-    .wall-row.r2 { animation: wall-r 22s linear infinite; margin-top: 12px; }
-    @keyframes wall-l {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    @keyframes wall-r {
-      0%   { transform: translateX(-50%); }
-      100% { transform: translateX(0); }
-    }
-    .ad-card {
-      width: 168px; height: 320px;
-      border-radius: 18px;
-      flex-shrink: 0; position: relative;
-      overflow: hidden; padding: 16px 14px;
-      display: flex; flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: transform 0.28s var(--ease), box-shadow 0.28s;
-    }
-    .ad-card::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(145deg,
-        rgba(255,255,255,0.04) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    .ad-card:hover {
-      transform: scale(1.06);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,110,230,0.2);
-    }
-    .ad-card-niche {
-      font-size: 9px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.48); margin-bottom: 8px;
-    }
-    .ad-card-hook {
-      font-family: var(--font-d);
-      font-size: 13px; font-weight: 700;
-      color: #fff; line-height: 1.32;
-    }
-    .ad-card-spend {
-      font-size: 9px; color: rgba(255,255,255,0.38);
-      margin-bottom: 6px;
-    }
-    .ad-card-ctr {
-      display: inline-block;
-      padding: 3px 8px;
-      background: rgba(124,110,230,0.22);
-      border: 1px solid rgba(124,110,230,0.38);
-      border-radius: 100px;
-      font-size: 10px; font-weight: 600;
-      color: var(--purple-l);
-    }
+.divider-line{
+  position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);
+}
 
-    /* ── Inline text ───────────────────────────────────────────────── */
-    .inline-sec {
-      background: var(--s2);
-      padding: 96px 32px;
-      position: relative;
-      overflow: hidden;
-    }
-    .inline-sec::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg,
-        transparent 0%, var(--purple) 25%,
-        var(--purple-l) 50%, var(--purple) 75%, transparent 100%);
-      background-size: 200% auto;
-      animation: shimmer 3.5s linear infinite;
-    }
-    .inline-sec::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg,
-        transparent 0%, rgba(124,110,230,0.4) 30%,
-        rgba(184,176,245,0.35) 50%, rgba(124,110,230,0.4) 70%, transparent 100%);
-    }
-    @keyframes shimmer {
-      0%   { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-    .inline-inner {
-      max-width: 920px; margin: 0 auto;
-    }
-    .inline-txt {
-      font-family: var(--font-d);
-      font-size: clamp(26px, 4.5vw, 52px);
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      line-height: 1.38;
-      color: var(--muted);
-    }
-    .inline-txt strong { color: var(--white); font-weight: 800; }
-    .vid-pill {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 80px; height: 52px;
-      border-radius: 10px;
-      border: 1px solid rgba(124,110,230,0.25);
-      background: linear-gradient(135deg, #1A1230 0%, #0E0A1C 100%);
-      vertical-align: middle;
-      margin: 0 6px 4px;
-      font-size: 20px;
-      flex-shrink: 0;
-      position: relative; overflow: hidden;
-      box-shadow: 0 2px 16px rgba(124,110,230,0.12);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .vid-pill:hover {
-      transform: scale(1.06) translateY(-1px);
-      box-shadow: 0 4px 24px rgba(124,110,230,0.22);
-    }
-    .vid-pill::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg,
-        rgba(124,110,230,0.18) 0%, transparent 55%);
-    }
-    .vid-pill::after {
-      content: '';
-      position: absolute; bottom: 0; right: 0;
-      width: 32px; height: 32px;
-      background: radial-gradient(circle,
-        rgba(184,176,245,0.12) 0%, transparent 70%);
-    }
+/* Scroll reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+.rv.vi{opacity:1;transform:none;}
+.rv.d1{transition-delay:.08s;}.rv.d2{transition-delay:.16s;}.rv.d3{transition-delay:.24s;}.rv.d4{transition-delay:.32s;}
 
-    /* ── How it works ──────────────────────────────────────────────── */
-    .how {
-      padding: 96px 24px;
-      position: relative;
-    }
-    .how::before {
-      content: '';
-      position: absolute; top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 500px; height: 300px;
-      background: radial-gradient(circle,
-        rgba(124,110,230,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .steps-grid {
-      max-width: 880px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      border-radius: 26px; overflow: hidden;
-      background: rgba(255,255,255,0.04);
-    }
-    .step-cell {
-      background: var(--s2);
-      padding: 44px 40px;
-      position: relative; overflow: hidden;
-      transition: background 0.28s;
-    }
-    .step-cell::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--purple), var(--purple-l));
-      opacity: 0; transition: opacity 0.28s;
-    }
-    .step-cell:hover { background: var(--s3); }
-    .step-cell:hover::before { opacity: 1; }
-    .step-num {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--purple); margin-bottom: 18px;
-    }
-    .step-icon { font-size: 34px; display: block; margin-bottom: 16px; }
-    .step-h3 {
-      font-family: var(--font-d);
-      font-size: 22px; font-weight: 800;
-      letter-spacing: -0.025em;
-      color: var(--white); margin-bottom: 12px;
-    }
-    .step-p {
-      font-size: 15px; font-weight: 300;
-      color: var(--muted); line-height: 1.65;
-    }
+/* ── Scroll Showcase ─────────────────────── */
+#showcase{height:600vh;position:relative;background:var(--bg);}
+#showcase-sticky{
+  position:sticky;top:0;height:100vh;width:100%;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+.showcase-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle,var(--accent-glow-dim),transparent 70%);
+  filter:blur(80px);opacity:.5;pointer-events:none;
+}
+.phase{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 24px;pointer-events:none;}
 
-    /* ── Swipe section ─────────────────────────────────────────────── */
-    .swipe-sec {
-      background: var(--s1);
-      padding: 96px 24px;
-    }
-    .swipe-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: center;
-    }
-    .swipe-h2 {
-      font-family: var(--font-d);
-      font-size: clamp(28px, 3.5vw, 46px);
-      font-weight: 800; letter-spacing: -0.03em;
-      color: var(--white); margin-bottom: 16px;
-      line-height: 1.1;
-    }
-    .swipe-p {
-      font-size: 16px; font-weight: 300;
-      color: var(--muted); line-height: 1.65;
-      margin-bottom: 36px;
-    }
-    .action-rows { display: flex; flex-direction: column; gap: 6px; }
-    .action-row {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 16px; border-radius: 14px;
-      background: rgba(255,255,255,0.028);
-      border: 1px solid var(--border);
-      transition: transform 0.22s, background 0.22s;
-      cursor: default;
-    }
-    .action-row:hover {
-      transform: translateX(4px);
-      background: rgba(255,255,255,0.05);
-    }
-    .ai-icon {
-      width: 38px; height: 38px; border-radius: 11px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; flex-shrink: 0;
-    }
-    .ai-green  { background: rgba(34,197,94,0.12);  color: #4ade80; }
-    .ai-purple { background: rgba(124,110,230,0.12); color: var(--purple-l); }
-    .ai-dim    { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); }
-    .at-h4 {
-      font-size: 14px; font-weight: 500;
-      color: var(--white); margin-bottom: 3px;
-    }
-    .at-p {
-      font-size: 12px; font-weight: 300; color: var(--muted);
-    }
+/* Phase title (all phases) */
+.phase-eyebrow{font-size:12px;color:var(--accent);font-family:var(--font-body);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;text-align:center;}
+.phase-title{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,3.5vw,44px);color:#fff;line-height:1.12;letter-spacing:-.02em;text-align:center;margin-bottom:0;}
+.phase-title em{font-family:var(--font-accent);font-weight:400;font-style:italic;}
 
-    /* Phone */
-    .phone-wrap {
-      display: flex; justify-content: center;
-      align-items: center; position: relative;
-    }
-    .phone-glow {
-      position: absolute;
-      width: 260px; height: 360px;
-      border-radius: 50%;
-      background: radial-gradient(circle,
-        rgba(124,110,230,0.22) 0%, transparent 70%);
-      filter: blur(48px); z-index: 0;
-    }
-    .phone-frame {
-      position: relative; z-index: 1;
-      width: 206px;
-      background: #0D0D14;
-      border-radius: 48px;
-      padding: 10px;
-      border: 1.5px solid rgba(255,255,255,0.1);
-      box-shadow:
-        0 0 0 1px rgba(0,0,0,0.6),
-        0 24px 72px rgba(0,0,0,0.65),
-        inset 0 1px 0 rgba(255,255,255,0.07);
-    }
-    .phone-notch-bar {
-      display: flex; align-items: center; justify-content: center;
-      height: 24px; position: relative;
-    }
-    .phone-notch {
-      width: 64px; height: 18px;
-      background: #0D0D14;
-      border-radius: 0 0 16px 16px;
-      position: absolute; top: -10px;
-      display: flex; align-items: center; justify-content: center;
-      gap: 5px;
-    }
-    .notch-cam {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #1a1a22;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .notch-speaker {
-      width: 22px; height: 5px; border-radius: 3px;
-      background: #1a1a22;
-    }
-    .phone-screen {
-      border-radius: 36px;
-      aspect-ratio: 9/16;
-      background: linear-gradient(160deg, #1C102E 0%, #0D091C 45%, #1A0B16 100%);
-      position: relative; overflow: hidden;
-      display: flex; flex-direction: column;
-      justify-content: space-between;
-      padding: 14px 12px;
-    }
-    .phone-grain {
-      position: absolute; inset: 0; z-index: 0;
-      opacity: 0.045;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      pointer-events: none;
-    }
-    .phone-top-area { position: relative; z-index: 2; }
-    .p-niche {
-      display: inline-block;
-      padding: 3px 9px;
-      background: rgba(124,110,230,0.22);
-      border-radius: 100px;
-      font-size: 8px; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--purple-l); margin-bottom: 10px;
-    }
-    .p-sparkles {
-      position: absolute; top: 2px; right: -2px;
-      display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
-    }
-    .p-sp {
-      font-size: 11px;
-      animation: sp-pulse 2.2s ease-in-out infinite;
-    }
-    .p-sp:nth-child(2) { animation-delay: 0.5s; }
-    .p-sp:nth-child(3) { animation-delay: 1.0s; }
-    @keyframes sp-pulse {
-      0%,100% { opacity:1; transform:scale(1); }
-      50%      { opacity:0.35; transform:scale(0.78); }
-    }
-    .p-hook {
-      font-family: var(--font-d);
-      font-size: 13px; font-weight: 800;
-      color: #fff; letter-spacing: -0.02em;
-      line-height: 1.3; margin-bottom: 7px;
-    }
-    .p-stat { font-size: 8px; color: rgba(255,255,255,0.38); margin-bottom: 5px; }
-    .p-ctr {
-      display: inline-block; padding: 2px 7px;
-      background: rgba(124,110,230,0.22);
-      border-radius: 100px;
-      font-size: 8px; font-weight: 600;
-      color: var(--purple-l);
-    }
-    .p-actions {
-      position: absolute; right: 8px; top: 50%;
-      transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 8px;
-      z-index: 3;
-    }
-    .p-btn {
-      width: 30px; height: 30px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; border: none; cursor: pointer;
-      transition: transform 0.18s; background: none;
-    }
-    .p-btn.p-like   { background: rgba(34,197,94,0.18);  color: #4ade80; }
-    .p-btn.p-edit   { background: rgba(124,110,230,0.18); color: var(--purple-l); }
-    .p-btn.p-skip   { background: rgba(255,255,255,0.1);  color: rgba(255,255,255,0.45); }
-    .p-btn:hover { transform: scale(1.2); }
-    .p-cta-bar {
-      position: relative; z-index: 2;
-      background: var(--purple);
-      border-radius: 100px; padding: 7px 0;
-      text-align: center; font-size: 9px; font-weight: 600;
-      color: #fff; letter-spacing: 0.03em;
-    }
+/* Phase 1 — Brand intel */
+.url-bar{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;padding:16px 22px;
+  display:flex;align-items:center;gap:12px;
+  width:100%;max-width:520px;
+  box-shadow:none;transition:border-color .4s,box-shadow .4s;
+}
+.url-bar.active{border-color:var(--accent);box-shadow:0 0 30px var(--accent-glow-dim);}
+.url-analyze-btn{
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.3);
+  padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;
+  border:none;cursor:default;transition:all .4s;white-space:nowrap;
+}
+.url-analyze-btn.active{background:var(--accent);color:#000;}
+.analysis-box{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;padding:28px;max-width:600px;width:100%;
+  backdrop-filter:blur(20px);
+}
+.analysis-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.analysis-status{display:flex;align-items:center;gap:10px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4);}
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.analysis-item{padding:12px 14px;background:rgba(255,255,255,.02);border-radius:10px;border:1px solid rgba(255,255,255,.04);}
+.analysis-item-lbl{font-size:9px;color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.analysis-item-val{font-size:12px;color:rgba(255,255,255,.55);line-height:1.45;}
 
-    /* ── Bento ─────────────────────────────────────────────────────── */
-    .features { padding: 96px 24px; }
-    .bento {
-      max-width: 1100px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-    }
-    .bc {
-      background: var(--s2);
-      border: 1px solid var(--border);
-      border-radius: 20px; padding: 30px;
-      position: relative; overflow: hidden;
-      transition: transform 0.28s var(--ease), background 0.28s;
-    }
-    .bc::after {
-      content: '';
-      position: absolute; bottom: 0; right: 0;
-      width: 130px; height: 130px;
-      background: radial-gradient(circle,
-        rgba(124,110,230,0.07) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .bc::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--purple), var(--purple-l));
-      opacity: 0; transition: opacity 0.28s;
-    }
-    .bc:hover { transform: translateY(-3px); background: var(--s3); }
-    .bc:hover::before { opacity: 1; }
-    .bc.c8 { grid-column: span 8; }
-    .bc.c4 { grid-column: span 4; }
-    .bc.c6 { grid-column: span 6; }
-    .bc-icon { font-size: 28px; display: block; margin-bottom: 16px; }
-    .bc-h3 {
-      font-family: var(--font-d);
-      font-size: 20px; font-weight: 800;
-      letter-spacing: -0.025em;
-      color: var(--white); margin-bottom: 8px;
-    }
-    .bc-p {
-      font-size: 14px; font-weight: 300;
-      color: var(--muted); line-height: 1.65;
-    }
-    .badge {
-      display: inline-block; margin-top: 16px;
-      padding: 4px 11px; border-radius: 100px;
-      font-size: 11px; font-weight: 500;
-    }
-    .b-pu { background: rgba(124,110,230,0.14); color: var(--purple-l); }
-    .b-gr { background: rgba(34,197,94,0.1);    color: #4ade80; }
-    .b-bl { background: rgba(96,165,250,0.1);   color: #60a5fa; }
-    .b-or { background: rgba(251,146,60,0.1);   color: #fb923c; }
+/* Phase 3 — Weekly ads */
+.weekly-cards{display:flex;flex-direction:column;gap:8px;width:100%;max-width:460px;}
+.weekly-card{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);border-radius:14px;
+  transition:all .4s;
+}
+.weekly-card.generating{border-color:var(--accent);background:var(--accent-dim);}
+.weekly-card.done{border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.05);}
+.weekly-card-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.weekly-card-label{font-size:13px;font-weight:600;color:#fff;}
+.weekly-card-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
+.weekly-card-status{margin-left:auto;font-size:10px;font-weight:600;}
 
-    /* ── Pricing ───────────────────────────────────────────────────── */
-    .pricing {
-      padding: 96px 24px;
-      position: relative; overflow: hidden;
-    }
-    .pricing::after {
-      content: '';
-      position: absolute; bottom: -100px; left: 50%;
-      transform: translateX(-50%);
-      width: 700px; height: 500px;
-      background: radial-gradient(circle,
-        rgba(124,110,230,0.07) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    .price-grid {
-      max-width: 1020px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 16px; align-items: start;
-      position: relative; z-index: 1;
-    }
-    .pc {
-      background: var(--s2);
-      border: 1px solid var(--border);
-      border-radius: 22px; padding: 32px 28px;
-      position: relative;
-      transition: transform 0.28s var(--ease);
-    }
-    .pc:hover { transform: translateY(-4px); }
-    .pc.pop {
-      border-color: var(--purple);
-      background: linear-gradient(170deg,
-        rgba(124,110,230,0.09) 0%, var(--s2) 60%);
-      margin-top: -10px;
-    }
-    .pop-badge {
-      position: absolute; top: -14px; left: 50%;
-      transform: translateX(-50%);
-      background: var(--purple); color: #fff;
-      font-size: 11px; font-weight: 600;
-      padding: 4px 14px; border-radius: 100px;
-      white-space: nowrap; letter-spacing: 0.05em;
-    }
-    .pt {
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 14px;
-    }
-    .pp {
-      display: flex; align-items: baseline; gap: 4px;
-      margin-bottom: 6px;
-    }
-    .pp-amt {
-      font-family: var(--font-d);
-      font-size: 52px; font-weight: 800;
-      letter-spacing: -0.04em; color: var(--white);
-    }
-    .pp-per { font-size: 14px; color: var(--muted); }
-    .pdiv { height: 1px; background: var(--border); margin: 22px 0; }
-    .pf { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
-    .pf li { font-size: 14px; font-weight: 300; color: rgba(240,238,248,0.35); display: flex; align-items: center; gap: 8px; }
-    .pf li.on { color: var(--white); }
-    .pf .ck { color: var(--purple); font-size: 13px; }
-    .pf .ds { color: rgba(255,255,255,0.18); }
-    .pbtn {
-      display: block; width: 100%; padding: 14px; border-radius: 100px;
-      font-family: var(--font-b); font-size: 15px; font-weight: 500;
-      cursor: pointer; transition: transform 0.18s, box-shadow 0.18s;
-      border: none; text-align: center; text-decoration: none;
-    }
-    .pbtn:hover { transform: scale(1.03); }
-    .pbtn.ghost {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--white);
-    }
-    .pbtn.ghost:hover { border-color: var(--purple); box-shadow: 0 4px 20px rgba(124,110,230,0.15); }
-    .pbtn.solid {
-      background: var(--purple); color: #fff;
-      box-shadow: 0 4px 24px rgba(124,110,230,0.28);
-    }
-    .pbtn.solid:hover {
-      background: var(--purple-l); color: var(--bg);
-      box-shadow: 0 8px 32px rgba(124,110,230,0.42);
-    }
+/* Phase 4 — Launch */
+.launch-box{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;padding:32px;max-width:460px;width:100%;text-align:center;
+}
+.launch-icon{font-size:48px;margin-bottom:20px;}
+.launch-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
+.launch-metric{padding:14px;background:rgba(255,255,255,.03);border-radius:12px;}
+.launch-metric-val{font-size:22px;font-weight:700;color:#fff;font-family:var(--font-head);letter-spacing:-.02em;}
+.launch-metric-lbl{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px;}
 
-    /* ── FAQ ───────────────────────────────────────────────────────── */
-    .faq { padding: 96px 24px; }
-    .faq-list {
-      max-width: 760px; margin: 0 auto;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .faq-item {
-      background: var(--s2);
-      border: 1px solid var(--border);
-      border-radius: 16px; overflow: hidden;
-      transition: border-color 0.25s;
-    }
-    .faq-item.open { border-color: rgba(124,110,230,0.38); }
-    .faq-q {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px; cursor: pointer;
-      font-family: var(--font-d);
-      font-size: 16px; font-weight: 700;
-      color: var(--white); gap: 14px;
-      user-select: none;
-    }
-    .faq-ico {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(124,110,230,0.12);
-      border: 1px solid rgba(124,110,230,0.28);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; color: var(--purple);
-      flex-shrink: 0;
-      transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1),
-                  background 0.22s;
-    }
-    .faq-item.open .faq-ico {
-      transform: rotate(45deg);
-      background: var(--purple); color: #fff;
-      border-color: var(--purple);
-    }
-    .faq-ans {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.42s var(--ease);
-    }
-    .faq-item.open .faq-ans { max-height: 320px; }
-    .faq-ans-in {
-      padding: 0 24px 20px;
-      font-size: 15px; font-weight: 300;
-      color: var(--muted); line-height: 1.72;
-    }
+/* ── Ad Formats ──────────────────────────── */
+#formats{
+  background:var(--bg);padding:clamp(100px,12vw,180px) 24px;
+  position:relative;overflow:hidden;
+}
+.formats-carousel{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;height:520px;
+}
+.phone-ghost{
+  position:absolute;top:50%;
+  transform:translateY(-55%) scale(.72);
+  opacity:.2;filter:blur(3px);
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+.phone-ghost.left{left:calc(50% - 280px);}
+.phone-ghost.right{right:calc(50% - 280px);}
 
-    /* ── Final CTA ─────────────────────────────────────────────────── */
-    .final-cta {
-      padding: 120px 24px; text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .final-cta::before {
-      content: '';
-      position: absolute; top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 700px; height: 500px;
-      background: radial-gradient(circle,
-        rgba(124,110,230,0.11) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .final-cta::after {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg,
-        transparent, var(--purple) 25%,
-        var(--purple-l) 50%, var(--purple) 75%, transparent);
-    }
-    .final-h2 {
-      font-family: var(--font-d);
-      font-size: clamp(34px, 6vw, 72px);
-      font-weight: 800; letter-spacing: -0.038em;
-      color: var(--white); line-height: 1.05;
-      margin-bottom: 20px; position: relative; z-index: 1;
-    }
-    .final-h2 em { font-style: normal; color: var(--purple-l); }
-    .final-sub {
-      font-size: 17px; font-weight: 300;
-      color: var(--muted); max-width: 460px;
-      margin: 0 auto 38px; line-height: 1.65;
-      position: relative; z-index: 1;
-    }
+/* iPhone 16 Pro */
+.iphone{width:220px;flex-shrink:0;}
+.iphone-shell{
+  background:#1a1a1a;border-radius:40px;padding:4px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08),0 20px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);
+  position:relative;
+}
+.iphone-btn{position:absolute;background:#2a2a2a;}
+.iphone-btn.vol1{left:-2px;top:80px;width:2px;height:24px;border-radius:1px 0 0 1px;}
+.iphone-btn.vol2{left:-2px;top:120px;width:2px;height:40px;border-radius:1px 0 0 1px;}
+.iphone-btn.vol3{left:-2px;top:168px;width:2px;height:40px;border-radius:1px 0 0 1px;}
+.iphone-btn.pwr{right:-2px;top:120px;width:2px;height:50px;border-radius:0 1px 1px 0;}
+.iphone-screen{
+  background:#000;border-radius:36px;
+  overflow:hidden;position:relative;aspect-ratio:393/852;
+}
+.iphone-island{
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:90px;height:26px;
+  background:#000;border-radius:20px;z-index:10;
+  box-shadow:0 0 0 1px rgba(255,255,255,.05);
+}
+.iphone-island::after{
+  content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  width:8px;height:8px;border-radius:50%;
+  background:#0a0a12;box-shadow:inset 0 0 2px rgba(0,212,255,.2),0 0 0 1px rgba(255,255,255,.08);
+}
+.iphone-statusbar{
+  position:absolute;top:0;left:0;right:0;height:44px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding:0 22px 4px;z-index:5;
+}
+.iphone-time{font-size:11px;font-weight:600;color:#fff;}
+.iphone-icons{display:flex;gap:4px;align-items:center;}
+.iphone-bar{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:100px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;z-index:10;}
+.iphone-content{position:absolute;inset:0;display:flex;flex-direction:column;}
 
-    /* ── Footer ────────────────────────────────────────────────────── */
-    footer {
-      padding: 28px 40px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
-    }
-    .fl { font-family: var(--font-d); font-size: 18px; font-weight: 800; letter-spacing: -0.03em; color: var(--white); }
-    .fl span { color: var(--purple-l); }
-    .fn { display: flex; gap: 26px; list-style: none; }
-    .fn a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color 0.2s; }
-    .fn a:hover { color: var(--white); }
-    .fc { font-size: 12px; color: rgba(240,238,248,0.22); }
+/* Ad screens */
+.screen-ugc{flex:1;display:flex;flex-direction:column;padding-top:50px;}
+.screen-ugc-center{flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,212,255,.04),transparent);}
+.screen-ugc-footer{padding:12px 14px;background:rgba(255,255,255,.02);}
+.screen-photo{flex:1;display:flex;flex-direction:column;padding:14px;padding-top:54px;justify-content:space-between;}
+.screen-reaction{flex:1;display:flex;flex-direction:column;padding-top:44px;}
+.screen-custom{flex:1;display:flex;flex-direction:column;padding-top:44px;}
 
-    /* ── Scroll reveal ─────────────────────────────────────────────── */
-    .rv {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-    }
-    .rv.vi { opacity: 1; transform: translateY(0); }
-    .rv.d1 { transition-delay: 0.1s; }
-    .rv.d2 { transition-delay: 0.2s; }
-    .rv.d3 { transition-delay: 0.32s; }
-    .rv.d4 { transition-delay: 0.44s; }
+.format-center{position:relative;z-index:5;cursor:pointer;}
+.format-stack{position:relative;}
+.format-stack-item{
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+}
+.format-stack-item:not(:first-child){position:absolute;top:0;left:0;}
+.format-label{text-align:center;margin-top:24px;}
+.format-name{font-family:var(--font-head);font-weight:600;font-size:18px;color:#fff;letter-spacing:-.02em;}
+.format-tabs{display:flex;gap:12px;justify-content:center;margin-top:16px;}
+.format-tab{
+  padding:7px 18px;border-radius:var(--r-pill);border:1px solid rgba(255,255,255,.1);
+  font-size:12px;font-weight:500;cursor:pointer;transition:all .25s;
+  color:rgba(255,255,255,.45);background:transparent;
+}
+.format-tab.active{background:var(--accent-dim);border-color:rgba(0,212,255,.3);color:var(--accent);}
 
-    /* ── Mobile ────────────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .nav { width: calc(100% - 24px); }
-      .nav-links { display: none; }
-      .swipe-inner { grid-template-columns: 1fr; gap: 48px; }
-      .phone-wrap { order: -1; }
-      .bento { grid-template-columns: 1fr; }
-      .bc.c8, .bc.c4, .bc.c6 { grid-column: span 1; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .price-grid { grid-template-columns: 1fr; }
-      .pc.pop { margin-top: 0; }
-      footer { flex-direction: column; text-align: center; }
-      .fn { flex-wrap: wrap; justify-content: center; }
-    }
-    @media (max-width: 480px) {
-      .ann-bar { font-size: 11px; }
-    }
-  </style>
+/* ── How It Works ────────────────────────── */
+#how{background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;}
+.how-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:16px;max-width:900px;margin:0 auto;
+}
+.how-card{
+  padding:clamp(32px,3vw,48px);
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:20px;display:flex;flex-direction:column;gap:16px;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s;
+}
+.how-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.03);}
+.how-card-header{display:flex;align-items:center;justify-content:space-between;}
+.how-icon{
+  width:44px;height:44px;border-radius:14px;
+  background:var(--accent-dim);border:1px solid rgba(0,212,255,.1);
+  display:flex;align-items:center;justify-content:center;
+}
+.how-num{font-family:var(--font-head);font-size:48px;font-weight:800;color:rgba(255,255,255,.04);line-height:1;letter-spacing:-.04em;}
+.how-title{font-family:var(--font-head);font-weight:700;font-size:22px;color:#fff;line-height:1.2;letter-spacing:-.02em;}
+.how-desc{font-size:15px;color:var(--txt2);line-height:1.65;}
+
+/* ── Manifesto ───────────────────────────── */
+#manifesto{
+  background:var(--bg);padding:clamp(120px,14vw,200px) clamp(24px,10vw,200px);
+  position:relative;min-height:160vh;
+}
+.manifesto-text{
+  font-family:var(--font-head);font-weight:500;
+  font-size:clamp(24px,3.5vw,48px);
+  line-height:1.35;letter-spacing:-.025em;
+  max-width:800px;margin:0 auto;
+}
+.manifesto-word{
+  color:rgba(255,255,255,.08);
+  transition:color .12s ease;
+  display:inline;
+}
+
+/* ── Why Flayr ───────────────────────────── */
+#why{background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;}
+.why-headers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;max-width:860px;margin-left:auto;margin-right:auto;}
+.why-header-agency{
+  padding:20px 28px;background:rgba(255,255,255,.02);
+  border-radius:16px;border:1px solid rgba(255,255,255,.04);text-align:center;
+}
+.why-header-flayr{
+  padding:20px 28px;background:var(--accent-dim);
+  border-radius:16px;border:1px solid rgba(0,212,255,.12);text-align:center;
+}
+.why-header-name{font-family:var(--font-head);font-weight:700;font-size:18px;letter-spacing:-.01em;}
+.why-header-price{font-size:28px;font-weight:800;margin-top:4px;}
+.why-rows{display:flex;flex-direction:column;gap:4px;max-width:860px;margin:0 auto;}
+.why-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.why-cell{
+  padding:16px 24px;border-radius:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.why-cell-agency{background:rgba(255,255,255,.015);}
+.why-cell-flayr{background:rgba(0,212,255,.02);border:1px solid rgba(0,212,255,.04);}
+.why-cell-icon{font-size:16px;flex-shrink:0;width:24px;text-align:center;}
+.why-cell-feature{font-size:12px;color:rgba(255,255,255,.25);font-weight:600;margin-bottom:2px;}
+.why-cell-val{font-size:14px;line-height:1.35;}
+.why-check{
+  font-size:14px;flex-shrink:0;width:24px;height:24px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:6px;font-weight:700;
+}
+
+/* ── Integrations ────────────────────────── */
+#integrations{background:var(--bg);padding:clamp(80px,10vw,140px) 24px;position:relative;}
+.integrations-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;max-width:700px;margin:0 auto;
+  background:rgba(255,255,255,.03);border-radius:20px;overflow:hidden;
+}
+.integration-cell{
+  background:var(--bg);padding:clamp(24px,3vw,36px);
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;
+  transition:background .25s;
+}
+.integration-cell:hover{background:rgba(255,255,255,.02);}
+.integration-icon{color:var(--accent);opacity:.7;}
+.integration-name{font-family:var(--font-head);font-weight:600;font-size:15px;color:#fff;letter-spacing:-.01em;}
+.integration-desc{font-size:12px;color:rgba(255,255,255,.3);}
+
+/* ── Pricing ─────────────────────────────── */
+#pricing{background:var(--bg);padding:clamp(60px,8vw,120px) 24px;position:relative;}
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:clamp(16px,3vw,32px);max-width:820px;margin:0 auto;
+}
+.pricing-card{
+  background:rgba(255,255,255,.02);border-radius:var(--r-lg);
+  border:1px solid rgba(255,255,255,.06);
+  padding:clamp(28px,3vw,40px);
+  position:relative;display:flex;flex-direction:column;
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.pricing-card:hover{transform:translateY(-4px);}
+.pricing-card.featured{
+  background:rgba(0,212,255,.03);
+  border-color:rgba(0,212,255,.15);
+  box-shadow:0 12px 48px rgba(0,212,255,.06);
+}
+.pricing-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#000;
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 16px;border-radius:var(--r-pill);
+}
+.pricing-plan{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;opacity:.7;}
+.pricing-price{display:flex;align-items:baseline;gap:4px;margin-bottom:8px;}
+.pricing-amount{font-family:var(--font-head);font-weight:700;font-size:clamp(36px,4vw,48px);color:#fff;line-height:1;}
+.pricing-period{font-size:14px;color:var(--txt2);}
+.pricing-desc{font-size:14px;color:var(--txt2);line-height:1.5;margin-bottom:28px;}
+.pricing-btn{
+  width:100%;padding:14px;border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .25s;border:none;
+  text-align:center;text-decoration:none;display:block;margin-bottom:28px;
+}
+.pricing-btn.primary{background:var(--accent);color:#000;}
+.pricing-btn.primary:hover{filter:brightness(1.08);transform:scale(1.02);}
+.pricing-btn.outline{background:transparent;border:1.5px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);}
+.pricing-btn.outline:hover{border-color:var(--accent);background:var(--accent-dim);color:var(--accent);}
+.pricing-features{display:flex;flex-direction:column;gap:12px;}
+.pricing-feature{display:flex;gap:10px;align-items:flex-start;}
+.pricing-feature svg{flex-shrink:0;margin-top:2px;}
+.pricing-feature span{font-size:13.5px;color:var(--txt2);line-height:1.45;}
+
+/* ── FAQ ─────────────────────────────────── */
+#faq{background:var(--bg);padding:clamp(80px,10vw,160px) clamp(24px,5vw,80px);}
+.faq-layout{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:280px 1fr;
+  gap:clamp(40px,6vw,100px);align-items:start;
+}
+.faq-sticky{position:sticky;top:120px;}
+.faq-title{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(36px,4vw,52px);color:#fff;
+  line-height:1.05;letter-spacing:-.03em;
+}
+.faq-title span{color:rgba(255,255,255,.25);}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;}
+.faq-item{
+  background:rgba(255,255,255,.02);border-radius:14px;
+  border:1px solid rgba(255,255,255,.06);
+  transition:border-color .3s;overflow:hidden;
+}
+.faq-item.open{border-color:rgba(0,212,255,.2);}
+.faq-q{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:18px 20px;background:none;border:none;cursor:pointer;
+  text-align:left;gap:14px;
+}
+.faq-q span{font-family:var(--font-body);font-size:14px;font-weight:500;color:rgba(255,255,255,.6);line-height:1.4;transition:color .3s;}
+.faq-item.open .faq-q span{color:#fff;}
+.faq-icon{
+  flex-shrink:0;width:16px;height:16px;
+  transform-origin:center;transition:transform .3s ease;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1),opacity .3s ease;opacity:0;}
+.faq-item.open .faq-a{max-height:300px;opacity:1;}
+.faq-a-inner{padding:0 20px 16px;font-size:13px;color:rgba(255,255,255,.35);line-height:1.7;}
+
+/* ── Final CTA ───────────────────────────── */
+#cta{
+  background:var(--bg);padding:clamp(80px,10vw,160px) 24px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:700px;height:500px;
+  background:radial-gradient(ellipse,var(--accent-glow-dim),transparent 70%);
+  filter:blur(60px);pointer-events:none;
+}
+.cta-h2{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(32px,5vw,64px);color:#fff;
+  line-height:1.06;letter-spacing:-.03em;
+  margin-bottom:20px;position:relative;
+}
+.cta-h2 em{font-family:var(--font-accent);font-weight:400;font-style:italic;color:var(--accent);}
+.cta-sub{
+  font-size:18px;color:rgba(255,255,255,.35);
+  margin:0 auto 40px;max-width:460px;line-height:1.6;position:relative;
+}
+
+/* ── Footer ──────────────────────────────── */
+footer{
+  background:var(--bg);border-top:1px solid rgba(255,255,255,.04);
+  padding:48px clamp(24px,4vw,64px) 32px;
+}
+.footer-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:24px;
+}
+.footer-logo{font-family:var(--font-head);font-weight:700;font-size:20px;color:#fff;}
+.footer-logo span{color:var(--accent);}
+.footer-links{display:flex;gap:28px;}
+.footer-links a{color:rgba(255,255,255,.3);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;}
+.footer-links a:hover{color:#fff;}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.2);}
+
+/* ── Mobile ──────────────────────────────── */
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .dash-layout{grid-template-columns:1fr;}
+  .dash-sidebar{display:none;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .how-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .faq-layout{grid-template-columns:1fr;}
+  .faq-sticky{position:static;}
+  .faq-grid{grid-template-columns:1fr;}
+  .why-headers,.why-row{grid-template-columns:1fr;}
+  .footer-inner{flex-direction:column;text-align:center;}
+  .footer-links{flex-wrap:wrap;justify-content:center;}
+  .phase-content{padding:0 16px;}
+  .hero-dash-wrap{display:none;}
+}
+@media(max-width:600px){
+  .hero-ctas{flex-direction:column;align-items:center;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .integrations-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
 </head>
 <body>
 
-<!-- Cursor Glow -->
-<div id="cursor-glow"></div>
-
-<!-- Announcement Bar -->
-<div class="ann-bar" id="ann-bar">
-  <span class="ann-dot"></span>
-  Flayr is now in private beta &mdash; <strong>500 spots remaining</strong>. Apply today and skip the queue.
-</div>
-
-<!-- Navbar -->
-<nav class="nav" id="nav">
-  <a href="#" class="nav-logo">Flayr<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="/login" class="nav-login">Sign in</a></li>
-    <li><a href="/signup" class="nav-cta">Start free</a></li>
-  </ul>
+<!-- Nav -->
+<nav id="nav">
+  <div id="nav-inner">
+    <a href="#" class="nav-logo">flayr<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#showcase">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="https://app.useflayr.com/signup" class="nav-cta">Get Started</a>
+  </div>
 </nav>
 
-<!-- ════════════════════════════════════════════════════════════ HERO -->
-<section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" type="video/mp4">
-    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_151826_c7218672-6e92-402c-9e45-f1e0f454bdc4.mp4" type="video/mp4">
-    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_074327_a4d6275d-82d9-4c83-bfbe-f1fb2213c17c.mp4" type="video/mp4">
+<!-- Hero -->
+<section id="hero">
+  <video id="hero-video" autoplay muted loop playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260514_102933_4e8f73b5-775a-4179-b2fb-472f59063dcd.mp4" type="video/mp4"/>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" type="video/mp4"/>
   </video>
-  <div class="hero-overlay"></div>
-  <div class="hero-grain"></div>
-  <div class="hero-content">
+  <div id="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
     <div class="hero-badge">
-      <span class="b-dot"></span>⚡ AI Ad Agent &mdash; Meta &amp; Instagram
+      <div class="badge-dot"></div>
+      <span>AI-Powered Ad Creation</span>
     </div>
     <h1 class="hero-h1">
-      Drop your URL.<br>
-      <span class="line2">Get ads that convert.</span>
+      Create Meta&nbsp;&amp;&nbsp;TikTok ads<br>
+      <span class="cycling" id="cycling-text">30x faster</span>
     </h1>
-    <p class="hero-sub">
-      Flayr scrapes what&rsquo;s working in your niche, builds your video ad, and watches your campaigns 24/7 &mdash; so you never miss a winning moment.
-    </p>
-    <div class="hero-cta-wrap" style="display:flex;flex-direction:column;align-items:center;">
-      <a href="/signup" class="hero-cta-btn">Start free — no credit card</a>
-      <span class="hero-cta-sub">7-day free trial &middot; Cancel anytime</span>
+    <p class="hero-sub">Flayr learns your brand, creates weekly ad creatives, and launches them — all on autopilot.</p>
+    <div class="hero-ctas">
+      <a href="https://app.useflayr.com/signup" class="btn-primary">Start Creating Ads</a>
+      <a href="#showcase" class="btn-ghost">See How It Works</a>
     </div>
-  </div>
-</section>
 
-<!-- ════════════════════════════════════════════════════════════ TICKER -->
-<div class="ticker">
-  <div class="ticker-track" id="ticker-track"></div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════════ AD WALL -->
-<section class="ad-wall">
-  <div class="sec-header rv">
-    <div class="sec-label">Ad Intelligence</div>
-    <h2 class="sec-h2">You&rsquo;ve seen these ads.<br>You didn&rsquo;t know we built them.</h2>
-    <p class="sec-sub">Every format was pulled from Meta Ad Library &mdash; ads with real spend, real results.</p>
-  </div>
-  <div class="wall-row r1" id="wall-r1"></div>
-  <div class="wall-row r2" id="wall-r2"></div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════ INLINE TEXT -->
-<section class="inline-sec">
-  <div class="inline-inner rv">
-    <p class="inline-txt">
-      At Flayr we&rsquo;re changing how founders
-      <span class="vid-pill">🎬</span>
-      grow &mdash; turning any product URL into <strong>scroll-stopping ads</strong> that
-      actually convert. Using <strong>proven viral formats</strong>
-      <span class="vid-pill">📊</span>
-      we build creatives that feel <strong>native, not corporate</strong> &mdash; then we
-      watch them for you, so <strong>every dollar</strong> of your ad spend
-      <span class="vid-pill">🚀</span>
-      works harder.
-    </p>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════ HOW IT WORKS -->
-<section class="how" id="how">
-  <div class="sec-header rv">
-    <div class="sec-label">Process</div>
-    <h2 class="sec-h2">URL in. Campaign out.</h2>
-    <p class="sec-sub">Four steps from idea to live Meta campaign &mdash; no agency required.</p>
-  </div>
-  <div class="steps-grid rv d1">
-    <div class="step-cell">
-      <div class="step-num">01</div>
-      <span class="step-icon">🔗</span>
-      <h3 class="step-h3">Drop your URL</h3>
-      <p class="step-p">Paste any product or landing page URL. Flayr automatically scrapes your brand, offer, and product details &mdash; no briefs, no forms, no onboarding calls.</p>
-    </div>
-    <div class="step-cell">
-      <div class="step-num">02</div>
-      <span class="step-icon">📱</span>
-      <h3 class="step-h3">Swipe the ad library</h3>
-      <p class="step-p">Flayr surfaces the top-performing ads in your exact niche from Meta&rsquo;s ad library. Swipe right on what you love &mdash; the AI learns your taste in 10 swipes.</p>
-    </div>
-    <div class="step-cell">
-      <div class="step-num">03</div>
-      <span class="step-icon">🎬</span>
-      <h3 class="step-h3">Flayr builds your ads</h3>
-      <p class="step-p">The AI generates scroll-stopping video ads in proven formats &mdash; UGC style, product demos, testimonials. Production-ready in minutes, not weeks.</p>
-    </div>
-    <div class="step-cell">
-      <div class="step-num">04</div>
-      <span class="step-icon">🚀</span>
-      <h3 class="step-h3">Go live. Flayr watches.</h3>
-      <p class="step-p">Launch to Meta and Instagram in one click. Flayr monitors performance 24/7 and alerts you the moment a winner emerges &mdash; or a loser starts bleeding spend.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════ SWIPE LIBRARY -->
-<section class="swipe-sec">
-  <div class="swipe-inner">
-    <div class="rv">
-      <div class="sec-label">Taste Engine</div>
-      <h2 class="swipe-h2">Train Flayr on your taste.<br>In 10 swipes.</h2>
-      <p class="swipe-p">Not every brand sounds the same. Swipe through high-performing ads from your niche and Flayr learns exactly what resonates with your audience &mdash; and what to avoid.</p>
-      <div class="action-rows">
-        <div class="action-row">
-          <div class="ai-icon ai-green">♥</div>
-          <div>
-            <div class="at-h4">Like</div>
-            <div class="at-p">Save formats that match your brand voice and convert in your niche</div>
-          </div>
-        </div>
-        <div class="action-row">
-          <div class="ai-icon ai-purple">✎</div>
-          <div>
-            <div class="at-h4">Comment</div>
-            <div class="at-p">Add notes to fine-tune specific hooks, CTAs, or visual styles</div>
-          </div>
-        </div>
-        <div class="action-row">
-          <div class="ai-icon ai-dim">↓</div>
-          <div>
-            <div class="at-h4">Skip</div>
-            <div class="at-p">Dismiss ads that don&rsquo;t fit &mdash; Flayr learns what to avoid too</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="phone-wrap rv d2">
-      <div class="phone-glow"></div>
-      <div class="phone-frame">
-        <div class="phone-notch-bar">
-          <div class="phone-notch">
-            <div class="notch-speaker"></div>
-            <div class="notch-cam"></div>
-          </div>
-        </div>
-        <div class="phone-screen">
-          <div class="phone-grain"></div>
-          <div class="phone-top-area">
-            <div class="p-niche">✦ Skincare &middot; Trending</div>
-            <div class="p-sparkles">
-              <span class="p-sp">✦</span>
-              <span class="p-sp">✧</span>
-              <span class="p-sp">✦</span>
+    <!-- Dashboard mockup -->
+    <div class="hero-dash-wrap">
+      <div class="hero-dash" id="hero-dash">
+        <div class="hero-dash-inner">
+          <div class="win-chrome">
+            <div class="win-dots">
+              <div class="win-dot" style="background:#ff5f57"></div>
+              <div class="win-dot" style="background:#febc2e"></div>
+              <div class="win-dot" style="background:#28c840"></div>
             </div>
-            <div class="p-hook">&ldquo;I&rsquo;ve been doing this wrong for 3 years...&rdquo;</div>
-            <div class="p-stat">47 days &middot; $14,200 spend</div>
-            <div class="p-ctr">4.2% CTR</div>
+            <div class="win-bar">app.useflayr.com</div>
+            <div style="width:50px"></div>
           </div>
-          <div class="p-actions">
-            <button class="p-btn p-like" id="like-btn">♥</button>
-            <button class="p-btn p-edit">✎</button>
-            <button class="p-btn p-skip">↓</button>
+          <div class="dash-layout">
+            <div class="dash-sidebar">
+              <div class="dash-nav-item active">Home</div>
+              <div class="dash-nav-item">Ad Library</div>
+              <div class="dash-nav-item">Create Ad</div>
+              <div class="dash-nav-item">Campaigns</div>
+              <div class="dash-nav-item">Brand Intel</div>
+            </div>
+            <div class="dash-main">
+              <div class="dash-stats">
+                <div class="dash-stat"><div class="dash-stat-label">Weekly Ads</div><div class="dash-stat-val">12</div><div class="dash-stat-sub">+3 this week</div></div>
+                <div class="dash-stat"><div class="dash-stat-label">Avg CTR</div><div class="dash-stat-val">3.2%</div><div class="dash-stat-sub">↑ 0.4%</div></div>
+                <div class="dash-stat"><div class="dash-stat-label">ROAS</div><div class="dash-stat-val">4.8x</div><div class="dash-stat-sub">Last 30 days</div></div>
+                <div class="dash-stat"><div class="dash-stat-label">Ad Spend</div><div class="dash-stat-val">$2.4k</div><div class="dash-stat-sub">This month</div></div>
+              </div>
+              <div class="dash-creatives">
+                <div class="dash-creative"><div class="dash-play"></div><div class="dash-creative-footer"><span class="dash-creative-type">UGC Video</span><span class="dash-ready">Ready</span></div></div>
+                <div class="dash-creative"><div class="dash-play"></div><div class="dash-creative-footer"><span class="dash-creative-type">Photo Ad</span><span class="dash-ready">Ready</span></div></div>
+                <div class="dash-creative"><div class="dash-play"></div><div class="dash-creative-footer"><span class="dash-creative-type">Reaction</span><span class="dash-ready">Ready</span></div></div>
+                <div class="dash-creative"><div class="dash-play"></div><div class="dash-creative-footer"><span class="dash-creative-type">Custom</span><span class="dash-ready">Ready</span></div></div>
+              </div>
+            </div>
           </div>
-          <div class="p-cta-bar">Use this format &rarr;</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════ FEATURES BENTO -->
-<section class="features" id="features">
-  <div class="sec-header rv">
-    <div class="sec-label">Features</div>
-    <h2 class="sec-h2">Everything you need to win on Meta.</h2>
-    <p class="sec-sub">One platform that replaces your agency, your editor, and your media buyer.</p>
+<!-- Stats Bar -->
+<section id="stats">
+  <div class="stats-divider"></div>
+  <div class="stats-grid">
+    <div class="stat-cell rv"><div class="stat-val">10K+</div><div class="stat-lbl">Ads Generated</div></div>
+    <div class="stat-cell rv d1"><div class="stat-val">4.2x</div><div class="stat-lbl">Avg ROAS</div></div>
+    <div class="stat-cell rv d2"><div class="stat-val">&lt;3min</div><div class="stat-lbl">Per Ad</div></div>
+    <div class="stat-cell rv d3"><div class="stat-val">$0</div><div class="stat-lbl">Agency Fees</div></div>
   </div>
-  <div class="bento">
-    <div class="bc c8 rv">
-      <span class="bc-icon">📚</span>
-      <h3 class="bc-h3">Meta Ad Library Intelligence</h3>
-      <p class="bc-p">Flayr continuously indexes Meta&rsquo;s ad library across 50+ niches &mdash; surfacing hooks, formats, and spend patterns that are working right now, not six months ago. Every recommendation is backed by real campaign data.</p>
-      <span class="badge b-pu">Live data</span>
+</section>
+
+<!-- Scroll Showcase -->
+<section id="showcase">
+  <div id="showcase-sticky">
+    <div class="showcase-glow"></div>
+
+    <!-- Phase 1: Brand Intelligence -->
+    <div class="phase" id="phase-1">
+      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
+        <div style="text-align:center">
+          <div class="phase-eyebrow">01 — Brand Intelligence</div>
+          <h2 class="phase-title">Paste your link. <em>We do the rest.</em></h2>
+        </div>
+        <div class="url-bar" id="url-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;opacity:.3"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.5"/><path d="M3 12h18M12 3c2 2.5 3 5.5 3 9s-1 6.5-3 9c-2-2.5-3-5.5-3-9s1-6.5 3-9z" stroke="#fff" stroke-width="1.5"/></svg>
+          <span id="url-typed" style="font-size:15px;color:rgba(255,255,255,.2);flex:1;letter-spacing:-.01em">Enter your website URL...</span>
+          <button class="url-analyze-btn" id="url-btn">Analyze</button>
+        </div>
+        <div class="analysis-box" id="analysis-box" style="opacity:0;transform:translateY(20px);transition:all .6s cubic-bezier(.16,1,.3,1)">
+          <div class="analysis-header">
+            <div class="analysis-status">
+              <div class="status-dot"></div>
+              <span style="font-size:13px;font-weight:600">Brand Analysis Complete</span>
+            </div>
+            <span style="font-size:11px;color:rgba(255,255,255,.25)">yourbrand.com</span>
+          </div>
+          <div class="analysis-grid">
+            <div class="analysis-item"><div class="analysis-item-lbl">Target Audience</div><div class="analysis-item-val">DTC founders, 25–45, US &amp; EU</div></div>
+            <div class="analysis-item"><div class="analysis-item-lbl">Brand Tone</div><div class="analysis-item-val">Direct, confident, slightly provocative</div></div>
+            <div class="analysis-item"><div class="analysis-item-lbl">Core Promise</div><div class="analysis-item-val">Ready-to-use Meta ads, no agency</div></div>
+            <div class="analysis-item"><div class="analysis-item-lbl">Pain Points</div><div class="analysis-item-val">High agency costs, slow turnaround</div></div>
+            <div class="analysis-item"><div class="analysis-item-lbl">CTA Style</div><div class="analysis-item-val">Action-oriented: "Start", "Get", "Launch"</div></div>
+            <div class="analysis-item"><div class="analysis-item-lbl">Visual DNA</div><div class="analysis-item-val">Clean, modern, bold product shots</div></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="bc c4 rv d1">
-      <span class="bc-icon">🕵️</span>
-      <h3 class="bc-h3">Competitor Ad Spy</h3>
-      <p class="bc-p">See exactly which ads your competitors are running, how long they&rsquo;ve been live, and what&rsquo;s driving their best results.</p>
-      <span class="badge b-bl">Competitive edge</span>
+
+    <!-- Phase 2: Competitor Learning -->
+    <div class="phase" id="phase-2" style="opacity:0;pointer-events:none">
+      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
+        <div style="text-align:center">
+          <div class="phase-eyebrow">02 — Competitor Learning</div>
+          <h2 class="phase-title">Study what <em>works</em> — then beat it</h2>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-end;justify-content:center">
+          <div id="competitor-phones" style="display:flex;gap:20px;align-items:center"></div>
+        </div>
+      </div>
     </div>
-    <div class="bc c4 rv">
-      <span class="bc-icon">🎥</span>
-      <h3 class="bc-h3">AI UGC Video</h3>
-      <p class="bc-p">Production-ready UGC-style video ads generated from your product URL. No actors. No studios. Scroll-stopping content in minutes.</p>
-      <span class="badge b-or">Flagship</span>
+
+    <!-- Phase 3: Weekly Ad Gen -->
+    <div class="phase" id="phase-3" style="opacity:0;pointer-events:none">
+      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
+        <div style="text-align:center">
+          <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
+          <h2 class="phase-title">5 fresh ads. <em>Every Monday.</em></h2>
+        </div>
+        <div class="weekly-cards">
+          <div class="weekly-card" id="wc-0"><div class="weekly-card-icon">🎤</div><div><div class="weekly-card-label">Talking UGC</div><div class="weekly-card-sub">9:16 · AI Creator · Kling 3.0</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
+          <div class="weekly-card" id="wc-1"><div class="weekly-card-icon">📸</div><div><div class="weekly-card-label">Photo Ad</div><div class="weekly-card-sub">1:1 · GPT Image 2</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
+          <div class="weekly-card" id="wc-2"><div class="weekly-card-icon">😲</div><div><div class="weekly-card-label">Reaction UGC</div><div class="weekly-card-sub">9:16 · 3s reaction + demo</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
+          <div class="weekly-card" id="wc-3"><div class="weekly-card-icon">🖼</div><div><div class="weekly-card-label">Photo Ad</div><div class="weekly-card-sub">4:5 · Before/after angle</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
+          <div class="weekly-card" id="wc-4"><div class="weekly-card-icon">🎬</div><div><div class="weekly-card-label">Custom Video</div><div class="weekly-card-sub">9:16 · Competitor remix</div></div><span class="weekly-card-status" style="color:rgba(255,255,255,.2)">Queued</span></div>
+        </div>
+      </div>
     </div>
-    <div class="bc c8 rv d1">
-      <span class="bc-icon">📊</span>
-      <h3 class="bc-h3">Live Performance Dashboard</h3>
-      <p class="bc-p">Real-time ROAS, CTR, and CPM tracking across every ad. Flayr surfaces winners and losers the moment statistical significance is reached &mdash; so you scale fast and cut waste early. No spreadsheets. No guesswork.</p>
-      <span class="badge b-gr">Real-time</span>
-    </div>
-    <div class="bc c6 rv">
-      <span class="bc-icon">🔔</span>
-      <h3 class="bc-h3">Auto-Replacement Alerts</h3>
-      <p class="bc-p">When an ad starts fatiguing, Flayr automatically generates a replacement with a fresh hook and notifies you before ROAS drops. Stay ahead of ad fatigue without lifting a finger.</p>
-      <span class="badge b-pu">Proactive</span>
-    </div>
-    <div class="bc c6 rv d1">
-      <span class="bc-icon">🧠</span>
-      <h3 class="bc-h3">Taste-Trained AI</h3>
-      <p class="bc-p">The more you swipe, the smarter Flayr gets. Your taste profile improves every ad generation &mdash; compounding your creative advantage over time. An AI media buyer that only gets better.</p>
-      <span class="badge b-bl">Gets smarter</span>
+
+    <!-- Phase 4: Launch to Meta -->
+    <div class="phase" id="phase-4" style="opacity:0;pointer-events:none">
+      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:32px;width:100%">
+        <div style="text-align:center">
+          <div class="phase-eyebrow">04 — Launch to Meta</div>
+          <h2 class="phase-title">One click. <em>Live campaign.</em></h2>
+        </div>
+        <div class="launch-box">
+          <div class="launch-icon">🚀</div>
+          <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:#fff;margin-bottom:8px">Campaign Live</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.4)">Flayr monitors 24/7 and alerts you when a winner emerges</div>
+          <div class="launch-metrics">
+            <div class="launch-metric"><div class="launch-metric-val" style="color:#34d399">4.8x</div><div class="launch-metric-lbl">ROAS</div></div>
+            <div class="launch-metric"><div class="launch-metric-val" style="color:var(--accent)">3.2%</div><div class="launch-metric-lbl">CTR</div></div>
+            <div class="launch-metric"><div class="launch-metric-val">$2.4k</div><div class="launch-metric-lbl">Spend</div></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════ PRICING -->
-<section class="pricing" id="pricing">
-  <div class="sec-header rv">
-    <div class="sec-label">Pricing</div>
-    <h2 class="sec-h2">Start free. Scale when it&rsquo;s working.</h2>
-    <p class="sec-sub">No long-term contracts. No setup fees. Cancel anytime.</p>
+<!-- Ad Formats -->
+<section id="formats" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;overflow:hidden;">
+  <div class="divider-line"></div>
+  <div class="sec-head rv">
+    <div class="sec-eyebrow">Ad Formats</div>
+    <h2 class="sec-h2">Every format that <em>converts</em></h2>
   </div>
-  <div class="price-grid">
-    <div class="pc rv">
-      <div class="pt">Starter</div>
-      <div class="pp"><span class="pp-amt">$29</span><span class="pp-per">/month</span></div>
-      <div class="pdiv"></div>
-      <ul class="pf">
-        <li class="on"><span class="ck">✓</span> 5 ad creatives / month</li>
-        <li class="on"><span class="ck">✓</span> Meta Ad Library access</li>
-        <li class="on"><span class="ck">✓</span> 1 active campaign</li>
-        <li class="on"><span class="ck">✓</span> Performance dashboard</li>
-        <li><span class="ds">—</span> Competitor ad spy</li>
-        <li><span class="ds">—</span> Auto-replacement alerts</li>
-        <li><span class="ds">—</span> Taste profile training</li>
-      </ul>
-      <a href="/signup?plan=starter" class="pbtn ghost">Start free trial</a>
+  <div class="formats-carousel">
+    <!-- Ghost phones -->
+    <div class="phone-ghost left" id="ghost-left">
+      <div class="iphone"><div class="iphone-shell" style="opacity:.6">
+        <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
+        <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
+          <div class="iphone-content" style="background:linear-gradient(180deg,rgba(0,212,255,.04),transparent);padding-top:50px;display:flex;align-items:center;justify-content:center">
+            <div style="width:48px;height:48px;border-radius:50%;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1);display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+        </div>
+      </div></div>
     </div>
-    <div class="pc pop rv d1">
-      <div class="pop-badge">Most Popular</div>
-      <div class="pt">Pro</div>
-      <div class="pp"><span class="pp-amt">$79</span><span class="pp-per">/month</span></div>
-      <div class="pdiv"></div>
-      <ul class="pf">
-        <li class="on"><span class="ck">✓</span> 25 ad creatives / month</li>
-        <li class="on"><span class="ck">✓</span> Meta + Instagram targeting</li>
-        <li class="on"><span class="ck">✓</span> 5 active campaigns</li>
-        <li class="on"><span class="ck">✓</span> Live performance dashboard</li>
-        <li class="on"><span class="ck">✓</span> Competitor ad spy</li>
-        <li class="on"><span class="ck">✓</span> Auto-replacement alerts</li>
-        <li class="on"><span class="ck">✓</span> Taste profile training</li>
-      </ul>
-      <a href="/signup?plan=pro" class="pbtn solid">Start free trial ⚡</a>
+
+    <!-- Center phone -->
+    <div class="format-center" id="format-center">
+      <div class="format-stack">
+        <div class="iphone" style="position:relative;z-index:5">
+          <div class="iphone-shell">
+            <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
+            <div class="iphone-screen" id="format-screen">
+              <div class="iphone-island"></div>
+              <div class="iphone-statusbar">
+                <span class="iphone-time">9:41</span>
+                <div class="iphone-icons">
+                  <svg width="14" height="10" viewBox="0 0 14 10"><path d="M0 6h2v4H0zM4 4h2v6H4zM8 2h2v8H8zM12 0h2v10h-2z" fill="rgba(255,255,255,0.5)"/></svg>
+                  <svg width="14" height="10" viewBox="0 0 24 16"><rect x="1" y="3" width="19" height="10" rx="2" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none"/><rect x="21" y="6" width="2" height="4" rx="1" fill="rgba(255,255,255,0.5)"/><rect x="3" y="5" width="12" height="6" rx="1" fill="rgba(255,255,255,0.5)"/></svg>
+                </div>
+              </div>
+              <div class="iphone-bar"></div>
+              <div id="ad-screen-content" class="iphone-content" style="padding-top:44px;flex:1;display:flex;flex-direction:column"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="format-label">
+        <div class="format-name" id="format-name">Talking UGC</div>
+      </div>
+      <div class="format-tabs">
+        <button class="format-tab active" data-fmt="0">UGC</button>
+        <button class="format-tab" data-fmt="1">Photo</button>
+        <button class="format-tab" data-fmt="2">Reaction</button>
+        <button class="format-tab" data-fmt="3">Custom</button>
+      </div>
     </div>
-    <div class="pc rv d2">
-      <div class="pt">Scale</div>
-      <div class="pp"><span class="pp-amt">$149</span><span class="pp-per">/month</span></div>
-      <div class="pdiv"></div>
-      <ul class="pf">
-        <li class="on"><span class="ck">✓</span> Unlimited ad creatives</li>
-        <li class="on"><span class="ck">✓</span> All platforms</li>
-        <li class="on"><span class="ck">✓</span> Unlimited campaigns</li>
-        <li class="on"><span class="ck">✓</span> Priority dashboard</li>
-        <li class="on"><span class="ck">✓</span> Deep competitor analysis</li>
-        <li class="on"><span class="ck">✓</span> Instant replacement</li>
-        <li class="on"><span class="ck">✓</span> White-glove onboarding</li>
-      </ul>
-      <a href="/signup?plan=scale" class="pbtn ghost">Start free trial</a>
+
+    <!-- Right ghost -->
+    <div class="phone-ghost right" id="ghost-right">
+      <div class="iphone"><div class="iphone-shell" style="opacity:.6">
+        <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
+        <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
+          <div class="iphone-content" style="padding:14px;padding-top:54px;background:linear-gradient(145deg,var(--accent-dim),rgba(255,255,255,.02));display:flex;flex-direction:column;justify-content:space-between;">
+            <div><div style="font-size:16px;font-weight:700;color:#fff">Summer Sale</div><div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px">Up to 40% off</div></div>
+            <div style="flex:1;margin:10px 0;border-radius:12px;background:rgba(0,212,255,.03);border:1px dashed rgba(255,255,255,.05);"></div>
+            <div style="background:var(--accent);border-radius:12px;padding:10px 0;text-align:center;font-size:11px;color:#000;font-weight:700;">Shop Now</div>
+          </div>
+        </div>
+      </div></div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════ FAQ -->
-<section class="faq" id="faq">
-  <div class="sec-header rv">
-    <div class="sec-label">FAQ</div>
-    <h2 class="sec-h2">Questions, answered.</h2>
+<!-- How It Works -->
+<section id="how" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;">
+  <div class="divider-line"></div>
+  <div class="sec-head rv">
+    <div class="sec-eyebrow">How It Works</div>
+    <h2 class="sec-h2">Four steps. <em>Zero friction.</em></h2>
   </div>
-  <div class="faq-list" id="faq-list"></div>
+  <div class="how-grid">
+    <div class="how-card rv">
+      <div class="how-card-header">
+        <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.5"/><path d="M3 12h18M12 3c2 2.5 3 5.5 3 9s-1 6.5-3 9c-2-2.5-3-5.5-3-9s1-6.5 3-9z" stroke="var(--accent)" stroke-width="1.5"/></svg></div>
+        <span class="how-num">01</span>
+      </div>
+      <div class="how-title">Add your brand</div>
+      <div class="how-desc">Paste your URL. Flayr deep-scans your brand, audience, tone, and products — no briefs, no forms, no onboarding calls.</div>
+    </div>
+    <div class="how-card rv d1">
+      <div class="how-card-header">
+        <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="var(--accent)" stroke-width="1.5"/><path d="M3 9h18M9 3v18" stroke="var(--accent)" stroke-width="1.5"/></svg></div>
+        <span class="how-num">02</span>
+      </div>
+      <div class="how-title">Get weekly ads</div>
+      <div class="how-desc">AI generates 5 fresh creatives — videos, photos, UGC — automatically every week. No prompts needed.</div>
+    </div>
+    <div class="how-card rv d2">
+      <div class="how-card-header">
+        <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="how-num">03</span>
+      </div>
+      <div class="how-title">Edit &amp; approve</div>
+      <div class="how-desc">Tweak copy, trim clips, swap b-roll, add music — all in the built-in editor. Approve in seconds.</div>
+    </div>
+    <div class="how-card rv d3">
+      <div class="how-card-header">
+        <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="how-num">04</span>
+      </div>
+      <div class="how-title">Launch to Meta</div>
+      <div class="how-desc">Push ads to live campaigns. Track ROAS, CTR, conversions — all from Flayr. No Ads Manager needed.</div>
+    </div>
+  </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════ FINAL CTA -->
-<section class="final-cta" id="cta">
-  <h2 class="final-h2 rv">Your next winning ad is<br><em>60 seconds away.</em></h2>
-  <p class="final-sub rv d1">Join hundreds of founders already running smarter campaigns with Flayr.</p>
-  <div class="rv d2" style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:8px">
-    <a href="/signup" class="hero-cta-btn">Start free — no credit card</a>
-    <span class="hero-cta-sub">7-day free trial on all plans</span>
+<!-- Manifesto -->
+<section id="manifesto">
+  <div class="divider-line"></div>
+  <div class="manifesto-text" id="manifesto-text"></div>
+</section>
+
+<!-- Why Flayr -->
+<section id="why" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;">
+  <div class="divider-line"></div>
+  <div class="sec-head rv">
+    <div class="sec-eyebrow">Why Flayr</div>
+    <h2 class="sec-h2">Agency pricing. <em>None</em> of the hassle.</h2>
+  </div>
+  <div class="why-headers rv">
+    <div class="why-header-agency"><div class="why-header-name" style="color:rgba(255,255,255,.4)">Traditional Agency</div><div class="why-header-price" style="color:rgba(255,255,255,.2)">$5,000<span style="font-size:14px;font-weight:400">/mo avg</span></div></div>
+    <div class="why-header-flayr"><div class="why-header-name" style="color:var(--accent)">Flayr</div><div class="why-header-price">$49.99<span style="font-size:14px;font-weight:400;color:rgba(255,255,255,.5)">/mo</span></div></div>
+  </div>
+  <div class="why-rows" id="why-rows"></div>
+</section>
+
+<!-- Integrations -->
+<section id="integrations">
+  <div class="divider-line"></div>
+  <div class="sec-head rv">
+    <div class="sec-eyebrow">Powered By</div>
+    <h2 class="sec-h2">Best-in-class <em>tools</em>, one platform</h2>
+  </div>
+  <div class="integrations-grid">
+    <div class="integration-cell rv">
+      <div class="integration-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M8 12c0-2.5 1-4.5 2.5-4.5s2 1.5 2.5 3c.5 1.5 1 3 2.5 3s2.5-2 2.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="integration-name">Meta Ads</div><div class="integration-desc">Launch campaigns directly</div>
+    </div>
+    <div class="integration-cell rv d1">
+      <div class="integration-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><polygon points="10,9 16,12 10,15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg></div>
+      <div class="integration-name">Kling 3.0</div><div class="integration-desc">AI video generation</div>
+    </div>
+    <div class="integration-cell rv d2">
+      <div class="integration-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 16l5-5 4 4 3-3 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="integration-name">GPT Image 2</div><div class="integration-desc">Photo ad creation</div>
+    </div>
+    <div class="integration-cell rv">
+      <div class="integration-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v12l8 4 8-4V6l-8-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 22V10M4 6l8 4 8-4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+      <div class="integration-name">Shopify</div><div class="integration-desc">Product sync</div>
+    </div>
+    <div class="integration-cell rv d1">
+      <div class="integration-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 20h16M4 20V4M8 16V10M12 16V6M16 16V12M20 16V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="integration-name">Analytics</div><div class="integration-desc">Performance tracking</div>
+    </div>
+    <div class="integration-cell rv d2">
+      <div class="integration-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="19" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="19" cy="19" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4M10 14l-3.5 3M14 14l3.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="integration-name">Webhooks</div><div class="integration-desc">Custom workflows</div>
+    </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════ FOOTER -->
+<!-- Pricing -->
+<section id="pricing">
+  <div class="divider-line"></div>
+  <div class="sec-head rv">
+    <div class="sec-eyebrow">Pricing</div>
+    <h2 class="sec-h2">Your agency charges more.<br>And delivers <em>less.</em></h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card rv">
+      <div class="pricing-plan">Starter</div>
+      <div class="pricing-price"><span class="pricing-amount">$49.99</span><span class="pricing-period">/month</span></div>
+      <p class="pricing-desc">For founders testing creative every week.</p>
+      <a href="https://app.useflayr.com/signup?plan=starter" class="pricing-btn outline">Start with Starter</a>
+      <div class="pricing-features">
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>1 brand</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>100 manual credits/month</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>2 included weekly ads (1 video + 1 photo)</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Product Memory</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ad Library + Built-in editor</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Brand intelligence</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Meta launch queue</span></div>
+      </div>
+    </div>
+    <div class="pricing-card featured rv d1">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-plan">Growth</div>
+      <div class="pricing-price"><span class="pricing-amount">$149.99</span><span class="pricing-period">/month</span></div>
+      <p class="pricing-desc">For brands that need a real creative rhythm.</p>
+      <a href="https://app.useflayr.com/signup?plan=growth" class="pricing-btn primary">Start with Growth</a>
+      <div class="pricing-features">
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>3 brands</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>300 manual credits/month</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>5 included weekly ads (3 videos + 2 photos)</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Product Memory + App assets</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ad Library + Built-in editor</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Brand + Competitor intelligence</span></div>
+        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Meta campaign launch + monitoring</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-layout">
+    <div class="faq-sticky rv">
+      <h2 class="faq-title">Frequently<br>Asked<br><span>Questions</span></h2>
+    </div>
+    <div class="faq-grid" id="faq-grid"></div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section id="cta">
+  <div class="cta-glow"></div>
+  <h2 class="cta-h2 rv">Your next winning ad is<br><em>60 seconds</em> away.</h2>
+  <p class="cta-sub rv d1">Join brands creating high-performing Meta ads on autopilot — starting at $49.99/mo.</p>
+  <div class="rv d2">
+    <a href="https://app.useflayr.com/signup" class="btn-primary" style="font-size:16px;padding:17px 44px;">Start Creating Ads</a>
+  </div>
+</section>
+
+<!-- Footer -->
 <footer>
-  <div class="fl">Flayr<span>.</span></div>
-  <ul class="fn">
-    <li><a href="/privacy">Privacy</a></li>
-    <li><a href="/terms">Terms</a></li>
-    <li><a href="#">Blog</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-  <div class="fc">&copy; 2026 Flayr, Inc. All rights reserved.</div>
+  <div class="footer-inner">
+    <div class="footer-logo">flayr<span>.</span></div>
+    <div class="footer-links">
+      <a href="#showcase">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+    <div class="footer-copy">© 2026 Flayr. All rights reserved.</div>
+  </div>
 </footer>
 
-<!-- ════════════════════════════════════════════════════════════ SCRIPT -->
 <script>
-(function () {
-  'use strict';
+(function(){
+'use strict';
 
-  /* ── Cursor glow ──────────────────────────────────────────────────── */
-  const glow = document.getElementById('cursor-glow');
-  document.addEventListener('mousemove', e => {
-    glow.style.left = e.clientX + 'px';
-    glow.style.top  = e.clientY + 'px';
+/* ── Nav morph on scroll ─────────────────── */
+const navInner = document.getElementById('nav-inner');
+window.addEventListener('scroll', () => {
+  navInner.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ── Hero dashboard tilt reveal ─────────── */
+const dash = document.getElementById('hero-dash');
+if (dash) {
+  requestAnimationFrame(() => {
+    setTimeout(() => dash.classList.add('revealed'), 600);
   });
+}
 
-  /* ── Nav position + scroll toggle ────────────────────────────────── */
-  const nav    = document.getElementById('nav');
-  const annBar = document.getElementById('ann-bar');
-  function positionNav() {
-    const ah = annBar.getBoundingClientRect().height;
-    nav.style.top = (ah + 8) + 'px';
-  }
-  positionNav();
-  window.addEventListener('resize', positionNav);
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 80);
-    if (window.scrollY > annBar.offsetHeight + 20) {
-      nav.style.top = '12px';
-    } else {
-      positionNav();
-    }
-  }, { passive: true });
+/* ── Cycling text in hero ────────────────── */
+const CYCLING_STYLES = [
+  { family: "'Instrument Serif', Georgia, serif", weight: '400', style: 'italic' },
+  { family: "'Plus Jakarta Sans', sans-serif", weight: '800', style: 'normal' },
+  { family: "'DM Sans', sans-serif", weight: '300', style: 'italic' },
+  { family: "'Plus Jakarta Sans', sans-serif", weight: '400', style: 'normal' },
+];
+let cycleIdx = 0;
+const cycleEl = document.getElementById('cycling-text');
+if (cycleEl) {
+  setInterval(() => {
+    cycleEl.style.opacity = '0.3';
+    setTimeout(() => {
+      cycleIdx = (cycleIdx + 1) % CYCLING_STYLES.length;
+      const s = CYCLING_STYLES[cycleIdx];
+      cycleEl.style.fontFamily = s.family;
+      cycleEl.style.fontWeight = s.weight;
+      cycleEl.style.fontStyle = s.style;
+      cycleEl.style.opacity = '1';
+    }, 300);
+  }, 2800);
+}
 
-  /* ── Ticker ───────────────────────────────────────────────────────── */
-  const tickItems = [
-    'Shopify Brands','SaaS Founders','D2C Products',
-    'E-Commerce','App Launches','Performance Marketers'
+/* ── Scroll Showcase ─────────────────────── */
+const showcase = document.getElementById('showcase');
+const phases = [1,2,3,4].map(n => document.getElementById('phase-'+n));
+
+// Phase 2: build competitor phones HTML
+(function buildCompetitorPhones() {
+  const container = document.getElementById('competitor-phones');
+  if (!container) return;
+  const competitors = [
+    { name: 'AgencyPro', hook: 'Hook → Demo → CTA', accent: '#64748b' },
+    { name: 'CreativeHQ', hook: 'UGC-first strategy', accent: '#78716c' },
+    { name: 'ViralAds', hook: 'Trend-jacking', accent: '#94a3b8' },
   ];
-  const track = document.getElementById('ticker-track');
-  // 8 copies = seamless loop with -50% translate
-  const full = Array(8).fill(tickItems).flat();
-  track.innerHTML = full.map((t,i) =>
-    `<span class="ticker-item"><span class="ticker-sep">${i % tickItems.length === 0 ? '✦' : '·'}</span>${t}</span>`
+  container.innerHTML = competitors.map((c, i) => `
+    <div style="flex-shrink:0;text-align:center;${i===1?'transform:scale(1.1);z-index:2;':'opacity:.6;'}">
+      <div class="iphone" style="width:160px">
+        <div class="iphone-shell" style="border-radius:32px">
+          <div class="iphone-screen" style="border-radius:28px">
+            <div class="iphone-island" style="width:70px;height:20px;top:8px"></div>
+            <div class="iphone-bar"></div>
+            <div style="padding:42px 12px 12px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div>
+                <div style="width:20px;height:20px;border-radius:50%;background:${c.accent}20;border:1px solid ${c.accent}40;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><div style="width:6px;height:6px;border-radius:50%;background:${c.accent}"></div></div>
+                <div style="font-size:9px;font-weight:700;color:#fff">${c.name}</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.3);margin-top:2px">${c.hook}</div>
+              </div>
+              <div style="background:${c.accent}15;border-radius:8px;padding:5px 0;text-align:center;font-size:7px;color:${c.accent};font-weight:600">View Ad</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.3)">${c.name}</div>
+    </div>
+  `).join('');
+})();
+
+function showPhase(idx) {
+  phases.forEach((p, i) => {
+    if (!p) return;
+    const on = i === idx;
+    p.style.opacity = on ? '1' : '0';
+    p.style.pointerEvents = on ? 'auto' : 'none';
+    p.style.transition = 'opacity .5s ease';
+  });
+}
+
+// Phase 1 URL animation
+let phase1Animated = false;
+function animatePhase1() {
+  if (phase1Animated) return;
+  phase1Animated = true;
+  const url = 'https://yourbrand.com';
+  const typedEl = document.getElementById('url-typed');
+  const urlBar = document.getElementById('url-bar');
+  const urlBtn = document.getElementById('url-btn');
+  const analysisBox = document.getElementById('analysis-box');
+  let i = 0;
+  const typeInterval = setInterval(() => {
+    i++;
+    const sub = url.substring(0, i);
+    typedEl.style.color = '#fff';
+    typedEl.innerHTML = sub + '<span style="color:var(--accent);animation:blink .9s infinite">|</span>';
+    if (i >= url.length) {
+      clearInterval(typeInterval);
+      setTimeout(() => {
+        urlBar.classList.add('active');
+        urlBtn.classList.add('active');
+        urlBtn.textContent = 'Analyzing...';
+        setTimeout(() => {
+          urlBtn.textContent = 'Analyze';
+          analysisBox.style.opacity = '1';
+          analysisBox.style.transform = 'translateY(0)';
+        }, 1200);
+      }, 400);
+    }
+  }, 55);
+}
+
+// Phase 3 card animations
+let phase3Animated = false;
+function animatePhase3() {
+  if (phase3Animated) return;
+  phase3Animated = true;
+  const cards = [0,1,2,3,4];
+  cards.forEach((i) => {
+    setTimeout(() => {
+      const card = document.getElementById('wc-'+i);
+      if (!card) return;
+      const status = card.querySelector('.weekly-card-status');
+      card.classList.add('generating');
+      if (status) { status.textContent = 'Generating…'; status.style.color = 'var(--accent)'; }
+      setTimeout(() => {
+        card.classList.remove('generating');
+        card.classList.add('done');
+        if (status) { status.textContent = '✓ Ready'; status.style.color = '#34d399'; }
+      }, 1200 + i * 200);
+    }, i * 350);
+  });
+}
+
+showPhase(0);
+
+window.addEventListener('scroll', () => {
+  if (!showcase) return;
+  const rect = showcase.getBoundingClientRect();
+  const total = showcase.offsetHeight - window.innerHeight;
+  const scrolled = -rect.top;
+  const progress = Math.max(0, Math.min(1, scrolled / total));
+  const phase = progress * 4;
+  const phaseIdx = Math.min(3, Math.floor(phase));
+  showPhase(phaseIdx);
+  if (phaseIdx === 0) animatePhase1();
+  if (phaseIdx === 2) animatePhase3();
+}, { passive: true });
+
+/* ── Ad Formats carousel ─────────────────── */
+const FORMAT_DATA = [
+  {
+    name: 'Talking UGC',
+    render: () => `
+      <div style="flex:1;display:flex;flex-direction:column;padding-top:50px">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,212,255,.04),transparent)">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1);display:flex;align-items:center;justify-content:center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div style="padding:12px 14px;background:rgba(255,255,255,.02)">
+          <div style="font-size:11px;color:#fff;font-weight:600">"This changed everything..."</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.25);margin-top:3px">AI Creator · Kling 3.0</div>
+        </div>
+      </div>
+    `
+  },
+  {
+    name: 'Photo Ad',
+    render: () => `
+      <div style="flex:1;display:flex;flex-direction:column;padding:14px;padding-top:54px;justify-content:space-between">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:#fff;line-height:1.2">Summer Sale</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px">Up to 40% off</div>
+        </div>
+        <div style="flex:1;margin:10px 0;border-radius:12px;background:rgba(0,212,255,.03);border:1px dashed rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/></svg>
+        </div>
+        <div style="background:var(--accent);border-radius:12px;padding:10px 0;text-align:center;font-size:11px;color:#000;font-weight:700">Shop Now</div>
+      </div>
+    `
+  },
+  {
+    name: 'Reaction UGC',
+    render: () => `
+      <div style="flex:1;display:flex;flex-direction:column;padding-top:44px">
+        <div style="height:35%;background:linear-gradient(135deg,rgba(0,212,255,.06),transparent);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:36px">😲</span>
+        </div>
+        <div style="flex:1;padding:10px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:9px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em">Demo</div>
+          <div style="flex:1;border-radius:8px;border:1px dashed rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center">
+            <span style="font-size:9px;color:rgba(255,255,255,.15)">B-roll footage</span>
+          </div>
+        </div>
+      </div>
+    `
+  },
+  {
+    name: 'Custom Video',
+    render: () => `
+      <div style="flex:1;display:flex;flex-direction:column;padding-top:44px">
+        <div style="flex:1;background:linear-gradient(160deg,rgba(0,212,255,.04),transparent);display:flex;align-items:center;justify-content:center">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/><polygon points="10,9 16,12 10,15" stroke="rgba(255,255,255,.15)" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <div style="padding:10px 12px;background:rgba(255,255,255,.02)">
+          <div style="font-size:9px;color:rgba(255,255,255,.3)">Reference: TikTok trend</div>
+          <div style="display:flex;gap:3px;margin-top:4px">
+            ${['Style','Pacing','Hook'].map(t=>`<span style="font-size:7px;color:var(--accent);background:var(--accent-dim);padding:2px 5px;border-radius:3px">${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    `
+  },
+];
+
+let activeFmt = 0;
+let fmtPaused = false;
+const fmtScreen = document.getElementById('ad-screen-content');
+const fmtName = document.getElementById('format-name');
+
+function setFormat(idx, force) {
+  if (idx === activeFmt && !force) return;
+  activeFmt = idx;
+  const fmt = FORMAT_DATA[idx];
+  fmtScreen.innerHTML = fmt.render();
+  fmtName.textContent = fmt.name;
+  document.querySelectorAll('.format-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+}
+setFormat(0, true);
+
+document.querySelectorAll('.format-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    fmtPaused = true;
+    setFormat(parseInt(tab.dataset.fmt));
+    setTimeout(() => { fmtPaused = false; }, 5000);
+  });
+});
+
+const fmtCenter = document.getElementById('format-center');
+if (fmtCenter) {
+  fmtCenter.addEventListener('mouseenter', () => { fmtPaused = true; });
+  fmtCenter.addEventListener('mouseleave', () => { fmtPaused = false; });
+}
+setInterval(() => {
+  if (!fmtPaused) setFormat((activeFmt + 1) % FORMAT_DATA.length);
+}, 2200);
+
+/* ── Manifesto ───────────────────────────── */
+const manifestoSection = document.getElementById('manifesto');
+const manifestoEl = document.getElementById('manifesto-text');
+if (manifestoEl) {
+  const paragraphs = [
+    "Your brand deserves better than templated ads and recycled hooks.",
+    "Flayr studies everything about your brand — your audience, your tone, your competitors — and creates ads that actually convert.",
+    "Not stock footage. Not guesswork. Not another agency invoice.",
+    "AI that understands context, generates weekly creatives, and launches to Meta — while you focus on building.",
+    "This is the new standard."
+  ];
+  const allWords = [];
+  paragraphs.forEach((p, pi) => {
+    p.split(' ').forEach((w, wi) => {
+      allWords.push({ word: w, isFirst: wi === 0 && pi > 0 });
+    });
+  });
+  manifestoEl.innerHTML = allWords.map((item, i) =>
+    (item.isFirst ? '<br><br>' : '') + `<span class="manifesto-word" data-i="${i}">${item.word} </span>`
   ).join('');
 
-  /* ── Ad wall ──────────────────────────────────────────────────────── */
-  const ADS = [
-    { niche:'Skincare',    hook:'&ldquo;I&rsquo;ve been doing this wrong for 3 years...&rdquo;', spend:'47 days · $14k spend', ctr:'4.2% CTR', bg:'linear-gradient(160deg,#1C102E 0%,#0D091C 100%)' },
-    { niche:'SaaS',        hook:'Still doing this manually??',                                    spend:'62 days · $28k spend', ctr:'3.8% CTR', bg:'linear-gradient(160deg,#0A1528 0%,#060D1C 100%)' },
-    { niche:'E-commerce',  hook:'Why is nobody talking about this?',                              spend:'31 days · $9k spend',  ctr:'5.1% CTR', bg:'linear-gradient(160deg,#0C1A09 0%,#060E06 100%)' },
-    { niche:'App Demo',    hook:'I saved 4 hours last week with this',                            spend:'55 days · $19k spend', ctr:'3.2% CTR', bg:'linear-gradient(160deg,#1A1909 0%,#0E0E06 100%)' },
-    { niche:'Fitness',     hook:'My trainer never told me this existed',                          spend:'28 days · $7k spend',  ctr:'6.0% CTR', bg:'linear-gradient(160deg,#1A0A0C 0%,#120608 100%)' },
-    { niche:'Beauty',      hook:'300k women can&rsquo;t be wrong...',                             spend:'71 days · $41k spend', ctr:'4.8% CTR', bg:'linear-gradient(160deg,#1C0D1C 0%,#0D060D 100%)' },
-    { niche:'Productivity',hook:'POV: you stopped wasting $500/mo',                               spend:'44 days · $16k spend', ctr:'3.5% CTR', bg:'linear-gradient(160deg,#0A0E1C 0%,#060810 100%)' },
-    { niche:'Food',        hook:'I tried this every day for 30 days',                             spend:'19 days · $5k spend',  ctr:'7.2% CTR', bg:'linear-gradient(160deg,#1A0E08 0%,#0D0806 100%)' },
-    { niche:'Health',      hook:'Doctor said I shouldn&rsquo;t share this',                       spend:'83 days · $62k spend', ctr:'5.5% CTR', bg:'linear-gradient(160deg,#081C12 0%,#060D0A 100%)' },
-    { niche:'Tech',        hook:'This replaced 3 tools I was paying for',                         spend:'37 days · $11k spend', ctr:'4.1% CTR', bg:'linear-gradient(160deg,#0A0C1C 0%,#060810 100%)' },
-  ];
+  const words = manifestoEl.querySelectorAll('.manifesto-word');
+  const total = words.length;
 
-  function makeCard(ad) {
-    return `<div class="ad-card" style="background:${ad.bg}">
-      <div>
-        <div class="ad-card-niche">${ad.niche}</div>
-        <div class="ad-card-hook">${ad.hook}</div>
+  window.addEventListener('scroll', () => {
+    if (!manifestoSection) return;
+    const rect = manifestoSection.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const start = vh * 0.7;
+    const end = -rect.height * 0.65 + vh * 0.5;
+    const raw = (start - rect.top) / (start - end);
+    const progress = Math.max(0, Math.min(1, raw));
+    const wordProgress = progress * total;
+    words.forEach((w, i) => {
+      const brightness = Math.max(0, Math.min(1, (wordProgress - i + 0.5)));
+      const alpha = 0.08 + brightness * 0.92;
+      w.style.color = `rgba(255,255,255,${alpha.toFixed(2)})`;
+    });
+  }, { passive: true });
+}
+
+/* ── Why Flayr comparison table ─────────── */
+const comparisons = [
+  { feature:'Weekly creatives', agency:'Maybe, if they remember', flayr:'Automatic, every week', agencyIcon:'❌', flayrIcon:'✓' },
+  { feature:'Cost', agency:'$3,000–$10,000/mo', flayr:'From $49.99/mo', agencyIcon:'💸', flayrIcon:'✓' },
+  { feature:'Turnaround', agency:'1–2 weeks', flayr:'Under 3 minutes', agencyIcon:'🐌', flayrIcon:'⚡' },
+  { feature:'Brand intelligence', agency:'Manual brief required', flayr:'AI learns from your site', agencyIcon:'📝', flayrIcon:'🤖' },
+  { feature:'Competitor analysis', agency:'Extra charge', flayr:'Built in', agencyIcon:'💰', flayrIcon:'✓' },
+  { feature:'Meta integration', agency:'You manage it', flayr:'One-click launch', agencyIcon:'🤷', flayrIcon:'🚀' },
+  { feature:'Revisions', agency:'2 rounds included', flayr:'Unlimited, instant', agencyIcon:'⏳', flayrIcon:'♾️' },
+];
+const whyRows = document.getElementById('why-rows');
+if (whyRows) {
+  whyRows.innerHTML = comparisons.map(row => `
+    <div class="why-row rv">
+      <div class="why-cell why-cell-agency">
+        <span class="why-cell-icon">${row.agencyIcon}</span>
+        <div>
+          <div class="why-cell-feature">${row.feature}</div>
+          <div class="why-cell-val" style="color:rgba(255,255,255,.4)">${row.agency}</div>
+        </div>
       </div>
-      <div>
-        <div class="ad-card-spend">${ad.spend}</div>
-        <span class="ad-card-ctr">${ad.ctr}</span>
-      </div>
-    </div>`;
-  }
-
-  // Repeat 4 times = 40 cards, animate -50% = seamless loop of 20
-  const allCards = [...ADS, ...ADS, ...ADS, ...ADS];
-  document.getElementById('wall-r1').innerHTML = allCards.map(makeCard).join('');
-  document.getElementById('wall-r2').innerHTML = allCards.map(makeCard).join('');
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  const FAQS = [
-    {
-      q: 'Where does the ad library data come from?',
-      a: "Flayr indexes Meta&rsquo;s public Ad Library daily across 50+ niches. We surface ads that have been running for 14+ days &mdash; a strong signal of profitability &mdash; along with estimated spend data, giving you a real-time pulse on what&rsquo;s converting right now."
-    },
-    {
-      q: 'Do I need to connect my Meta ad account?',
-      a: "You&rsquo;ll need to connect a Meta Business account to run campaigns through Flayr. The connection is OAuth-secured and Flayr only requests the minimum permissions needed to create and monitor ads. Your billing stays in Meta."
-    },
-    {
-      q: 'Is a human reviewing my ads before they go live?',
-      a: "By default, every ad goes through a 60-second review step where you can approve, tweak, or reject before anything launches. You can enable fully-automated mode once you&rsquo;ve built up a taste profile and trust the AI."
-    },
-    {
-      q: 'How good is the video quality?',
-      a: "Flayr generates 1080p vertical video in 9:16 format &mdash; native for Reels and Stories. The UGC-style generation uses natural voiceovers, real product footage (or royalty-free B-roll), and scroll-stopping hooks pulled from winning ad patterns in your niche."
-    },
-    {
-      q: 'Does this work for both e-com brands and SaaS?',
-      a: "Yes &mdash; Flayr works for any URL-based product. E-commerce brands get product demos, testimonial-style UGC, and unboxing formats. SaaS companies get screen-capture walkthroughs, before/after problem-solution ads, and founder-style talking head scripts."
-    },
-    {
-      q: 'Will Flayr ever support TikTok Ads?',
-      a: "TikTok Ads Manager integration is on our roadmap for Q3 2026. All creatives Flayr generates are already in 9:16 vertical format, so the transition will be seamless. Join the waitlist to be first in line."
-    },
-  ];
-
-  const faqList = document.getElementById('faq-list');
-  faqList.innerHTML = FAQS.map((f, i) => `
-    <div class="faq-item rv${i > 0 ? ' d' + Math.min(i, 4) : ''}">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span>${f.q}</span>
-        <div class="faq-ico">+</div>
-      </div>
-      <div class="faq-ans">
-        <div class="faq-ans-in">${f.a}</div>
+      <div class="why-cell why-cell-flayr">
+        <span class="why-check" style="background:${row.flayrIcon==='✓'?'rgba(52,211,153,.1)':'transparent'};color:${row.flayrIcon==='✓'?'#34d399':'inherit'}">${row.flayrIcon}</span>
+        <div>
+          <div class="why-cell-feature" style="color:var(--accent)">${row.feature}</div>
+          <div class="why-cell-val" style="color:#fff;font-weight:500">${row.flayr}</div>
+        </div>
       </div>
     </div>
   `).join('');
+}
 
-  /* ── Like button ──────────────────────────────────────────────────── */
-  document.getElementById('like-btn').addEventListener('click', function() {
-    this.style.transform = 'scale(1.55) rotate(-12deg)';
-    this.style.transition = 'transform 0.15s cubic-bezier(0.34,1.56,0.64,1)';
-    setTimeout(() => {
-      this.style.transform = '';
-      this.style.transition = 'transform 0.28s';
-    }, 280);
-  });
+/* ── FAQ ─────────────────────────────────── */
+const faqs = [
+  { q:'Do I need to create ads manually?', a:'No. Flayr generates weekly ads automatically as part of your plan. Manual credits are only for extra ads beyond your weekly batch.' },
+  { q:'What AI models does Flayr use?', a:'Talking UGC and Reaction videos use Kling 3.0 Pro. Photo ads use GPT Image 2. Brand analysis uses Claude (Anthropic).' },
+  { q:'Can I connect my Meta Ads account?', a:'Yes. Flayr connects directly to Meta Ads Manager for pushing creatives, monitoring performance, and AI recommendations.' },
+  { q:'What counts as a credit?', a:"Photo ads cost 1 credit. Video ads cost 1 credit per second. Weekly batch ads are free and don't use credits." },
+  { q:'Can I edit the generated ads?', a:'Yes. Adjust captions, trim length, add music, swap b-roll clips, text overlays, and export MP4 or PNG.' },
+  { q:'What is Product Memory?', a:'Save products with images and descriptions. Flayr uses these in generated ads instead of guessing.' },
+  { q:'How does competitor analysis work?', a:'Flayr identifies competitors, studies their ads, deconstructs hooks, and uses winning patterns for your brand.' },
+  { q:'Can I cancel anytime?', a:'Yes. No contracts, no commitments. Cancel anytime from your dashboard.' },
+];
+const faqGrid = document.getElementById('faq-grid');
+if (faqGrid) {
+  faqGrid.innerHTML = faqs.map((f, i) => `
+    <div class="faq-item rv">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>${f.q}</span>
+        <svg class="faq-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2v12M2 8h12" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>
+    </div>
+  `).join('');
+}
 
-  /* ── Scroll reveal ────────────────────────────────────────────────── */
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        en.target.classList.add('vi');
-        // don't unobserve so re-entry still works after FAQ generation
-      }
-    });
-  }, { threshold: 0.08 });
-
-  function observeAll() {
-    document.querySelectorAll('.rv').forEach(el => io.observe(el));
-  }
-  observeAll();
-  // Re-observe after FAQ is injected
-  setTimeout(observeAll, 100);
+/* ── Scroll reveal ───────────────────────── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vi'); });
+}, { threshold: 0.08 });
+function observeAll() { document.querySelectorAll('.rv').forEach(el => io.observe(el)); }
+observeAll();
+setTimeout(observeAll, 200);
+setTimeout(observeAll, 600);
 
 })();
 
-/* ── FAQ toggle (needs to be global for onclick) ──────────────────── */
-function toggleFaq(el) {
-  const item   = el.closest('.faq-item');
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
   const isOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
 }
 </script>
+
+<style>
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+</style>
 </body>
 </html>
