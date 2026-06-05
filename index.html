@@ -690,9 +690,8 @@ footer{
 <!-- Nav -->
 <nav id="nav">
   <div id="nav-inner">
-    <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:10px">
-      <div style="width:27px;height:27px;border-radius:8px;background:#f4f4f3;color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;font-family:var(--font-head);flex-shrink:0">F</div>
-      <span style="font-size:17px;font-weight:600;letter-spacing:-0.025em;color:#f4f4f3;font-family:var(--font-head)">Flayr</span>
+    <a href="#" class="nav-logo">
+      <img src="logo2.png" alt="Flayr" style="height:28px;width:auto"/>
     </a>
     <ul class="nav-links">
       <li><a href="#showcase">Features</a></li>
@@ -903,7 +902,7 @@ footer{
         <h2 class="phase-title">One click to <em>live campaigns</em></h2>
       </div>
       <!-- Meta Campaign Manager mockup -->
-      <div id="p4-dash" style="width:90vw;max-width:680px;opacity:0;will-change:transform,opacity;margin-top:min(100px,12vh)">
+      <div id="p4-dash" style="width:90vw;max-width:620px;opacity:0;will-change:transform,opacity;margin-top:clamp(40px,6vh,70px)">
         <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;overflow:hidden;backdrop-filter:blur(20px)">
           <!-- Top bar -->
           <div style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
@@ -926,10 +925,10 @@ footer{
               <div id="p4-launch-btn" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);padding:10px 24px;border-radius:100px;font-size:13px;font-weight:600;transition:background .4s,color .4s,box-shadow .4s">Launch All →</div>
             </div>
             <div id="p4-footer-live" style="display:flex;align-items:center;justify-content:space-between;width:100%;opacity:0;position:absolute;left:24px;right:24px;transition:opacity .4s">
-              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">24.8K</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Impressions</div></div>
-              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">892</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Clicks</div></div>
-              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--accent)">4.8x</div><div style="font-size:10px;color:rgba(255,255,255,.3)">ROAS</div></div>
-              <div style="text-align:center"><div style="font-size:16px;font-weight:700;color:#fff">$3.20</div><div style="font-size:10px;color:rgba(255,255,255,.3)">Cost/Conv</div></div>
+              <div style="text-align:center"><div style="font-size:14px;font-weight:700;color:#fff">24.8K</div><div style="font-size:9px;color:rgba(255,255,255,.3)">Impressions</div></div>
+              <div style="text-align:center"><div style="font-size:14px;font-weight:700;color:#fff">892</div><div style="font-size:9px;color:rgba(255,255,255,.3)">Clicks</div></div>
+              <div style="text-align:center"><div style="font-size:14px;font-weight:700;color:var(--accent)">4.8x</div><div style="font-size:9px;color:rgba(255,255,255,.3)">ROAS</div></div>
+              <div style="text-align:center"><div style="font-size:14px;font-weight:700;color:#fff">$3.20</div><div style="font-size:9px;color:rgba(255,255,255,.3)">Cost/Conv</div></div>
             </div>
           </div>
         </div>
@@ -1611,15 +1610,16 @@ const FORMAT_DATA = [
   {
     name: 'Reaction UGC',
     render: () => `
-      <div style="flex:1;display:flex;flex-direction:column;padding-top:44px">
-        <div style="height:35%;background:linear-gradient(135deg,rgba(0,212,255,.06),transparent);display:flex;align-items:center;justify-content:center">
-          <span style="font-size:36px">😲</span>
+      <div style="flex:1;position:relative;overflow:hidden">
+        <video src="${UGC_URL}" autoplay muted loop playsinline
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+        <div style="position:absolute;top:52px;left:0;right:0;text-align:center">
+          <span style="font-size:28px">😲</span>
         </div>
-        <div style="flex:1;padding:10px;display:flex;flex-direction:column;gap:6px">
-          <div style="font-size:9px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em">Demo</div>
-          <div style="flex:1;border-radius:8px;border:1px dashed rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center">
-            <span style="font-size:9px;color:rgba(255,255,255,.15)">B-roll footage</span>
-          </div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
+          background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
+          <div style="font-size:11px;color:#fff;font-weight:600">Silent reaction · 3s clip</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
         </div>
       </div>
     `
@@ -1627,14 +1627,14 @@ const FORMAT_DATA = [
   {
     name: 'Custom Video',
     render: () => `
-      <div style="flex:1;display:flex;flex-direction:column;padding-top:44px">
-        <div style="flex:1;background:linear-gradient(160deg,rgba(0,212,255,.04),transparent);display:flex;align-items:center;justify-content:center">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/><polygon points="10,9 16,12 10,15" stroke="rgba(255,255,255,.15)" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg>
-        </div>
-        <div style="padding:10px 12px;background:rgba(255,255,255,.02)">
-          <div style="font-size:9px;color:rgba(255,255,255,.3)">Reference: TikTok trend</div>
-          <div style="display:flex;gap:3px;margin-top:4px">
-            ${['Style','Pacing','Hook'].map(t=>`<span style="font-size:7px;color:var(--accent);background:var(--accent-dim);padding:2px 5px;border-radius:3px">${t}</span>`).join('')}
+      <div style="flex:1;position:relative;overflow:hidden">
+        <video src="${UGC_URL}" autoplay muted loop playsinline
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:hue-rotate(15deg) saturate(1.1)"></video>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
+          background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
+          <div style="font-size:11px;color:#fff;font-weight:600">"Remixed from TikTok trend"</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">
+            ${['Style','Pacing','Hook'].map(t=>`<span style="font-size:7px;color:var(--accent);background:var(--accent-dim);padding:2px 5px;border-radius:3px;margin-right:3px">${t}</span>`).join('')}
           </div>
         </div>
       </div>
