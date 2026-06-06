@@ -181,12 +181,16 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.03) inset;
   opacity:0;
   animation:floatIn .9s cubic-bezier(.16,1,.3,1) forwards;
+  will-change:transform,opacity;
 }
 .float-card.phone{
   border-radius:24px;overflow:hidden;
   background:rgba(20,20,20,.9);
 }
-@keyframes floatIn{to{opacity:1;transform:translate(0,0) rotate(var(--rot,0deg));}}
+@keyframes floatIn{
+  from{opacity:0;transform:translateY(30px) rotate(var(--rot,0deg));}
+  to{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));}
+}
 @keyframes gentleFloat{
   0%,100%{transform:translate(0,0) rotate(var(--rot,0deg));}
   50%{transform:translate(0,-8px) rotate(var(--rot,0deg));}
@@ -681,8 +685,7 @@ footer{
   <!-- Floating UI cards — scattered around hero -->
   <div class="hero-floats">
     <!-- Left: mini phone with video ad -->
-    <div class="float-card phone" style="--rot:-4deg;left:4%;top:18%;width:130px;animation-delay:.4s;
-      transform:translate(-20px,30px) rotate(-4deg)">
+    <div class="float-card phone" style="--rot:-4deg;left:4%;top:18%;width:130px;animation-delay:.4s">
       <div style="aspect-ratio:9/16;position:relative;overflow:hidden;border-radius:16px">
         <video src="https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4" autoplay muted loop playsinline
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
@@ -694,8 +697,7 @@ footer{
     </div>
 
     <!-- Left bottom: stats card -->
-    <div class="float-card" style="--rot:2deg;left:8%;bottom:22%;padding:14px 18px;animation-delay:.7s;
-      transform:translate(-20px,20px) rotate(2deg)">
+    <div class="float-card" style="--rot:2deg;left:8%;bottom:22%;padding:14px 18px;animation-delay:.7s">
       <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">This Week</div>
       <div style="display:flex;gap:16px">
         <div><div style="font-size:20px;font-weight:700;color:#fff">4.8x</div><div style="font-size:8px;color:var(--accent)">ROAS</div></div>
@@ -704,8 +706,7 @@ footer{
     </div>
 
     <!-- Right top: notification card -->
-    <div class="float-card" style="--rot:3deg;right:5%;top:20%;padding:12px 16px;animation-delay:.5s;
-      transform:translate(20px,30px) rotate(3deg)">
+    <div class="float-card" style="--rot:3deg;right:5%;top:20%;padding:12px 16px;animation-delay:.5s">
       <div style="display:flex;align-items:center;gap:10px">
         <div style="width:32px;height:32px;border-radius:10px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/><polyline points="22 4 12 14.01 9 11.01" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -718,8 +719,7 @@ footer{
     </div>
 
     <!-- Right: mini phone with photo ad -->
-    <div class="float-card phone" style="--rot:5deg;right:3%;top:42%;width:120px;animation-delay:.8s;
-      transform:translate(20px,20px) rotate(5deg)">
+    <div class="float-card phone" style="--rot:5deg;right:3%;top:42%;width:120px;animation-delay:.8s">
       <div style="aspect-ratio:9/16;position:relative;overflow:hidden;border-radius:16px">
         <img src="https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
@@ -731,8 +731,7 @@ footer{
     </div>
 
     <!-- Right bottom: competitor insight -->
-    <div class="float-card" style="--rot:-2deg;right:7%;bottom:18%;padding:14px 18px;animation-delay:1s;
-      transform:translate(20px,20px) rotate(-2deg)">
+    <div class="float-card" style="--rot:-2deg;right:7%;bottom:18%;padding:14px 18px;animation-delay:1s">
       <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">Competitor Intel</div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <div style="display:flex;align-items:center;gap:6px">
@@ -747,8 +746,7 @@ footer{
     </div>
 
     <!-- Left mid: campaign live badge -->
-    <div class="float-card" style="--rot:-1deg;left:2%;top:52%;padding:10px 16px;animation-delay:.9s;
-      transform:translate(-20px,15px) rotate(-1deg)">
+    <div class="float-card" style="--rot:-1deg;left:2%;top:52%;padding:10px 16px;animation-delay:.9s">
       <div style="display:flex;align-items:center;gap:8px">
         <div style="width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4)"></div>
         <span style="font-size:11px;font-weight:600;color:#fff">3 campaigns live</span>
