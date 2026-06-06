@@ -1173,8 +1173,9 @@ window.addEventListener('scroll', () => {
 
 /* ── Hero floating cards gentle animation ── */
 document.querySelectorAll('.float-card').forEach((card, i) => {
-  const delay = parseFloat(card.style.animationDelay || '0') * 1000 + 900;
+  const delay = parseFloat(card.style.animationDelay || '0') * 1000 + 1200;
   setTimeout(() => {
+    card.style.opacity = '1';
     card.style.animation = `${i % 2 === 0 ? 'gentleFloat' : 'gentleFloat2'} ${4 + i * 0.5}s ease-in-out infinite`;
   }, delay);
 });
