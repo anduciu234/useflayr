@@ -65,8 +65,9 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .nav-logo{
   font-family:var(--font-head);font-size:20px;font-weight:700;
   color:#fff;text-decoration:none;letter-spacing:-.02em;
-  flex-shrink:0;
+  flex-shrink:0;display:flex;align-items:center;
 }
+.nav-logo img{height:20px;width:auto;margin-top:2px;}
 .nav-logo span{color:var(--accent);}
 .nav-links{display:flex;gap:6px;list-style:none;align-items:center;}
 .nav-links a{
@@ -93,239 +94,117 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 
 /* ── Hero ─────────────────────────────────── */
 #hero{
-  min-height:100vh;background:#050508;
-  display:flex;flex-direction:column;align-items:center;
-  padding:80px 24px 0;position:relative;overflow:hidden;
-  overflow-x:clip;
+  min-height:100vh;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:130px 24px 80px;position:relative;overflow:hidden;
 }
-/* Subtle atmospheric glow behind headline */
-.hero-glow{
-  position:absolute;top:22%;left:50%;
-  transform:translate(-50%,-50%);
-  width:1000px;height:600px;
-  background:radial-gradient(ellipse,rgba(56,120,180,.06) 0%,rgba(30,80,140,.03) 40%,transparent 70%);
-  filter:blur(60px);pointer-events:none;
+#hero-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 30%;
+  opacity:.45;
+  mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.4) 70%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.4) 70%,transparent 100%);
 }
-.hero-glow-2{
-  position:absolute;top:55%;left:50%;
-  transform:translate(-50%,-50%);
-  width:1400px;height:400px;
-  background:radial-gradient(ellipse,rgba(0,212,255,.03) 0%,transparent 60%);
-  filter:blur(80px);pointer-events:none;
-}
-/* Curved dark landscape at bottom */
-.hero-floor{
-  position:absolute;bottom:0;left:-10%;right:-10%;height:30vh;
-  background:radial-gradient(ellipse 120% 100% at 50% 100%,rgba(8,8,12,1) 0%,rgba(5,5,8,.0) 100%);
+#hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,.5) 50%,#000 88%);
   pointer-events:none;
 }
+.hero-glow{
+  position:absolute;top:30%;left:50%;
+  transform:translate(-50%,-50%);
+  width:900px;height:700px;
+  background:radial-gradient(ellipse,rgba(0,212,255,.06),transparent 65%);
+  filter:blur(80px);pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:1300px;}
 
-/* ── Hero center column ── */
-.hero-center{
-  position:relative;z-index:5;
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  padding-top:clamp(20px,4vh,60px);
-  max-width:620px;
-}
-.hero-center::after{
-  content:'';position:absolute;
-  top:50%;left:-40px;right:-40px;bottom:-60px;
-  background:radial-gradient(ellipse 100% 100% at 50% 40%,rgba(5,5,8,.9) 0%,transparent 70%);
-  pointer-events:none;z-index:-1;
-}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:24px;
-  opacity:0;transform:translateY(14px);
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-pill);padding:8px 20px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  opacity:0;transform:translateY(16px);
   animation:fadeup .7s .05s cubic-bezier(.16,1,.3,1) forwards;
 }
-.hero-eyebrow::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--accent);box-shadow:0 0 12px var(--accent);
-}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);}
+.hero-badge span{color:rgba(255,255,255,.7);font-size:13px;font-weight:500;letter-spacing:.04em;}
+
 .hero-h1{
-  font-family:var(--font-head);font-weight:800;
-  font-size:clamp(36px,4.8vw,64px);
-  line-height:1.08;letter-spacing:-.04em;
-  margin:0 0 22px;color:#fff;
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(48px,7vw,86px);
+  line-height:1.02;letter-spacing:-.035em;
+  max-width:900px;margin:0 0 26px;
   opacity:0;transform:translateY(18px);
-  animation:fadeup .7s .12s cubic-bezier(.16,1,.3,1) forwards;
+  animation:fadeup .7s .13s cubic-bezier(.16,1,.3,1) forwards;
 }
-.hero-h1 em{
+.hero-h1 .cycling{
+  color:var(--accent);
   font-family:var(--font-accent);font-weight:400;font-style:italic;
-  color:rgba(255,255,255,.85);
+  display:inline-block;transition:opacity .3s ease;
 }
 .hero-sub{
-  font-size:clamp(14px,1.1vw,17px);color:rgba(255,255,255,.45);
-  line-height:1.7;max-width:460px;margin:0 0 32px;
+  font-size:clamp(16px,1.3vw,19px);color:rgba(255,255,255,.45);
+  line-height:1.65;max-width:540px;margin:0 0 44px;
   opacity:0;transform:translateY(16px);
-  animation:fadeup .7s .2s cubic-bezier(.16,1,.3,1) forwards;
+  animation:fadeup .7s .21s cubic-bezier(.16,1,.3,1) forwards;
 }
 .hero-ctas{
-  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+  display:flex;gap:14px;margin-bottom:0;flex-wrap:wrap;justify-content:center;
   opacity:0;transform:translateY(14px);
-  animation:fadeup .7s .28s cubic-bezier(.16,1,.3,1) forwards;
+  animation:fadeup .7s .29s cubic-bezier(.16,1,.3,1) forwards;
 }
 .btn-primary{
   background:var(--accent);color:#000;border:none;
-  padding:14px 36px;border-radius:var(--r-pill);
-  font-family:var(--font-body);font-size:14px;font-weight:600;
+  padding:16px 40px;border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:15px;font-weight:600;
   cursor:pointer;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .35s,filter .28s;
   letter-spacing:-.01em;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
 }
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,212,255,.28);filter:brightness(1.08);}
 .btn-ghost{
-  background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);
+  background:rgba(255,255,255,.04);color:rgba(255,255,255,.8);
   border:1px solid rgba(255,255,255,.08);
-  padding:14px 36px;border-radius:var(--r-pill);
-  font-family:var(--font-body);font-size:14px;font-weight:500;
+  padding:16px 40px;border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:15px;font-weight:500;
   cursor:pointer;backdrop-filter:blur(16px);
   transition:background .3s,border-color .3s;
   text-decoration:none;display:inline-flex;align-items:center;
 }
 .btn-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);}
 
-/* ── Hero product visuals ── */
-.hero-products{
-  position:relative;z-index:3;
-  width:100%;max-width:1440px;
-  margin:-80px auto 0;
-  display:flex;justify-content:space-between;
-  align-items:flex-start;
-  padding:0 clamp(24px,5vw,100px);
-}
-.hero-prod-left,.hero-prod-right{
-  display:flex;flex-direction:column;gap:16px;
-  flex-shrink:0;
-}
-.hero-prod-left{align-items:flex-end;}
-.hero-prod-right{align-items:flex-start;}
+@keyframes fadeup{to{opacity:1;transform:translateY(0);}}
 
-/* Product card base */
-.pc{
-  background:rgba(14,14,14,.8);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:20px;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+/* ── Floating UI cards ───────────────────── */
+.hero-floats{
+  position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+}
+.float-card{
+  position:absolute;
+  background:rgba(12,12,12,.82);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.03) inset;
   opacity:0;
-  animation:pcIn .8s cubic-bezier(.16,1,.3,1) forwards;
+  animation:floatIn .9s cubic-bezier(.16,1,.3,1) forwards;
   will-change:transform,opacity;
-  overflow:hidden;
 }
-.pc.phone{
-  border-radius:24px;
-  background:rgba(18,18,18,.9);
-  padding:5px;
+.float-card.phone{
+  border-radius:24px;overflow:hidden;
+  background:rgba(20,20,20,.9);
 }
-.pc .phone-screen{
-  border-radius:20px;overflow:hidden;position:relative;
-  aspect-ratio:9/16;
-}
-.pc .phone-screen video,.pc .phone-screen img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-}
-
-/* Info chip attached to product */
-.pc-chip{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(14,14,14,.85);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:10px;
-  padding:8px 14px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  box-shadow:0 8px 24px rgba(0,0,0,.4);
-  font-size:12px;color:rgba(255,255,255,.7);font-weight:500;
-  opacity:0;
-  animation:pcIn .6s cubic-bezier(.16,1,.3,1) forwards;
-}
-.pc-chip .chip-dot{
-  width:6px;height:6px;border-radius:50%;
-}
-.pc-chip strong{color:#fff;font-weight:700;}
-
-/* Action card — AI decision */
-.pc-action{
-  background:rgba(14,14,14,.85);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;
-  padding:14px 18px;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  box-shadow:0 12px 40px rgba(0,0,0,.4);
-  opacity:0;
-  animation:pcIn .7s cubic-bezier(.16,1,.3,1) forwards;
-}
-.pc-action-title{
-  font-size:11px;font-weight:600;color:rgba(255,255,255,.45);
-  margin-bottom:8px;
-}
-.pc-action-row{
-  display:flex;align-items:center;gap:8px;
-  font-size:13px;font-weight:600;
-}
-
-/* Bottom batch panel */
-.hero-batch{
-  position:relative;z-index:4;
-  width:100%;max-width:900px;
-  margin:20px auto 0;
-  background:rgba(14,14,14,.82);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:22px 22px 0 0;
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  box-shadow:0 -8px 40px rgba(0,0,0,.4);
-  padding:20px 28px 28px;
-  opacity:0;
-  animation:batchIn 1s .6s cubic-bezier(.16,1,.3,1) forwards;
-}
-.batch-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
-}
-.batch-title{font-size:15px;font-weight:700;color:#fff;}
-.batch-badge{
-  font-size:11px;font-weight:600;color:var(--accent);
-  background:var(--accent-dim);padding:4px 12px;border-radius:8px;
-}
-.batch-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
-}
-.batch-thumb{
-  border-radius:12px;overflow:hidden;
-  aspect-ratio:9/14;position:relative;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.06);
-}
-.batch-thumb video,.batch-thumb img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-}
-.batch-thumb-label{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:8px 10px;
-  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
-  font-size:10px;color:rgba(255,255,255,.7);font-weight:500;
-}
-.batch-thumb-type{
-  font-size:8px;color:var(--accent);margin-top:2px;font-weight:600;
-}
-
-@keyframes fadeup{to{opacity:1;transform:translateY(0);}}
-@keyframes pcIn{
-  from{opacity:0;transform:translateY(30px) scale(.96);}
-  to{opacity:1;transform:translateY(0) scale(1);}
-}
-@keyframes batchIn{
-  from{opacity:0;transform:translateY(40px);}
-  to{opacity:1;transform:translateY(0);}
+@keyframes floatIn{
+  from{opacity:0;transform:translateY(30px) rotate(var(--rot,0deg));}
+  to{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));}
 }
 @keyframes gentleFloat{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-8px);}
+  0%,100%{transform:translate(0,0) rotate(var(--rot,0deg));}
+  50%{transform:translate(0,-8px) rotate(var(--rot,0deg));}
 }
 @keyframes gentleFloat2{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(6px);}
+  0%,100%{transform:translate(0,0) rotate(var(--rot,0deg));}
+  50%{transform:translate(0,6px) rotate(var(--rot,0deg));}
 }
 
 /* ── Stats Bar ───────────────────────────── */
@@ -776,10 +655,7 @@ footer{
   .footer-inner{flex-direction:column;text-align:center;}
   .footer-links{flex-wrap:wrap;justify-content:center;}
   .phase-content{padding:0 16px;}
-  .hero-products{grid-template-columns:1fr;gap:24px;min-height:auto;}
-  .hero-prod-left>div,.hero-prod-right>div{align-items:center!important;padding:0!important;}
-  .hero-batch{margin-top:24px;}
-  .batch-grid{grid-template-columns:repeat(2,1fr);}
+  .hero-floats{display:none;}
 }
 @media(max-width:600px){
   .hero-ctas{flex-direction:column;align-items:center;}
@@ -810,108 +686,140 @@ footer{
 
 <!-- Hero -->
 <section id="hero">
+  <video id="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260514_102933_4e8f73b5-775a-4179-b2fb-472f59063dcd.mp4" type="video/mp4"/>
+  </video>
+  <div id="hero-overlay"></div>
   <div class="hero-glow"></div>
-  <div class="hero-glow-2"></div>
-  <div class="hero-floor"></div>
 
-  <!-- Center: headline + CTAs -->
-  <div class="hero-center">
-    <div class="hero-eyebrow">Your AI ad team</div>
+  <!-- Floating UI cards -->
+  <div class="hero-floats">
+    <div class="float-card" style="--rot:-6deg;left:2%;top:10%;width:260px;padding:0;animation-delay:.3s;overflow:hidden">
+      <div style="padding:16px 18px 12px;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:13px;font-weight:700;color:#fff">This Week's Ads</div>
+          <div style="font-size:10px;color:var(--accent);background:var(--accent-dim);padding:3px 8px;border-radius:6px">5 ready</div>
+        </div>
+      </div>
+      <div style="padding:10px 18px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:48px;border-radius:6px;overflow:hidden;flex-shrink:0;position:relative">
+            <video src="https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;color:#fff;font-weight:600">Summer UGC</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.35)">Talking · Sofia</div>
+          </div>
+          <div style="font-size:9px;color:#34d399;font-weight:600">Ready</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:48px;border-radius:6px;overflow:hidden;flex-shrink:0;position:relative;background:rgba(255,255,255,.04)">
+            <img src="https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;color:#fff;font-weight:600">Product Launch</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.35)">Photo Ad</div>
+          </div>
+          <div style="font-size:9px;color:#34d399;font-weight:600">Ready</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:48px;border-radius:6px;overflow:hidden;flex-shrink:0;position:relative">
+            <video src="https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;color:#fff;font-weight:600">Retargeting</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.35)">Reaction · Marcus</div>
+          </div>
+          <div style="font-size:9px;color:var(--accent);font-weight:600">Generating</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="float-card" style="--rot:3deg;left:14%;top:52%;width:200px;padding:14px 16px;animation-delay:.6s">
+      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">Brand DNA</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">DTC founders, 25–45</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Direct, confident tone</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Bold product shots</span></div>
+      </div>
+    </div>
+
+    <div class="float-card phone" style="--rot:-3deg;left:4%;bottom:4%;width:150px;animation-delay:.8s">
+      <div style="aspect-ratio:9/16;position:relative;overflow:hidden;border-radius:20px">
+        <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+        <div style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);border-radius:8px;padding:5px 10px;display:flex;align-items:center;gap:4px">
+          <span style="font-size:14px;font-weight:800;color:#34d399">+4.8x</span>
+          <span style="font-size:8px;color:rgba(255,255,255,.5)">ROAS</span>
+        </div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(to top,rgba(0,0,0,.9) 20%,transparent)">
+          <div style="background:var(--accent);border-radius:8px;padding:6px 0;text-align:center;font-size:9px;color:#000;font-weight:700">Launch to Meta →</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="float-card" style="--rot:4deg;right:2%;bottom:6%;width:320px;padding:0;animation-delay:.5s;overflow:hidden">
+      <div style="padding:14px 18px 10px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:700;color:#fff">Campaign Performance</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.3)">Last 7 days</div>
+      </div>
+      <div style="padding:12px 18px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.3)"></div>
+            <div><div style="font-size:11px;color:#fff;font-weight:600">Summer UGC</div><div style="font-size:9px;color:rgba(255,255,255,.3)">Talking UGC</div></div>
+          </div>
+          <div style="text-align:right"><div style="font-size:12px;font-weight:700;color:#fff">3.8%</div><div style="font-size:8px;color:rgba(255,255,255,.3)">CTR</div></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.3)"></div>
+            <div><div style="font-size:11px;color:#fff;font-weight:600">Product Launch</div><div style="font-size:9px;color:rgba(255,255,255,.3)">Photo Ad</div></div>
+          </div>
+          <div style="text-align:right"><div style="font-size:12px;font-weight:700;color:#fff">4.2%</div><div style="font-size:8px;color:rgba(255,255,255,.3)">CTR</div></div>
+        </div>
+      </div>
+      <div style="padding:10px 18px 14px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:20px">
+        <div><div style="font-size:16px;font-weight:800;color:#fff">24.8K</div><div style="font-size:8px;color:rgba(255,255,255,.3)">Impressions</div></div>
+        <div><div style="font-size:16px;font-weight:800;color:#fff">892</div><div style="font-size:8px;color:rgba(255,255,255,.3)">Clicks</div></div>
+        <div><div style="font-size:16px;font-weight:800;color:var(--accent)">4.8x</div><div style="font-size:8px;color:rgba(255,255,255,.3)">ROAS</div></div>
+      </div>
+    </div>
+
+    <div class="float-card phone" style="--rot:6deg;right:4%;top:8%;width:130px;animation-delay:.7s">
+      <div style="aspect-ratio:9/16;position:relative;overflow:hidden;border-radius:18px">
+        <img src="https://v3b.fal.media/files/b/0a9b5ebc/Z91lFAtTaGwPekBjSRGJG_PoeBbaRW.png"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)">
+          <div style="font-size:9px;color:#fff;font-weight:600">Photo Ad</div>
+          <div style="font-size:7px;color:var(--accent);margin-top:2px">GPT Image 2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="float-card" style="--rot:-2deg;right:10%;top:48%;width:210px;padding:14px 16px;animation-delay:.9s">
+      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">Competitor Intel</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:#34d399"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Hook: question opener</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:#34d399"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">UGC outperforms studio</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Avg 38 days running</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      <span>AI-Powered Ad Creation</span>
+    </div>
     <h1 class="hero-h1">
-      Your AI ad team,<br>
-      <em>ready every week.</em>
+      Create Meta&nbsp;&amp;&nbsp;TikTok ads<br>
+      <span class="cycling" id="cycling-text">30x faster</span>
     </h1>
-    <p class="hero-sub">Flayr learns your brand, creates ready-to-launch ads, and helps manage performance across Meta and TikTok.</p>
+    <p class="hero-sub">Flayr learns your brand, creates weekly ad creatives, and launches them — all on autopilot.</p>
     <div class="hero-ctas">
-      <a href="https://app.useflayr.com/signup" class="btn-primary">Start creating ads</a>
-      <a href="#showcase" class="btn-ghost">See how it works</a>
-    </div>
-  </div>
-
-  <!-- Product visuals surrounding headline -->
-  <div class="hero-products">
-
-    <!-- LEFT: UGC video phone + AI action card -->
-    <div class="hero-prod-left">
-        <!-- UGC Phone -->
-        <div class="pc phone" style="width:200px;animation-delay:.25s;">
-          <div class="phone-screen">
-            <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline></video>
-            <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(to top,rgba(0,0,0,.9) 30%,transparent)">
-              <div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:500;margin-bottom:4px">Talking UGC · Sofia</div>
-              <div style="font-size:10px;color:var(--accent);font-weight:600">Generated for your brand</div>
-            </div>
-          </div>
-        </div>
-        <!-- AI action card below phone -->
-        <div class="pc-action" style="width:240px;animation-delay:.55s;margin-right:10px;">
-          <div class="pc-action-title">AI Decision</div>
-          <div class="pc-action-row" style="margin-bottom:6px">
-            <div style="width:7px;height:7px;border-radius:50%;background:#f59e0b;flex-shrink:0"></div>
-            <span style="color:rgba(255,255,255,.7);font-size:12px">Creative under-delivering</span>
-          </div>
-          <div class="pc-action-row">
-            <div style="width:7px;height:7px;border-radius:50%;background:#34d399;flex-shrink:0"></div>
-            <span style="color:#34d399;font-size:12px;font-weight:700">Replacement ready</span>
-          </div>
-        </div>
-    </div>
-
-    <!-- RIGHT: Photo ad + campaign card -->
-    <div class="hero-prod-right">
-        <!-- Photo Ad -->
-        <div class="pc phone" style="width:200px;animation-delay:.35s;">
-          <div class="phone-screen">
-            <img src="https://v3b.fal.media/files/b/0a9b5ebc/Z91lFAtTaGwPekBjSRGJG_PoeBbaRW.png" alt="Photo ad preview"/>
-            <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(to top,rgba(0,0,0,.9) 30%,transparent)">
-              <div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:500;margin-bottom:4px">Photo Ad · Product Launch</div>
-              <div style="display:flex;align-items:center;gap:6px">
-                <div style="font-size:10px;color:var(--accent);font-weight:600">Ready for Meta</div>
-                <div style="width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.2)"></div>
-                <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:500">Ready for TikTok</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Campaign performance card -->
-        <div class="pc-action" style="width:250px;animation-delay:.5s;margin-left:10px;">
-          <div class="pc-action-title">Campaign Update</div>
-          <div class="pc-action-row" style="margin-bottom:6px">
-            <div style="width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>
-            <span style="color:rgba(255,255,255,.7);font-size:12px">Flayr increased budget</span>
-          </div>
-          <div class="pc-action-row">
-            <div style="width:7px;height:7px;border-radius:50%;background:#34d399;flex-shrink:0"></div>
-            <span style="color:#fff;font-size:13px;font-weight:700">ROAS 3.8x</span>
-          </div>
-        </div>
-    </div>
-
-  </div>
-
-  <!-- Bottom: weekly batch panel -->
-  <div class="hero-batch">
-    <div class="batch-header">
-      <div class="batch-title">This week's ads</div>
-      <div class="batch-badge">5 creatives ready</div>
-    </div>
-    <div class="batch-grid">
-      <div class="batch-thumb">
-        <video src="https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4" autoplay muted loop playsinline></video>
-        <div class="batch-thumb-label">Summer UGC<div class="batch-thumb-type">Talking UGC</div></div>
-      </div>
-      <div class="batch-thumb">
-        <img src="https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png" alt=""/>
-        <div class="batch-thumb-label">Product Launch<div class="batch-thumb-type">Photo Ad</div></div>
-      </div>
-      <div class="batch-thumb">
-        <video src="https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4" autoplay muted loop playsinline></video>
-        <div class="batch-thumb-label">Retargeting<div class="batch-thumb-type">Reaction UGC</div></div>
-      </div>
-      <div class="batch-thumb">
-        <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline></video>
-        <div class="batch-thumb-label">Brand Story<div class="batch-thumb-type">Custom Video</div></div>
-      </div>
+      <a href="https://app.useflayr.com/signup" class="btn-primary">Start Creating Ads</a>
+      <a href="#showcase" class="btn-ghost">See How It Works</a>
     </div>
   </div>
 </section>
@@ -1315,16 +1223,37 @@ window.addEventListener('scroll', () => {
   navInner.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
 
-/* ── Hero product cards gentle float after entrance ── */
-document.querySelectorAll('.pc, .pc-action').forEach((card, i) => {
-  const delay = parseFloat(card.style.animationDelay || '0') * 1000 + 1400;
+/* ── Hero floating cards gentle animation ── */
+document.querySelectorAll('.float-card').forEach((card, i) => {
+  const delay = parseFloat(card.style.animationDelay || '0') * 1000 + 1200;
   setTimeout(() => {
     card.style.opacity = '1';
-    card.style.animation = `${i % 2 === 0 ? 'gentleFloat' : 'gentleFloat2'} ${5 + i * 0.6}s ease-in-out infinite`;
+    card.style.animation = `${i % 2 === 0 ? 'gentleFloat' : 'gentleFloat2'} ${4 + i * 0.5}s ease-in-out infinite`;
   }, delay);
 });
 
-/* (cycling text removed — static headline now) */
+/* ── Cycling text in hero ────────────────── */
+const CYCLING_STYLES = [
+  { family: "'Instrument Serif', Georgia, serif", weight: '400', style: 'italic' },
+  { family: "'Plus Jakarta Sans', sans-serif", weight: '800', style: 'normal' },
+  { family: "'DM Sans', sans-serif", weight: '300', style: 'italic' },
+  { family: "'Plus Jakarta Sans', sans-serif", weight: '400', style: 'normal' },
+];
+let cycleIdx = 0;
+const cycleEl = document.getElementById('cycling-text');
+if (cycleEl) {
+  setInterval(() => {
+    cycleEl.style.opacity = '0.3';
+    setTimeout(() => {
+      cycleIdx = (cycleIdx + 1) % CYCLING_STYLES.length;
+      const s = CYCLING_STYLES[cycleIdx];
+      cycleEl.style.fontFamily = s.family;
+      cycleEl.style.fontWeight = s.weight;
+      cycleEl.style.fontStyle = s.style;
+      cycleEl.style.opacity = '1';
+    }, 300);
+  }, 2800);
+}
 
 /* ── Scroll Showcase ─────────────────────── */
 const showcase = document.getElementById('showcase');
