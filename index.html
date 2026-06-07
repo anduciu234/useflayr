@@ -1013,17 +1013,12 @@ footer{
           <div class="iphone-shell">
             <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
             <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
-              <div class="iphone-content" style="padding-top:48px;flex:1;display:flex;flex-direction:column;background:linear-gradient(160deg,var(--accent-dim),#000)">
-                <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:14px">
-                  <div>
-                    <div style="font-size:8px;color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase">YOUR AD</div>
-                    <div style="font-size:14px;font-weight:700;color:#fff;margin-top:6px;line-height:1.2">Better hooks.<br/>Better results.</div>
-                  </div>
-                  <div style="display:flex;flex-direction:column;gap:6px">
-                    <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:rgba(255,255,255,.5)">Est. CTR</span><span style="color:#34d399;font-weight:700">4.2%</span></div>
-                    <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:rgba(255,255,255,.5)">ROAS</span><span style="color:#34d399;font-weight:700">5.1x</span></div>
-                    <div style="background:var(--accent);border-radius:12px;padding:8px 0;text-align:center;font-size:10px;color:#000;font-weight:700;margin-top:4px">Shop Now</div>
-                  </div>
+              <div class="iphone-content" style="flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden">
+                <video src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/vidref.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);z-index:5">
+                  <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:4px"><span style="color:rgba(255,255,255,.5)">Est. CTR</span><span style="color:#34d399;font-weight:700">4.2%</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:6px"><span style="color:rgba(255,255,255,.5)">ROAS</span><span style="color:#34d399;font-weight:700">5.1x</span></div>
+                  <div style="background:var(--accent);border-radius:12px;padding:8px 0;text-align:center;font-size:10px;color:#000;font-weight:700">Shop Now</div>
                 </div>
               </div>
             </div>
@@ -1427,31 +1422,27 @@ function updatePhase1(progress) {
 (function setupPhase2() {
   const row = document.getElementById('p2-row');
   if (!row) return;
+  const SB = 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site';
   const competitors = [
-    { name: 'AdAgency Pro', hook: 'Hook → Demo → CTA', accent: '#64748b' },
-    { name: 'CreativeHQ', hook: 'UGC-first strategy', accent: '#78716c' },
-    { name: 'Brandwise', hook: 'Emotional appeal', accent: '#71717a' },
-    { name: 'AdFlow', hook: 'Discount-led hooks', accent: '#6b7280' },
-    { name: 'ViralAds', hook: 'Trend-jacking', accent: '#94a3b8' },
-    { name: 'CreatorLab', hook: 'Influencer UGC', accent: '#a1a1aa' },
-    { name: 'MetaBoost', hook: 'Dynamic product ads', accent: '#9ca3af' },
+    { name: 'AdAgency Pro', hook: 'Hook → Demo → CTA', accent: '#64748b', vid: `${SB}/v1.mp4` },
+    { name: 'CreativeHQ', hook: 'UGC-first strategy', accent: '#78716c', vid: `${SB}/v2.mp4` },
+    { name: 'Brandwise', hook: 'Emotional appeal', accent: '#71717a', vid: `${SB}/v3.mp4` },
+    { name: 'AdFlow', hook: 'Discount-led hooks', accent: '#6b7280', vid: `${SB}/v4.mp4` },
+    { name: 'ViralAds', hook: 'Trend-jacking', accent: '#94a3b8', vid: `${SB}/v5.mp4` },
+    { name: 'CreatorLab', hook: 'Influencer UGC', accent: '#a1a1aa', vid: `${SB}/v6.mp4` },
+    { name: 'MetaBoost', hook: 'Dynamic product ads', accent: '#9ca3af', vid: `${SB}/v7.mp4` },
   ];
   row.innerHTML = competitors.map((c, i) => `
     <div class="p2-phone" data-idx="${i}" style="flex-shrink:0;text-align:center;transition:filter .4s,opacity .4s">
       <div class="iphone" style="width:160px;display:inline-block">
         <div class="iphone-shell" style="border-radius:32px">
-          <div class="iphone-screen" style="border-radius:28px">
+          <div class="iphone-screen" style="border-radius:28px;overflow:hidden">
+            <video src="${c.vid}" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1"></video>
             <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:70px;height:20px;background:#000;border-radius:16px;z-index:10"></div>
             <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:80px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;z-index:10"></div>
-            <div style="padding:38px 12px 12px;flex:1;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:5">
-              <div>
-                <div style="width:20px;height:20px;border-radius:50%;background:${c.accent}20;border:1px solid ${c.accent}40;display:flex;align-items:center;justify-content:center;margin-bottom:8px">
-                  <div style="width:6px;height:6px;border-radius:50%;background:${c.accent}"></div>
-                </div>
-                <div style="font-size:9px;font-weight:700;color:#fff">${c.name}</div>
-                <div style="font-size:7px;color:rgba(255,255,255,.3);margin-top:3px">${c.hook}</div>
-              </div>
-              <div style="background:${c.accent}15;border-radius:8px;padding:5px 0;text-align:center;font-size:7px;color:${c.accent};font-weight:600">View Ad</div>
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);z-index:5">
+              <div style="font-size:9px;font-weight:700;color:#fff">${c.name}</div>
+              <div style="font-size:7px;color:rgba(255,255,255,.4);margin-top:2px">${c.hook}</div>
             </div>
           </div>
         </div>
