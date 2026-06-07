@@ -211,7 +211,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   border:1px solid rgba(255,255,255,.08);
   border-radius:16px;
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.03) inset;
+  box-shadow:0 25px 80px rgba(0,0,0,.7),0 8px 32px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04) inset,0 0 120px rgba(0,0,0,.3);
   opacity:0;
   animation:floatIn .9s cubic-bezier(.16,1,.3,1) forwards;
   will-change:transform,opacity;
@@ -219,6 +219,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .float-card.phone{
   border-radius:24px;overflow:hidden;
   background:rgba(20,20,20,.9);
+  box-shadow:0 30px 100px rgba(0,0,0,.8),0 12px 40px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05) inset;
 }
 @keyframes floatIn{
   from{opacity:0;transform:translateY(30px) rotate(var(--rot,0deg));}
@@ -234,7 +235,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   border:1px solid rgba(255,255,255,.07);
   border-radius:22px 22px 0 0;
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  box-shadow:0 -8px 40px rgba(0,0,0,.4);
+  box-shadow:0 -12px 60px rgba(0,0,0,.6),0 -4px 20px rgba(0,0,0,.4),0 0 120px rgba(0,0,0,.25);
   padding:20px 28px 28px;
   opacity:0;
   animation:batchIn 1s .6s cubic-bezier(.16,1,.3,1) forwards;
@@ -357,6 +358,48 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .phase-title{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,3.5vw,44px);color:#fff;line-height:1.12;letter-spacing:-.02em;text-align:center;margin-bottom:0;}
 .phase-title em{font-family:var(--font-accent);font-weight:400;font-style:italic;}
 
+/* Phase 3 — iMessage notification bubbles */
+.p3-notif{
+  width:min(460px,90vw);
+  background:rgba(22,22,24,.88);
+  backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:18px 20px;
+  display:flex;align-items:flex-start;gap:14px;
+  opacity:0;
+  transform:translateY(24px) scale(.95);
+  transition:none;
+  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 60px rgba(0,212,255,.04),0 0 0 1px rgba(255,255,255,.04) inset;
+}
+.p3-notif-icon{
+  width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  background:linear-gradient(135deg,#00d4ff,#0066ff);
+  box-shadow:0 4px 14px rgba(0,136,255,.25);
+}
+.p3-notif-body{flex:1;min-width:0;}
+.p3-notif-app{
+  font-size:14px;font-weight:600;color:rgba(255,255,255,.9);
+  text-transform:none;letter-spacing:0;
+  margin-bottom:3px;display:flex;align-items:center;gap:6px;
+}
+.p3-notif-app .p3-time{
+  font-weight:400;color:rgba(255,255,255,.3);
+  text-transform:none;letter-spacing:0;font-size:12px;
+  margin-left:auto;
+}
+.p3-notif-msg{
+  font-size:15px;font-weight:400;color:rgba(255,255,255,.75);
+  line-height:1.35;
+}
+.p3-notif-sub{
+  font-size:12px;color:rgba(255,255,255,.35);
+  margin-top:1px;
+  display:none;
+}
+
 /* Phase 2 phone row */
 .p2-phone{position:relative;}
 /* Phase 4 footer positioning */
@@ -432,13 +475,19 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 .phone-ghost{
   position:absolute;top:50%;
-  transform:translateY(-55%) scale(.72);
-  opacity:.22;filter:blur(2.5px);
-  transition:opacity .4s,filter .4s;
+  transform:translateY(-55%) scale(.82);
+  opacity:.35;filter:brightness(.75);
+  transition:opacity .5s,filter .5s;
   pointer-events:none;
 }
-.phone-ghost.left{left:calc(50% - 265px);}
-.phone-ghost.right{right:calc(50% - 265px);}
+.phone-ghost .iphone-screen{overflow:hidden;}
+.phone-ghost .ghost-layer>div{height:100%;}
+.phone-ghost .ghost-layer video,
+.phone-ghost .ghost-layer img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+.phone-ghost.left{left:calc(50% - 300px);}
+.phone-ghost.right{right:calc(50% - 300px);}
 
 /* iPhone 16 Pro */
 .iphone{width:220px;flex-shrink:0;}
@@ -541,14 +590,14 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 
 /* ── Manifesto ───────────────────────────── */
 #manifesto{
-  background:var(--bg);padding:clamp(120px,14vw,200px) clamp(24px,10vw,200px);
-  position:relative;min-height:180vh;
+  background:var(--bg);padding:clamp(80px,10vw,140px) clamp(24px,10vw,200px) clamp(40px,5vw,80px);
+  position:relative;min-height:160vh;
 }
 .manifesto-text{
-  font-family:var(--font-head);font-weight:400;
-  font-size:clamp(22px,3vw,40px);
+  font-family:var(--font-head);font-weight:300;
+  font-size:clamp(24px,3vw,38px);
   line-height:1.45;letter-spacing:-.02em;
-  max-width:780px;margin:0 auto;
+  max-width:840px;margin:0 auto;
 }
 .manifesto-word{
   color:rgba(255,255,255,.08);
@@ -595,10 +644,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   padding-top:24px;
 }
 .compare-table th.col-flayr .flayr-logo-icon{
-  width:40px;height:40px;border-radius:12px;
-  background:var(--accent);
   display:flex;align-items:center;justify-content:center;
-  margin:0 auto 10px;
+  margin:8px auto 10px;
 }
 .compare-table td{
   padding:18px 16px;text-align:center;
@@ -823,7 +870,7 @@ footer{
   <div class="hero-floats">
 
     <!-- UGC Phone -->
-    <div class="float-card phone" style="--rot:5deg;right:8%;top:0;bottom:0;margin:auto 0;height:fit-content;width:150px;animation-delay:.8s">
+    <div class="float-card phone" style="--rot:5deg;right:8%;top:18%;height:fit-content;width:150px;animation-delay:.8s">
       <div style="aspect-ratio:9/16;position:relative;overflow:hidden;border-radius:20px">
         <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
@@ -838,7 +885,7 @@ footer{
     </div>
 
     <!-- Campaign Performance -->
-    <div class="float-card" style="--rot:-3deg;left:6%;top:0;bottom:0;margin:auto 0;height:fit-content;width:320px;padding:0;animation-delay:.5s;overflow:hidden">
+    <div class="float-card" style="--rot:-3deg;left:6%;top:18%;height:fit-content;width:320px;padding:0;animation-delay:.5s;overflow:hidden">
       <div style="padding:14px 18px 10px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between">
         <div style="font-size:13px;font-weight:700;color:#fff">Campaign Performance</div>
         <div style="font-size:9px;color:rgba(255,255,255,.3)">Last 7 days</div>
@@ -951,18 +998,18 @@ footer{
         <h2 class="phase-title">Study what <em>works</em> — then beat it</h2>
       </div>
       <!-- Scrolling phones row with edge fade -->
-      <div id="p2-container" style="margin-top:min(140px,18vh);position:relative;width:100vw;overflow:hidden;height:430px;display:flex;align-items:center;
+      <div id="p2-container" style="margin-top:min(170px,22vh);position:relative;width:100vw;overflow:hidden;height:430px;display:flex;align-items:center;
         mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%);
         -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%)">
         <div id="p2-row" style="display:flex;gap:28px;align-items:center;will-change:transform;padding:0 35vw;flex-shrink:0"></div>
       </div>
       <!-- Your version — pops up centered -->
-      <div id="p2-your" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.6);opacity:0;z-index:20;pointer-events:none;text-align:center;transition:none">
+      <div id="p2-your" style="position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) scale(.6);opacity:0;z-index:20;pointer-events:none;text-align:center;transition:none">
         <!-- green aura -->
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:320px;height:450px;border-radius:50%;
-          background:radial-gradient(ellipse,rgba(52,211,153,.18),rgba(0,212,255,.06) 50%,transparent 75%);
-          filter:blur(30px);pointer-events:none;z-index:-1"></div>
-        <div class="iphone" style="width:220px;display:inline-block;box-shadow:0 0 80px rgba(52,211,153,.15),0 30px 80px rgba(0,0,0,.5)">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:280px;height:400px;border-radius:50%;
+          background:radial-gradient(ellipse,rgba(52,211,153,.1),transparent 65%);
+          filter:blur(40px);pointer-events:none;z-index:-1"></div>
+        <div class="iphone" style="width:220px;display:inline-block;box-shadow:0 0 40px rgba(52,211,153,.1),0 20px 50px rgba(0,0,0,.3)">
           <div class="iphone-shell">
             <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
             <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
@@ -989,38 +1036,14 @@ footer{
       </div>
     </div>
 
-    <!-- Phase 3: Weekly Ad Gen -->
+    <!-- Phase 3: Weekly Ad Gen — iMessage notification style -->
     <div class="phase" id="phase-3" style="opacity:0;pointer-events:none">
       <div id="p3-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
         <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
         <h2 class="phase-title">5 fresh ads, <em>every week</em></h2>
       </div>
-      <div style="display:flex;align-items:center;gap:clamp(32px,4vw,72px);margin-top:min(140px,18vh)">
-        <!-- Left: status list -->
-        <div id="p3-status" style="width:220px;display:flex;flex-direction:column;gap:10px;will-change:transform,opacity">
-          <!-- filled by JS -->
-        </div>
-        <!-- Center: iPhone -->
-        <div id="p3-phone-wrap" style="will-change:transform,opacity">
-          <div class="iphone" style="width:220px">
-            <div class="iphone-shell">
-              <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
-              <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
-                <div id="p3-feed" class="iphone-content" style="padding-top:48px;flex:1;display:flex;flex-direction:column;background:#000">
-                  <div id="p3-feed-items" style="flex:1;padding:8px;display:flex;flex-direction:column;gap:6px;overflow:hidden"></div>
-                  <div style="padding:8px 10px 16px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:center">
-                    <div id="p3-launch-pill" style="font-size:8px;color:var(--accent);background:var(--accent-dim);padding:5px 14px;border-radius:8px;font-weight:700;opacity:0;transition:opacity .4s">5/5 Ads Ready — Review &amp; Launch →</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Right: counter -->
-        <div id="p3-counter" style="text-align:center;opacity:0;will-change:transform,opacity">
-          <div id="p3-count-num" style="font-size:clamp(48px,6vw,80px);font-weight:800;font-family:var(--font-head);color:var(--accent);line-height:1;opacity:.15">0/5</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.25);margin-top:8px">ads generated<br>this week</div>
-        </div>
+      <div id="p3-notif-area" style="margin-top:min(160px,20vh);display:flex;flex-direction:column;align-items:center;gap:14px;position:relative">
+        <!-- Notification bubbles — filled by JS -->
       </div>
     </div>
 
@@ -1198,7 +1221,7 @@ footer{
 </section>
 
 <!-- Why Flayr -->
-<section id="why" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;">
+<section id="why" style="background:var(--bg);padding:clamp(60px,8vw,120px) 24px;position:relative;">
   <div class="divider-line"></div>
   <div class="sec-head rv">
     <div class="sec-eyebrow">Why Flayr</div>
@@ -1212,7 +1235,7 @@ footer{
           <th></th>
           <th class="col-flayr">
             <div class="flayr-logo-icon">
-              <img src="logo.png" alt="Flayr" style="height:16px;width:auto;filter:brightness(0) invert(1)"/>
+              <img src="logo.png" alt="Flayr" style="height:28px;width:auto;filter:brightness(0) invert(1)"/>
             </div>
           </th>
           <th>Agency</th>
@@ -1478,82 +1501,44 @@ function updatePhase2(progress) {
 }
 
 /* ── Phase 3: Weekly Ad Gen ───────────── */
-const P3_ADS = [
-  { type: 'Talking UGC', format: '9:16', icon: '🎤', color: 'var(--accent)' },
-  { type: 'Photo Ad', format: '1:1', icon: '📸', color: '#34d399' },
-  { type: 'Reaction UGC', format: '9:16', icon: '😲', color: '#a78bfa' },
-  { type: 'Photo Ad', format: '4:5', icon: '🖼', color: '#fb923c' },
-  { type: 'Custom Video', format: '9:16', icon: '🎬', color: '#f472b6' },
+const P3_NOTIFS = [
+  { icon: '🎬', app: 'Flayr', msg: 'Your Talking UGC ad is ready to preview.', time: 'now' },
+  { icon: '📸', app: 'Flayr', msg: 'Photo Ad generated — "Summer Collection"', time: '1m ago' },
+  { icon: '😲', app: 'Flayr', msg: 'Reaction UGC complete. Tap to review.', time: '2m ago' },
+  { icon: '🖼', app: 'Flayr', msg: 'New Photo Ad variant ready for A/B test.', time: '3m ago' },
+  { icon: '🚀', app: 'Flayr', msg: '5/5 ads ready — Review & Launch to Meta →', time: '5m ago' },
 ];
 
 (function setupPhase3() {
-  const statusEl = document.getElementById('p3-status');
-  const feedEl = document.getElementById('p3-feed-items');
-  if (!statusEl || !feedEl) return;
-  statusEl.innerHTML = P3_ADS.map((ad, i) => `
-    <div class="p3-si" data-i="${i}" style="opacity:0;transform:translateX(-20px);display:flex;align-items:center;gap:12px;padding:12px 16px;
-      background:rgba(255,255,255,.01);border-radius:12px;border:1px solid rgba(255,255,255,.03);transition:none">
-      <span style="font-size:18px">${ad.icon}</span>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#fff">${ad.type}</div><div style="font-size:10px;color:rgba(255,255,255,.3)">${ad.format}</div></div>
-      <div class="p3-dot" style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .4s"></div>
-    </div>
-  `).join('');
-  feedEl.innerHTML = P3_ADS.map((ad, i) => `
-    <div class="p3-fi" data-i="${i}" style="opacity:0;transform:translateY(20px) scale(.95);
-      background:rgba(255,255,255,.04);border-radius:10px;padding:10px;
-      display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.04);transition:none">
-      <div style="width:36px;height:44px;border-radius:6px;flex-shrink:0;
-        background:linear-gradient(135deg,${ad.color.replace('var(--accent)','rgba(0,212,255,.6)')}30,rgba(255,255,255,.02));
-        display:flex;align-items:center;justify-content:center;font-size:14px">${ad.icon}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:9px;font-weight:600;color:#fff">${ad.type}</div>
-        <div style="font-size:7px;color:rgba(255,255,255,.3)">${ad.format} · Ready</div>
+  const area = document.getElementById('p3-notif-area');
+  if (!area) return;
+  area.innerHTML = P3_NOTIFS.map((n, i) => `
+    <div class="p3-notif" data-i="${i}">
+      <div class="p3-notif-icon">${n.icon}</div>
+      <div class="p3-notif-body">
+        <div class="p3-notif-app">${n.app} <span class="p3-time">${n.time}</span></div>
+        <div class="p3-notif-msg">${n.msg}</div>
       </div>
-      <div style="font-size:6px;color:#34d399;font-weight:700;background:rgba(52,211,153,.1);padding:2px 5px;border-radius:4px">✓</div>
     </div>
   `).join('');
 })();
 
 function updatePhase3(progress) {
-  const statusEl = document.getElementById('p3-status');
-  const phoneWrap = document.getElementById('p3-phone-wrap');
-  const counterEl = document.getElementById('p3-counter');
-  const countNum = document.getElementById('p3-count-num');
-  const launchPill = document.getElementById('p3-launch-pill');
-  if (!statusEl || !phoneWrap) return;
+  const area = document.getElementById('p3-notif-area');
+  if (!area) return;
+  const notifs = area.querySelectorAll('.p3-notif');
+  const N = notifs.length;
 
-  const enterP = eo(mr(progress, 0, 0.25, 0, 1));
-  const buildP = mr(progress, 0.15, 0.75, 0, 1);
-  const exitP = eo(mr(progress, 0.8, 1, 0, 1));
+  const enterP = eo(mr(progress, 0, 0.2, 0, 1));
+  const exitP = eo(mr(progress, 0.82, 1, 0, 1));
 
-  statusEl.style.opacity = enterP * (1 - exitP);
-  statusEl.style.transform = `translateX(${lerp(-40, 0, enterP)}px)`;
-  phoneWrap.style.opacity = enterP * (1 - exitP);
-  phoneWrap.style.transform = `scale(${lerp(0.9, 1, enterP)})`;
-  if (counterEl) {
-    counterEl.style.opacity = enterP * (buildP > 0.25 ? 1 : 0) * (1 - exitP);
-    counterEl.style.transform = `translateX(${lerp(40, 0, enterP)}px)`;
-  }
-  if (countNum) countNum.textContent = `${Math.round(lerp(0, 5, Math.min(1, buildP * 1.5)))}/5`;
-  if (launchPill) launchPill.style.opacity = buildP > 0.72 ? '1' : '0';
+  notifs.forEach((el, i) => {
+    const stagger = i * 0.12;
+    const cardP = eo(mr(progress, 0.08 + stagger, 0.08 + stagger + 0.2, 0, 1));
+    const vis = cardP * (1 - exitP);
 
-  // Animate each status + feed item
-  const statusItems = statusEl.querySelectorAll('.p3-si');
-  const feedItems = document.querySelectorAll('#p3-feed-items .p3-fi');
-  [statusItems, feedItems].forEach(list => {
-    list.forEach((el, i) => {
-      const cardP = eo(mr(buildP, i * 0.14, i * 0.14 + 0.28, 0, 1));
-      const isReady = cardP > 0.8;
-      el.style.opacity = cardP * (1 - exitP);
-      el.style.transform = el.classList.contains('p3-si')
-        ? `translateX(${lerp(-20, 0, cardP)}px)`
-        : `translateY(${lerp(20, 0, cardP)}px) scale(${lerp(0.95, 1, cardP)})`;
-      if (el.classList.contains('p3-si')) {
-        const dot = el.querySelector('.p3-dot');
-        if (dot) dot.style.background = isReady ? '#34d399' : 'rgba(255,255,255,.1)';
-        if (dot && isReady) dot.style.boxShadow = '0 0 8px rgba(52,211,153,.4)';
-      }
-    });
+    el.style.opacity = vis;
+    el.style.transform = `translateY(${lerp(24, 0, cardP)}px) scale(${lerp(0.95, 1, cardP)})`;
   });
 }
 
@@ -1704,56 +1689,48 @@ window.addEventListener('scroll', () => {
   if (p4 > 0.05) updatePhase4(p4prog);
 }, { passive: true });
 
-/* ── Ad Formats carousel — Claude design ─── */
-// Real media from Supabase — different video per format
-const VIDEOS = [
-  'https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4',
-  'https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4',
-  'https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4',
-  'https://v3b.fal.media/files/b/0a9bcb30/_bI8Wmd7FphXKaEKnmdff_output.mp4',
-  'https://v3b.fal.media/files/b/0a9bb9f9/zH8GhG7WrconSsrzOEdJj_output.mp4',
-];
-const PHOTOS = [
-  'https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png',
-  'https://v3b.fal.media/files/b/0a9b5ebc/Z91lFAtTaGwPekBjSRGJG_PoeBbaRW.png',
-  'https://v3b.fal.media/files/b/0a9b5e5f/rKV23hyMWXihvTSK06dPk_wH5YjmAt.png',
-  'https://v3b.fal.media/files/b/0a9afefe/SOpCa8B9fC2la4rkPpnt0_lAz3HTyR.png',
-  'https://v3b.fal.media/files/b/0a9aee18/3UGMsWReSC7VGxGYRuXKR_pthW3fdl.png',
-];
-let vidIdx = 0;
-let photoIdx = 0;
-function nextVid() { const u = VIDEOS[vidIdx % VIDEOS.length]; vidIdx++; return u; }
-function nextPhoto() { const u = PHOTOS[photoIdx % PHOTOS.length]; photoIdx++; return u; }
-
-function videoSlide(caption, sub) {
-  const url = nextVid();
-  return `<div style="flex:1;position:relative;overflow:hidden">
-    <video src="${url}" autoplay muted loop playsinline
-      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;
-      background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%)">
-      <div style="font-size:11px;color:#fff;font-weight:600">${caption}</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">${sub}</div>
-    </div>
-  </div>`;
-}
-
-function photoSlide() {
-  const url = nextPhoto();
-  return `<div style="flex:1;position:relative;overflow:hidden">
-    <img src="${url}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
-    <div style="position:absolute;bottom:12px;left:12px;right:12px">
-      <div style="background:var(--accent);border-radius:10px;padding:9px 0;
-        text-align:center;font-size:10px;color:#000;font-weight:700">Shop Now</div>
-    </div>
-  </div>`;
-}
-
+/* ── Ad Formats carousel ─────────────────── */
+// Each format has a FIXED media URL — no rotating/swapping
 const FORMAT_DATA = [
-  { name: 'Talking UGC',   render: () => videoSlide('"This changed everything..."', 'AI Creator · Kling 3.0') },
-  { name: 'Photo Ad',      render: () => photoSlide() },
-  { name: 'Reaction UGC',  render: () => videoSlide('Silent reaction · 3s clip', 'AI Creator · Kling 3.0') },
-  { name: 'Custom Video',  render: () => videoSlide('"Remixed from TikTok trend"', 'Reference-driven · Kling 3.0') },
+  {
+    name: 'Talking UGC',
+    html: `<div style="flex:1;position:relative;overflow:hidden">
+      <video src="https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)">
+        <div style="font-size:11px;color:#fff;font-weight:600">"This changed everything..."</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
+      </div>
+    </div>`
+  },
+  {
+    name: 'Photo Ad',
+    html: `<div style="flex:1;position:relative;overflow:hidden">
+      <img src="https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
+      <div style="position:absolute;bottom:12px;left:12px;right:12px">
+        <div style="background:var(--accent);border-radius:10px;padding:9px 0;text-align:center;font-size:10px;color:#000;font-weight:700">Shop Now</div>
+      </div>
+    </div>`
+  },
+  {
+    name: 'Reaction UGC',
+    html: `<div style="flex:1;position:relative;overflow:hidden">
+      <video src="https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)">
+        <div style="font-size:11px;color:#fff;font-weight:600">Silent reaction · 3s clip</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
+      </div>
+    </div>`
+  },
+  {
+    name: 'Custom Video',
+    html: `<div style="flex:1;position:relative;overflow:hidden">
+      <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)">
+        <div style="font-size:11px;color:#fff;font-weight:600">"Remixed from TikTok trend"</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">Reference-driven · Kling 3.0</div>
+      </div>
+    </div>`
+  },
 ];
 
 let activeFmt = 0;
@@ -1767,7 +1744,7 @@ function initGhosts() {
     const el = document.getElementById(id);
     if (!el) return;
     el.innerHTML = FORMAT_DATA.map((fmt, i) =>
-      `<div class="ghost-layer" data-fmt="${i}" style="position:absolute;inset:0;display:flex;flex-direction:column;padding-top:44px;opacity:0;transition:opacity .4s ease">${fmt.render()}</div>`
+      `<div class="ghost-layer" data-fmt="${i}" style="position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transition:opacity .4s ease">${fmt.html}</div>`
     ).join('');
     el.style.position = 'relative';
   });
@@ -1808,7 +1785,7 @@ function updateGhosts() {
           <div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
           <div class="iphone-screen">
             ${CHROME}
-            <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">${fmt.render()}</div>
+            <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">${fmt.html}</div>
           </div>
         </div>
       </div>
