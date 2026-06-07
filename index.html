@@ -11,7 +11,7 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;scrollbar-width:none;}
@@ -32,7 +32,7 @@ html::-webkit-scrollbar{display:none;}
   --txt2:rgba(255,255,255,0.5);
   --txt3:rgba(255,255,255,0.2);
   --r-sm:12px;--r:16px;--r-lg:24px;--r-pill:100px;
-  --font-head:'Plus Jakarta Sans',-apple-system,sans-serif;
+  --font-head:'Inter',-apple-system,sans-serif;
   --font-body:'DM Sans',-apple-system,sans-serif;
   --font-accent:'Instrument Serif',Georgia,serif;
 }
@@ -67,7 +67,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   color:#fff;text-decoration:none;letter-spacing:-.02em;
   flex-shrink:0;display:flex;align-items:center;
 }
-.nav-logo img{height:18px;width:auto;}
+.nav-logo img{height:18px;width:auto;margin-top:3px;}
 .nav-logo span{color:var(--accent);}
 .nav-links{display:flex;gap:6px;list-style:none;align-items:center;}
 .nav-links a{
@@ -109,7 +109,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 #hero-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,.5) 50%,#000 88%);
+  background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,.5) 50%,#000 100%);
   pointer-events:none;
 }
 
@@ -131,7 +131,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 /* Curved dark landscape at bottom */
 .hero-floor{
   position:absolute;bottom:0;left:-10%;right:-10%;height:30vh;
-  background:radial-gradient(ellipse 120% 100% at 50% 100%,rgba(8,8,12,1) 0%,rgba(5,5,8,.0) 100%);
+  background:radial-gradient(ellipse 120% 100% at 50% 100%,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%);
   pointer-events:none;
 }
 
@@ -145,7 +145,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .hero-center::after{
   content:'';position:absolute;
   top:50%;left:-40px;right:-40px;bottom:-60px;
-  background:radial-gradient(ellipse 100% 100% at 50% 40%,rgba(5,5,8,.9) 0%,transparent 70%);
+  background:radial-gradient(ellipse 100% 100% at 50% 40%,rgba(0,0,0,.9) 0%,transparent 70%);
   pointer-events:none;z-index:-1;
 }
 .hero-eyebrow{
@@ -790,18 +790,8 @@ footer{
   <!-- Floating UI cards -->
   <div class="hero-floats">
 
-    <!-- Brand DNA -->
-    <div class="float-card" style="--rot:3deg;left:14%;top:52%;width:200px;padding:14px 16px;animation-delay:.6s">
-      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">Brand DNA</div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">DTC founders, 25–45</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Direct, confident tone</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Bold product shots</span></div>
-      </div>
-    </div>
-
     <!-- UGC Phone -->
-    <div class="float-card phone" style="--rot:5deg;right:10%;top:6%;width:150px;animation-delay:.8s">
+    <div class="float-card phone" style="--rot:5deg;right:8%;top:0;bottom:0;margin:auto 0;height:fit-content;width:150px;animation-delay:.8s">
       <div style="aspect-ratio:9/16;position:relative;overflow:hidden;border-radius:20px">
         <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
@@ -816,7 +806,7 @@ footer{
     </div>
 
     <!-- Campaign Performance -->
-    <div class="float-card" style="--rot:-3deg;left:8%;top:8%;width:320px;padding:0;animation-delay:.5s;overflow:hidden">
+    <div class="float-card" style="--rot:-3deg;left:6%;top:0;bottom:0;margin:auto 0;height:fit-content;width:320px;padding:0;animation-delay:.5s;overflow:hidden">
       <div style="padding:14px 18px 10px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between">
         <div style="font-size:13px;font-weight:700;color:#fff">Campaign Performance</div>
         <div style="font-size:9px;color:rgba(255,255,255,.3)">Last 7 days</div>
@@ -841,16 +831,6 @@ footer{
         <div><div style="font-size:16px;font-weight:800;color:#fff">24.8K</div><div style="font-size:8px;color:rgba(255,255,255,.3)">Impressions</div></div>
         <div><div style="font-size:16px;font-weight:800;color:#fff">892</div><div style="font-size:8px;color:rgba(255,255,255,.3)">Clicks</div></div>
         <div><div style="font-size:16px;font-weight:800;color:var(--accent)">4.8x</div><div style="font-size:8px;color:rgba(255,255,255,.3)">ROAS</div></div>
-      </div>
-    </div>
-
-    <!-- Competitor Intel -->
-    <div class="float-card" style="--rot:-2deg;right:10%;top:48%;width:210px;padding:14px 16px;animation-delay:.9s">
-      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">Competitor Intel</div>
-      <div style="display:flex;flex-direction:column;gap:7px">
-        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:#34d399"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Hook: question opener</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:#34d399"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">UGC outperforms studio</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div><span style="font-size:11px;color:rgba(255,255,255,.7)">Avg 38 days running</span></div>
       </div>
     </div>
 
@@ -900,7 +880,7 @@ footer{
     <div class="showcase-glow"></div>
 
     <!-- Phase 1: Brand Intelligence -->
-    <div class="phase" id="phase-1">
+    <div class="phase" id="phase-1" style="opacity:0;pointer-events:none">
       <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:28px;width:100%">
         <div style="text-align:center">
           <div class="phase-eyebrow">01 — Brand Intelligence</div>
@@ -1334,35 +1314,40 @@ function mr(p, a, b) { return Math.max(0, Math.min(1, (p - a) / (b - a))); }
 function eo(t) { return 1 - Math.pow(1 - t, 3); }
 function lerp(a, b, t) { return a + (b - a) * t; }
 
-/* ── Phase 1: Brand Intelligence ──────── */
-let phase1Animated = false;
-function animatePhase1() {
-  if (phase1Animated) return;
-  phase1Animated = true;
+/* ── Phase 1: Brand Intelligence (scroll-driven) ── */
+function updatePhase1(progress) {
   const url = 'https://yourbrand.com';
   const typedEl = document.getElementById('url-typed');
   const urlBar = document.getElementById('url-bar');
   const urlBtn = document.getElementById('url-btn');
   const analysisBox = document.getElementById('analysis-box');
-  let i = 0;
-  const timer = setInterval(() => {
-    i++;
+  if (!typedEl) return;
+
+  // 0–0.4: type URL letter by letter
+  const typeP = mr(progress, 0.05, 0.4);
+  const chars = Math.round(typeP * url.length);
+  if (chars === 0) {
+    typedEl.style.color = 'rgba(255,255,255,.2)';
+    typedEl.textContent = 'Enter your website URL...';
+    if (urlBar) urlBar.classList.remove('active');
+    if (urlBtn) { urlBtn.classList.remove('active'); urlBtn.textContent = 'Analyze'; }
+    if (analysisBox) { analysisBox.style.opacity = '0'; analysisBox.style.transform = 'translateY(20px)'; }
+  } else {
     typedEl.style.color = '#fff';
-    typedEl.innerHTML = url.substring(0, i) + '<span style="color:var(--accent);animation:blink .9s infinite">|</span>';
-    if (i >= url.length) {
-      clearInterval(timer);
-      setTimeout(() => {
-        urlBar.classList.add('active');
-        urlBtn.classList.add('active');
-        urlBtn.textContent = 'Analyzing...';
-        setTimeout(() => {
-          urlBtn.textContent = 'Done ✓';
-          analysisBox.style.opacity = '1';
-          analysisBox.style.transform = 'translateY(0)';
-        }, 1100);
-      }, 350);
-    }
-  }, 55);
+    typedEl.innerHTML = url.substring(0, chars) + (typeP < 1 ? '<span style="color:var(--accent);animation:blink .9s infinite">|</span>' : '');
+  }
+
+  // 0.4–0.55: activate bar + analyzing
+  const analyzeP = mr(progress, 0.4, 0.55);
+  if (analyzeP > 0 && urlBar) urlBar.classList.add('active');
+  if (analyzeP > 0 && urlBtn) { urlBtn.classList.add('active'); urlBtn.textContent = analyzeP < 0.8 ? 'Analyzing...' : 'Done ✓'; }
+
+  // 0.55–0.75: show analysis results
+  const resultsP = eo(mr(progress, 0.55, 0.75));
+  if (analysisBox) {
+    analysisBox.style.opacity = resultsP;
+    analysisBox.style.transform = `translateY(${lerp(20, 0, resultsP)}px)`;
+  }
 }
 
 /* ── Phase 2: Competitor Learning ──────── */
@@ -1633,19 +1618,20 @@ window.addEventListener('scroll', () => {
   const prog = Math.max(0, Math.min(1, -rect.top / total));
   const phase = prog * 4; // 0–4
 
-  // Phase opacity envelopes — overlapping, matching the original design
+  // Phase opacity envelopes — smooth overlapping transitions
+  const p1Enter = eo(mr(phase, 0.0, 0.15));
   const p1Exit = eo(mr(phase, 0.8, 1.0));
-  const p1 = phase < 1.2 ? (1 - p1Exit) : 0;
+  const p1 = phase < 1.2 ? p1Enter * (1 - p1Exit) : 0;
 
-  const p2Enter = eo(mr(phase, 1.0, 1.35));
-  const p2Exit = eo(mr(phase, 1.8, 2.1));
-  const p2 = (phase >= 0.7 && phase < 2.4) ? p2Enter * (1 - p2Exit) : 0;
+  const p2Enter = eo(mr(phase, 0.9, 1.2));
+  const p2Exit = eo(mr(phase, 1.8, 2.05));
+  const p2 = (phase >= 0.7 && phase < 2.3) ? p2Enter * (1 - p2Exit) : 0;
 
-  const p3Enter = eo(mr(phase, 2.1, 2.35));
+  const p3Enter = eo(mr(phase, 1.95, 2.2));
   const p3Exit = eo(mr(phase, 2.8, 3.0));
   const p3 = (phase >= 1.8 && phase < 3.3) ? p3Enter * (1 - p3Exit) : 0;
 
-  const p4Enter = eo(mr(phase, 3.0, 3.25));
+  const p4Enter = eo(mr(phase, 2.9, 3.15));
   const p4 = phase >= 2.7 ? p4Enter : 0;
 
   [p1, p2, p3, p4].forEach((opacity, i) => {
@@ -1656,16 +1642,15 @@ window.addEventListener('scroll', () => {
   });
 
   // Per-phase progress for internal animations
-  const p2prog = mr(phase, 1.0, 2.1, 0, 1);
-  const p3prog = mr(phase, 2.1, 3.0, 0, 1);
-  const p4prog = mr(phase, 3.0, 4.0, 0, 1);
+  const p1prog = mr(phase, 0.0, 1.0);
+  const p2prog = mr(phase, 1.0, 2.05);
+  const p3prog = mr(phase, 2.05, 3.0);
+  const p4prog = mr(phase, 3.0, 4.0);
 
+  if (p1 > 0.05) updatePhase1(p1prog);
   if (p2 > 0.05) updatePhase2(p2prog);
   if (p3 > 0.05) updatePhase3(p3prog);
   if (p4 > 0.05) updatePhase4(p4prog);
-
-  // Phase 1 URL animation
-  if (phase >= 0.12 && p1 > 0.1) animatePhase1();
 }, { passive: true });
 
 /* ── Ad Formats carousel — Claude design ─── */
