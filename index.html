@@ -103,7 +103,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.30;
+  opacity:.20;
   mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
   -webkit-mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
 }
@@ -171,6 +171,28 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .hero-h1 em{
   font-family:var(--font-accent);font-weight:400;font-style:italic;
   color:rgba(255,255,255,.85);
+  position:relative;display:inline-block;
+}
+.hero-h1 em::after{
+  content:'weekly creatives.';
+  position:absolute;inset:0;
+  background:linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0,212,255,.45) 35%,
+    rgba(0,212,255,.7) 50%,
+    rgba(0,212,255,.45) 65%,
+    transparent 100%
+  );
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:waveGlow 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes waveGlow{
+  0%{background-position:200% 0;}
+  100%{background-position:-200% 0;}
 }
 .hero-sub{
   font-size:clamp(14px,1.1vw,17px);color:rgba(255,255,255,.45);
