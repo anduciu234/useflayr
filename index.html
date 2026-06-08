@@ -410,9 +410,9 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,
              0 40px 80px rgba(0,0,0,.6),
              0 0 60px rgba(0,212,255,.03);
-  opacity:.4;flex-shrink:0;
+  opacity:.6;flex-shrink:0;
   overflow:hidden;
-  margin-top:40px;
+  margin-top:100px;
   mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
   -webkit-mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
 }
@@ -443,7 +443,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   font-size:11px;color:rgba(255,255,255,.1);margin-top:-4px;
 }
 .p3-notif-stack{
-  position:absolute;top:120px;left:50%;transform:translateX(-50%);
+  position:absolute;top:60px;left:50%;transform:translateX(-50%);
   width:min(440px,90vw);z-index:2;
   height:80px;
 }
@@ -1581,7 +1581,7 @@ function updatePhase3(progress) {
   // Phone fades in first
   if (phone) {
     const phoneP = eo(mr(progress, 0, 0.15, 0, 1));
-    phone.style.opacity = lerp(0, 0.4, phoneP) * (1 - exitP);
+    phone.style.opacity = lerp(0, 0.6, phoneP) * (1 - exitP);
     phone.style.transform = `translateY(${lerp(40, 0, phoneP)}px)`;
   }
 
