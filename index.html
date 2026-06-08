@@ -412,7 +412,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
              0 0 60px rgba(0,212,255,.03);
   opacity:.4;flex-shrink:0;
   overflow:hidden;
-  margin-top:-40px;
+  margin-top:40px;
   mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
   -webkit-mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
 }
@@ -443,12 +443,12 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   font-size:11px;color:rgba(255,255,255,.1);margin-top:-4px;
 }
 .p3-notif-stack{
-  position:absolute;bottom:340px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:12px;
+  position:absolute;top:120px;left:50%;transform:translateX(-50%);
   width:min(440px,90vw);z-index:2;
+  height:80px;
 }
 .p3-notif{
-  width:100%;
+  position:absolute;top:0;left:0;right:0;
   background:rgba(22,22,24,.92);
   backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
   border:1px solid rgba(255,255,255,.08);
@@ -456,7 +456,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   padding:16px 18px;
   display:flex;align-items:flex-start;gap:14px;
   opacity:0;
-  transform:translateY(60px) scale(.92);
+  transform:translateY(40px) scale(.92);
   box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04) inset;
 }
 .p3-notif-icon{
@@ -1585,7 +1585,7 @@ function updatePhase3(progress) {
     phone.style.transform = `translateY(${lerp(40, 0, phoneP)}px)`;
   }
 
-  // Each notif appears at the same position, fades out in place as next arrives
+  // Each notif: enter from below → rest at Y=0 → exit upward
   const slotSize = 0.7 / N;
   notifs.forEach((el, i) => {
     const start = 0.1 + i * slotSize;
@@ -1597,9 +1597,10 @@ function updatePhase3(progress) {
     const outVal = i < N - 1 ? eo(mr(progress, holdEnd, outEnd, 0, 1)) : 0;
     const vis = enterVal * (1 - outVal) * (1 - exitP);
 
-    // All notifs enter from same Y (40px below) and sit at Y=0, fade out at Y=0
+    // Enter: Y 40→0, Exit: Y 0→-30
+    const y = outVal > 0 ? lerp(0, -30, outVal) : lerp(40, 0, enterVal);
     el.style.opacity = vis;
-    el.style.transform = `translateY(${lerp(40, 0, enterVal)}px) scale(${lerp(0.92, 1, enterVal)})`;
+    el.style.transform = `translateY(${y}px) scale(${lerp(0.92, 1, enterVal)})`;
   });
 }
 
