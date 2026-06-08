@@ -412,6 +412,9 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
              0 0 60px rgba(0,212,255,.03);
   opacity:.25;flex-shrink:0;
   overflow:hidden;
+  margin-top:-20px;
+  mask-image:linear-gradient(to bottom,black 0%,black 45%,rgba(0,0,0,.3) 70%,transparent 90%);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 45%,rgba(0,0,0,.3) 70%,transparent 90%);
 }
 .p3-phone::before{
   content:'';position:absolute;
@@ -440,7 +443,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   font-size:11px;color:rgba(255,255,255,.1);margin-top:-4px;
 }
 .p3-notif-stack{
-  position:absolute;bottom:280px;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:340px;left:50%;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:12px;
   width:min(440px,90vw);z-index:2;
 }
@@ -1571,6 +1574,7 @@ function updatePhase3(progress) {
   const phone = document.getElementById('p3-phone');
   if (!area) return;
   const notifs = area.querySelectorAll('.p3-notif');
+  const N = notifs.length; // 3
 
   const exitP = eo(mr(progress, 0.82, 1, 0, 1));
 
@@ -1578,18 +1582,23 @@ function updatePhase3(progress) {
   if (phone) {
     const phoneP = eo(mr(progress, 0, 0.15, 0, 1));
     phone.style.opacity = lerp(0, 0.25, phoneP) * (1 - exitP);
-    phone.style.transform = `translateY(${lerp(30, 0, phoneP)}px)`;
+    phone.style.transform = `translateY(${lerp(40, 0, phoneP)}px)`;
   }
 
-  // Notifs rise from phone with stagger
+  // Each notif gets a window: enter → hold → exit, one at a time
+  const slotSize = 0.7 / N; // distribute across 0.1–0.8 range
   notifs.forEach((el, i) => {
-    const stagger = i * 0.15;
-    const cardP = eo(mr(progress, 0.1 + stagger, 0.1 + stagger + 0.22, 0, 1));
-    const vis = cardP * (1 - exitP);
-    const yStart = 60;
+    const start = 0.1 + i * slotSize;
+    const enterEnd = start + slotSize * 0.3;
+    const holdEnd = start + slotSize * 0.7;
+    const outEnd = start + slotSize;
+
+    const enterVal = eo(mr(progress, start, enterEnd, 0, 1));
+    const outVal = i < N - 1 ? eo(mr(progress, holdEnd, outEnd, 0, 1)) : 0;
+    const vis = enterVal * (1 - outVal) * (1 - exitP);
 
     el.style.opacity = vis;
-    el.style.transform = `translateY(${lerp(yStart, -i * 2, cardP)}px) scale(${lerp(0.92, 1, cardP)})`;
+    el.style.transform = `translateY(${lerp(50, outVal > 0 ? -20 : 0, Math.max(enterVal, outVal))}px) scale(${lerp(0.9, 1, enterVal)})`;
   });
 }
 
