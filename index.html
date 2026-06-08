@@ -397,46 +397,82 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .phase-title{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,3.5vw,44px);color:#fff;line-height:1.12;letter-spacing:-.02em;text-align:center;margin-bottom:0;}
 .phase-title em{font-family:var(--font-accent);font-weight:400;font-style:italic;}
 
-/* Phase 3 — iMessage notification bubbles */
+/* Phase 3 — iPhone + floating notifications */
+.p3-scene{
+  position:relative;display:flex;flex-direction:column;align-items:center;
+  width:min(420px,88vw);margin:0 auto;
+}
+.p3-phone{
+  position:relative;width:220px;height:440px;
+  border-radius:38px;
+  border:2.5px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.6);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,
+             0 40px 80px rgba(0,0,0,.6),
+             0 0 60px rgba(0,212,255,.03);
+  opacity:.25;flex-shrink:0;
+  overflow:hidden;
+}
+.p3-phone::before{
+  content:'';position:absolute;
+  top:12px;left:50%;transform:translateX(-50%);
+  width:80px;height:24px;border-radius:14px;
+  background:rgba(0,0,0,.9);
+  border:1px solid rgba(255,255,255,.06);
+  z-index:2;
+}
+.p3-phone::after{
+  content:'';position:absolute;inset:0;border-radius:36px;
+  background:linear-gradient(180deg,rgba(255,255,255,.03) 0%,transparent 40%);
+  pointer-events:none;
+}
+.p3-phone-screen{
+  position:absolute;inset:6px;border-radius:32px;
+  background:linear-gradient(180deg,#0a0a0a 0%,#111 100%);
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:48px;gap:10px;overflow:hidden;
+}
+.p3-phone-time{
+  font-family:var(--font-head);font-size:42px;font-weight:300;
+  color:rgba(255,255,255,.2);letter-spacing:-.02em;
+}
+.p3-phone-date{
+  font-size:11px;color:rgba(255,255,255,.1);margin-top:-4px;
+}
+.p3-notif-stack{
+  position:absolute;bottom:280px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  width:min(440px,90vw);z-index:2;
+}
 .p3-notif{
-  width:min(460px,90vw);
-  background:rgba(22,22,24,.88);
+  width:100%;
+  background:rgba(22,22,24,.92);
   backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
   border:1px solid rgba(255,255,255,.08);
   border-radius:18px;
-  padding:18px 20px;
+  padding:16px 18px;
   display:flex;align-items:flex-start;gap:14px;
   opacity:0;
-  transform:translateY(24px) scale(.95);
-  transition:none;
-  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 60px rgba(0,212,255,.04),0 0 0 1px rgba(255,255,255,.04) inset;
+  transform:translateY(60px) scale(.92);
+  box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04) inset;
 }
 .p3-notif-icon{
-  width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;
+  font-size:19px;
   background:linear-gradient(135deg,#00d4ff,#0066ff);
   box-shadow:0 4px 14px rgba(0,136,255,.25);
 }
 .p3-notif-body{flex:1;min-width:0;}
 .p3-notif-app{
-  font-size:14px;font-weight:600;color:rgba(255,255,255,.9);
-  text-transform:none;letter-spacing:0;
+  font-size:13.5px;font-weight:600;color:rgba(255,255,255,.9);
   margin-bottom:3px;display:flex;align-items:center;gap:6px;
 }
 .p3-notif-app .p3-time{
-  font-weight:400;color:rgba(255,255,255,.3);
-  text-transform:none;letter-spacing:0;font-size:12px;
-  margin-left:auto;
+  font-weight:400;color:rgba(255,255,255,.3);font-size:11.5px;margin-left:auto;
 }
 .p3-notif-msg{
-  font-size:15px;font-weight:400;color:rgba(255,255,255,.75);
-  line-height:1.35;
-}
-.p3-notif-sub{
-  font-size:12px;color:rgba(255,255,255,.35);
-  margin-top:1px;
-  display:none;
+  font-size:14px;font-weight:400;color:rgba(255,255,255,.7);line-height:1.35;
 }
 
 /* Phase 2 phone row */
@@ -1037,8 +1073,16 @@ footer{
         <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
         <h2 class="phase-title">5 fresh ads, <em>every week</em></h2>
       </div>
-      <div id="p3-notif-area" style="margin-top:min(160px,20vh);display:flex;flex-direction:column;align-items:center;gap:14px;position:relative">
-        <!-- Notification bubbles — filled by JS -->
+      <div class="p3-scene" style="margin-top:min(160px,20vh)">
+        <div class="p3-notif-stack" id="p3-notif-area">
+          <!-- Filled by JS -->
+        </div>
+        <div class="p3-phone" id="p3-phone">
+          <div class="p3-phone-screen">
+            <div class="p3-phone-time">9:41</div>
+            <div class="p3-phone-date">Monday, June 9</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1505,9 +1549,7 @@ function updatePhase2(progress) {
 const P3_NOTIFS = [
   { icon: '🎬', app: 'Flayr', msg: 'Your Talking UGC ad is ready to preview.', time: 'now' },
   { icon: '📸', app: 'Flayr', msg: 'Photo Ad generated — "Summer Collection"', time: '1m ago' },
-  { icon: '😲', app: 'Flayr', msg: 'Reaction UGC complete. Tap to review.', time: '2m ago' },
-  { icon: '🖼', app: 'Flayr', msg: 'New Photo Ad variant ready for A/B test.', time: '3m ago' },
-  { icon: '🚀', app: 'Flayr', msg: '5/5 ads ready — Review & Launch to Meta →', time: '5m ago' },
+  { icon: '🚀', app: 'Flayr', msg: '5/5 ads ready — Review & Launch to Meta →', time: '3m ago' },
 ];
 
 (function setupPhase3() {
@@ -1526,20 +1568,28 @@ const P3_NOTIFS = [
 
 function updatePhase3(progress) {
   const area = document.getElementById('p3-notif-area');
+  const phone = document.getElementById('p3-phone');
   if (!area) return;
   const notifs = area.querySelectorAll('.p3-notif');
-  const N = notifs.length;
 
-  const enterP = eo(mr(progress, 0, 0.2, 0, 1));
   const exitP = eo(mr(progress, 0.82, 1, 0, 1));
 
+  // Phone fades in first
+  if (phone) {
+    const phoneP = eo(mr(progress, 0, 0.15, 0, 1));
+    phone.style.opacity = lerp(0, 0.25, phoneP) * (1 - exitP);
+    phone.style.transform = `translateY(${lerp(30, 0, phoneP)}px)`;
+  }
+
+  // Notifs rise from phone with stagger
   notifs.forEach((el, i) => {
-    const stagger = i * 0.12;
-    const cardP = eo(mr(progress, 0.08 + stagger, 0.08 + stagger + 0.2, 0, 1));
+    const stagger = i * 0.15;
+    const cardP = eo(mr(progress, 0.1 + stagger, 0.1 + stagger + 0.22, 0, 1));
     const vis = cardP * (1 - exitP);
+    const yStart = 60;
 
     el.style.opacity = vis;
-    el.style.transform = `translateY(${lerp(24, 0, cardP)}px) scale(${lerp(0.95, 1, cardP)})`;
+    el.style.transform = `translateY(${lerp(yStart, -i * 2, cardP)}px) scale(${lerp(0.92, 1, cardP)})`;
   });
 }
 
