@@ -103,7 +103,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.55;
+  opacity:.80;
   mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
   -webkit-mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
 }
@@ -144,8 +144,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 .hero-center::after{
   content:'';position:absolute;
-  top:50%;left:-40px;right:-40px;bottom:-60px;
-  background:radial-gradient(ellipse 100% 100% at 50% 40%,rgba(0,0,0,.9) 0%,transparent 70%);
+  top:-60px;left:-80px;right:-80px;bottom:55%;
+  background:radial-gradient(ellipse 100% 100% at 50% 60%,rgba(0,0,0,.85) 0%,transparent 70%);
   pointer-events:none;z-index:-1;
 }
 .hero-eyebrow{
@@ -272,7 +272,9 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 .batch-thumb video,.batch-thumb img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .5s ease;
 }
+.batch-thumb video.loaded,.batch-thumb img.loaded{opacity:1;}
 .batch-thumb-label{
   position:absolute;bottom:0;left:0;right:0;
   padding:8px 10px;
@@ -1304,6 +1306,17 @@ const navInner = document.getElementById('nav-inner');
 window.addEventListener('scroll', () => {
   navInner.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
+
+/* ── Batch media fade-in on load ── */
+document.querySelectorAll('.batch-thumb video').forEach(v => {
+  v.preload = 'auto';
+  v.addEventListener('canplay', () => v.classList.add('loaded'), { once: true });
+  if (v.readyState >= 3) v.classList.add('loaded');
+});
+document.querySelectorAll('.batch-thumb img').forEach(img => {
+  img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+  if (img.complete && img.naturalHeight) img.classList.add('loaded');
+});
 
 /* ── Hero product cards gentle float after entrance ── */
 document.querySelectorAll('.float-card').forEach((card, i) => {
