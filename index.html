@@ -403,37 +403,37 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   width:min(420px,88vw);margin:0 auto;
 }
 .p3-phone{
-  position:relative;width:220px;height:440px;
-  border-radius:38px;
+  position:relative;width:264px;height:528px;
+  border-radius:46px;
   border:2.5px solid rgba(255,255,255,.12);
   background:rgba(0,0,0,.6);
   box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,
              0 40px 80px rgba(0,0,0,.6),
              0 0 60px rgba(0,212,255,.03);
-  opacity:.25;flex-shrink:0;
+  opacity:.4;flex-shrink:0;
   overflow:hidden;
-  margin-top:-20px;
-  mask-image:linear-gradient(to bottom,black 0%,black 45%,rgba(0,0,0,.3) 70%,transparent 90%);
-  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 45%,rgba(0,0,0,.3) 70%,transparent 90%);
+  margin-top:-40px;
+  mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
 }
 .p3-phone::before{
   content:'';position:absolute;
-  top:12px;left:50%;transform:translateX(-50%);
-  width:80px;height:24px;border-radius:14px;
+  top:14px;left:50%;transform:translateX(-50%);
+  width:96px;height:28px;border-radius:16px;
   background:rgba(0,0,0,.9);
   border:1px solid rgba(255,255,255,.06);
   z-index:2;
 }
 .p3-phone::after{
-  content:'';position:absolute;inset:0;border-radius:36px;
+  content:'';position:absolute;inset:0;border-radius:44px;
   background:linear-gradient(180deg,rgba(255,255,255,.03) 0%,transparent 40%);
   pointer-events:none;
 }
 .p3-phone-screen{
-  position:absolute;inset:6px;border-radius:32px;
+  position:absolute;inset:7px;border-radius:39px;
   background:linear-gradient(180deg,#0a0a0a 0%,#111 100%);
   display:flex;flex-direction:column;align-items:center;
-  padding-top:48px;gap:10px;overflow:hidden;
+  padding-top:56px;gap:10px;overflow:hidden;
 }
 .p3-phone-time{
   font-family:var(--font-head);font-size:42px;font-weight:300;
@@ -1581,24 +1581,25 @@ function updatePhase3(progress) {
   // Phone fades in first
   if (phone) {
     const phoneP = eo(mr(progress, 0, 0.15, 0, 1));
-    phone.style.opacity = lerp(0, 0.25, phoneP) * (1 - exitP);
+    phone.style.opacity = lerp(0, 0.4, phoneP) * (1 - exitP);
     phone.style.transform = `translateY(${lerp(40, 0, phoneP)}px)`;
   }
 
-  // Each notif gets a window: enter → hold → exit, one at a time
-  const slotSize = 0.7 / N; // distribute across 0.1–0.8 range
+  // Each notif appears at the same position, fades out in place as next arrives
+  const slotSize = 0.7 / N;
   notifs.forEach((el, i) => {
     const start = 0.1 + i * slotSize;
-    const enterEnd = start + slotSize * 0.3;
-    const holdEnd = start + slotSize * 0.7;
+    const enterEnd = start + slotSize * 0.25;
+    const holdEnd = start + slotSize * 0.75;
     const outEnd = start + slotSize;
 
     const enterVal = eo(mr(progress, start, enterEnd, 0, 1));
     const outVal = i < N - 1 ? eo(mr(progress, holdEnd, outEnd, 0, 1)) : 0;
     const vis = enterVal * (1 - outVal) * (1 - exitP);
 
+    // All notifs enter from same Y (40px below) and sit at Y=0, fade out at Y=0
     el.style.opacity = vis;
-    el.style.transform = `translateY(${lerp(50, outVal > 0 ? -20 : 0, Math.max(enterVal, outVal))}px) scale(${lerp(0.9, 1, enterVal)})`;
+    el.style.transform = `translateY(${lerp(40, 0, enterVal)}px) scale(${lerp(0.92, 1, enterVal)})`;
   });
 }
 
