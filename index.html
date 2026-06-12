@@ -9,6 +9,10 @@
 <meta property="og:description" content="Create Meta and TikTok ads 30x faster. AI generates weekly creatives, competitor intelligence, and launches campaigns automatically."/>
 <meta property="og:url" content="https://useflayr.com"/>
 <meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"/>
@@ -382,6 +386,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #showcase-sticky{
   position:sticky;top:0;height:100vh;width:100%;
   overflow:hidden;display:flex;align-items:center;justify-content:center;
+  transform:translateZ(0);will-change:transform;
 }
 .showcase-glow{
   position:absolute;top:50%;left:50%;
@@ -1048,7 +1053,7 @@ footer{
         <div class="batch-thumb-label">Summer UGC<div class="batch-thumb-type">Talking UGC</div></div>
       </div>
       <div class="batch-thumb">
-        <img src="https://v3b.fal.media/files/b/0a9bfdd3/Xy0ozbv6b8jURAn2vVCYD_pPwkEBz0.png" alt=""/>
+        <img src="https://v3b.fal.media/files/b/0a9e0198/-cXVrSAqBZ7qC5xj9def3_QZrl8fEv.png" alt=""/>
         <div class="batch-thumb-label">Product Launch<div class="batch-thumb-type">Photo Ad</div></div>
       </div>
       <div class="batch-thumb">
@@ -1122,7 +1127,7 @@ footer{
       <div id="p2-container" style="margin-top:min(170px,22vh);position:relative;width:100vw;overflow:hidden;height:430px;display:flex;align-items:center;
         mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%);
         -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 11%,black 89%,transparent 100%)">
-        <div id="p2-row" style="display:flex;gap:28px;align-items:center;will-change:transform;padding:0 35vw;flex-shrink:0"></div>
+        <div id="p2-row" style="display:flex;gap:28px;align-items:center;padding:0 35vw;flex-shrink:0"></div>
       </div>
       <!-- Your version — pops up centered -->
       <div id="p2-your" style="position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) scale(.6);opacity:0;z-index:20;pointer-events:none;text-align:center;transition:none">
@@ -1577,7 +1582,7 @@ function updatePhase1(progress) {
       <div class="iphone" style="width:160px;display:inline-block">
         <div class="iphone-shell" style="border-radius:32px">
           <div class="iphone-screen" style="border-radius:28px;overflow:hidden">
-            <video src="${c.vid}" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1"></video>
+            <video data-src="${c.vid}" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1"></video>
             <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:70px;height:20px;background:#000;border-radius:16px;z-index:10"></div>
             <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:80px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;z-index:10"></div>
             <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);z-index:5">
@@ -1594,8 +1599,15 @@ function updatePhase1(progress) {
   `).join('');
 })();
 
+let _p2VideosLoaded = false;
 function updatePhase2(progress) {
   const row = document.getElementById('p2-row');
+  if (!_p2VideosLoaded && row) {
+    _p2VideosLoaded = true;
+    row.querySelectorAll('video[data-src]').forEach(v => {
+      v.src = v.dataset.src; v.removeAttribute('data-src'); v.play().catch(()=>{});
+    });
+  }
   const yourEl = document.getElementById('p2-your');
   const yourLabel = document.getElementById('p2-your-label');
   const titleEl = document.getElementById('p2-title');
@@ -1610,7 +1622,7 @@ function updatePhase2(progress) {
   // Scroll row in from right as enterP increases
   const totalW = row.scrollWidth;
   const offsetX = lerp(220, -totalW * 0.15, enterP);
-  row.style.transform = `translateX(${offsetX}px)`;
+  row.style.transform = `translate3d(${offsetX}px,0,0)`;
 
   // Gray out + red aura each competitor
   const phones = row.querySelectorAll('.p2-phone');
@@ -1737,7 +1749,7 @@ function updatePhase4(progress) {
 
   if (titleEl) titleEl.style.opacity = Math.max(0, Math.min(1, titleOp));
   dash.style.opacity = dashP;
-  dash.style.transform = `translateY(${lerp(30, 0, dashP)}px) scale(${lerp(0.95, 1, dashP)})`;
+  dash.style.transform = `translate3d(0,${lerp(30, 0, dashP)}px,0) scale(${lerp(0.95, 1, dashP)})`;
   dash.style.transition = 'none';
 
   // Campaign rows
@@ -1792,14 +1804,15 @@ phases[0].style.pointerEvents = 'auto';
 phases.slice(1).forEach(p => { if (p) { p.style.opacity = '0'; p.style.pointerEvents = 'none'; } });
 
 /* ── Scroll handler ────────────────────── */
-window.addEventListener('scroll', () => {
+let _showcaseRafPending = false;
+function _runShowcaseScroll() {
+  _showcaseRafPending = false;
   if (!showcase) return;
   const rect = showcase.getBoundingClientRect();
   const total = showcase.offsetHeight - window.innerHeight;
   const prog = Math.max(0, Math.min(1, -rect.top / total));
   const phase = prog * 4; // 0–4
 
-  // Phase opacity envelopes — smooth overlapping transitions
   const p1Enter = eo(mr(phase, 0.0, 0.15));
   const p1Exit = eo(mr(phase, 0.8, 1.0));
   const p1 = phase < 1.2 ? p1Enter * (1 - p1Exit) : 0;
@@ -1822,7 +1835,6 @@ window.addEventListener('scroll', () => {
     el.style.pointerEvents = opacity > 0.08 ? 'auto' : 'none';
   });
 
-  // Per-phase progress for internal animations
   const p1prog = mr(phase, 0.0, 1.0);
   const p2prog = mr(phase, 1.0, 2.05);
   const p3prog = mr(phase, 2.05, 3.0);
@@ -1832,6 +1844,9 @@ window.addEventListener('scroll', () => {
   if (p2 > 0.05) updatePhase2(p2prog);
   if (p3 > 0.05) updatePhase3(p3prog);
   if (p4 > 0.05) updatePhase4(p4prog);
+}
+window.addEventListener('scroll', () => {
+  if (!_showcaseRafPending) { _showcaseRafPending = true; requestAnimationFrame(_runShowcaseScroll); }
 }, { passive: true });
 
 /* ── Ad Formats carousel ─────────────────── */
@@ -1840,7 +1855,7 @@ const FORMAT_DATA = [
   {
     name: 'Talking UGC',
     html: `<div style="flex:1;position:relative;overflow:hidden">
-      <video src="https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+      <video data-src="https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
       <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)">
         <div style="font-size:11px;color:#fff;font-weight:600">"This changed everything..."</div>
         <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
@@ -1850,7 +1865,7 @@ const FORMAT_DATA = [
   {
     name: 'Photo Ad',
     html: `<div style="flex:1;position:relative;overflow:hidden">
-      <img src="https://v3b.fal.media/files/b/0a9b5ebc/Z91lFAtTaGwPekBjSRGJG_PoeBbaRW.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
+      <img src="https://v3b.fal.media/files/b/0a9b5ebc/Z91lFAtTaGwPekBjSRGJG_PoeBbaRW.png" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
       <div style="position:absolute;bottom:12px;left:12px;right:12px">
         <div style="background:var(--accent);border-radius:10px;padding:9px 0;text-align:center;font-size:10px;color:#000;font-weight:700">Shop Now</div>
       </div>
@@ -1859,7 +1874,7 @@ const FORMAT_DATA = [
   {
     name: 'Reaction UGC',
     html: `<div style="flex:1;position:relative;overflow:hidden">
-      <video src="https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+      <video data-src="https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
       <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)">
         <div style="font-size:11px;color:#fff;font-weight:600">Silent reaction · 3s clip</div>
         <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">AI Creator · Kling 3.0</div>
@@ -1869,7 +1884,7 @@ const FORMAT_DATA = [
   {
     name: 'Custom Video',
     html: `<div style="flex:1;position:relative;overflow:hidden">
-      <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+      <video data-src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
       <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)">
         <div style="font-size:11px;color:#fff;font-weight:600">"Remixed from TikTok trend"</div>
         <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px">Reference-driven · Kling 3.0</div>
@@ -1948,6 +1963,13 @@ function updateGhosts() {
   updateGhosts();
 })();
 
+function loadFmtVideo(idx) {
+  const el = document.getElementById(`fmt-${idx}`);
+  if (!el) return;
+  const vid = el.querySelector('video[data-src]');
+  if (vid) { vid.src = vid.dataset.src; vid.removeAttribute('data-src'); vid.play().catch(()=>{}); }
+}
+
 function setFormat(idx) {
   if (idx === activeFmt) return;
   const prev = activeFmt;
@@ -1959,9 +1981,12 @@ function setFormat(idx) {
     if (i === activeFmt) {
       el.style.opacity = '1'; el.style.transform = 'translateX(0) scale(1)';
       el.style.zIndex = '5'; el.style.pointerEvents = 'auto';
+      loadFmtVideo(i);
+      const v = el.querySelector('video'); if (v && v.src) v.play().catch(()=>{});
     } else if (i === prev) {
       el.style.opacity = '0'; el.style.transform = `translateX(${-fmtDir*60}px) scale(.92)`;
       el.style.zIndex = '4'; el.style.pointerEvents = 'none';
+      const v = el.querySelector('video'); if (v) v.pause();
     } else {
       el.style.opacity = '0'; el.style.transform = `translateX(${fmtDir*60}px) scale(.92)`;
       el.style.zIndex = '1'; el.style.pointerEvents = 'none';
@@ -1974,6 +1999,11 @@ function setFormat(idx) {
   }
   updateGhosts();
 }
+
+// Load first format video immediately
+loadFmtVideo(0);
+const fmt0vid = document.querySelector('#fmt-0 video');
+if (fmt0vid) fmt0vid.play().catch(()=>{});
 
 setInterval(() => { if (!fmtPaused) setFormat((activeFmt + 1) % N_FMTS); }, 2200);
 
@@ -2025,19 +2055,25 @@ if (manifestoEl) {
   const words = manifestoEl.querySelectorAll('.manifesto-word');
   const total = words.length;
 
+  let _manifestoRafPending = false;
   window.addEventListener('scroll', () => {
-    if (!manifestoSection) return;
-    const rect = manifestoSection.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const start = vh * 0.7;
-    const end = -rect.height * 0.65 + vh * 0.5;
-    const raw = (start - rect.top) / (start - end);
-    const progress = Math.max(0, Math.min(1, raw));
-    const wordProgress = progress * total;
-    words.forEach((w, i) => {
-      const brightness = Math.max(0, Math.min(1, (wordProgress - i + 0.5)));
-      const alpha = 0.08 + brightness * 0.92;
-      w.style.color = `rgba(255,255,255,${alpha.toFixed(2)})`;
+    if (_manifestoRafPending) return;
+    _manifestoRafPending = true;
+    requestAnimationFrame(() => {
+      _manifestoRafPending = false;
+      if (!manifestoSection) return;
+      const rect = manifestoSection.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const start = vh * 0.7;
+      const end = -rect.height * 0.65 + vh * 0.5;
+      const raw = (start - rect.top) / (start - end);
+      const progress = Math.max(0, Math.min(1, raw));
+      const wordProgress = progress * total;
+      words.forEach((w, i) => {
+        const brightness = Math.max(0, Math.min(1, (wordProgress - i + 0.5)));
+        const alpha = 0.08 + brightness * 0.92;
+        w.style.color = `rgba(255,255,255,${alpha.toFixed(2)})`;
+      });
     });
   }, { passive: true });
 }
