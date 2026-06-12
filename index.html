@@ -483,6 +483,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 /* Phase 4 footer positioning */
 #p4-footer-pre,#p4-footer-live{transition:opacity .4s ease;}
 #p4-footer-live{top:16px;}
+/* Phase 4 campaign row grid — desktop default */
+.p4-row-grid{grid-template-columns:1fr 90px 100px 80px 60px;}
 
 /* Phase 1 — Brand intel */
 .url-bar{
@@ -893,10 +895,90 @@ footer{
   .hero-floats{display:none;}
   .hero-batch{margin-top:24px;}
   .batch-grid{grid-template-columns:repeat(2,1fr);}
+  /* Formats: hide ghost phones, just show center */
+  .phone-ghost{display:none;}
+  .formats-carousel{height:auto;padding:0 0 32px;}
 }
 @media(max-width:600px){
-  .hero-ctas{flex-direction:column;align-items:center;}
+  /* Nav */
+  #nav{padding:10px 14px;}
+  #nav-inner{height:44px;padding:0 5px 0 14px;}
+  .nav-cta{padding:7px 16px;font-size:12px;}
+
+  /* Hero */
+  #hero{padding:100px 16px 60px;}
+  .hero-center{max-width:100%;}
+  .hero-h1{font-size:clamp(30px,8vw,42px);}
+  .hero-sub{font-size:14px;max-width:100%;}
+  .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;width:100%;}
+  .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
+  .hero-trust{gap:6px;font-size:11px;}
+  .hero-batch{padding:16px 16px 20px;border-radius:18px 18px 0 0;}
+  .batch-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .batch-title{font-size:13px;}
+
+  /* Stats */
   .stats-grid{grid-template-columns:1fr 1fr;}
+  .stat-cell{padding:18px 10px;}
+  .stat-val{font-size:clamp(26px,7vw,40px);}
+  .stat-lbl{font-size:11px;}
+
+  /* Scroll showcase phases */
+  #showcase{height:500vh;}
+  .phase-title{font-size:clamp(22px,6vw,36px);}
+
+  /* Phase 1 — analysis box */
+  .url-bar{padding:12px 14px;}
+  .analysis-box{padding:18px;}
+  .analysis-grid{grid-template-columns:1fr;}
+
+  /* Phase 3 — phone + notifs */
+  .p3-phone{width:240px;height:480px;border-radius:42px;margin-top:110px;}
+  .p3-notif-stack{width:min(340px,90vw);top:140px;}
+  .p3-notif{padding:12px 12px;}
+  .p3-notif-msg{font-size:11.5px;}
+  .p3-scene{width:min(400px,92vw);}
+
+  /* Formats */
+  .formats-carousel{height:auto;}
+  .format-tabs{gap:6px;}
+  .format-tab{padding:6px 12px;font-size:11px;}
+
+  /* How it works */
+  .steps-grid{grid-template-columns:1fr;gap:32px;}
+  .step-visual{max-width:320px;margin:0 auto;}
+
+  /* Manifesto */
+  #manifesto{padding:clamp(60px,8vw,100px) 20px clamp(30px,4vw,60px);}
+  .manifesto-text{font-size:clamp(18px,5vw,26px);}
+
+  /* Compare table — horizontal scroll on tiny screens */
+  .compare-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .compare-table{min-width:420px;}
+
+  /* Pricing */
+  .pricing-grid{grid-template-columns:1fr;}
+  .pricing-card{padding:24px 20px;}
+  .pricing-amount{font-size:clamp(32px,8vw,44px);}
+
+  /* FAQ */
+  .faq-layout{grid-template-columns:1fr;gap:24px;}
+  .faq-title{font-size:clamp(28px,7vw,40px);}
+  .faq-grid{grid-template-columns:1fr;}
+
+  /* CTA section */
+  #cta{padding:clamp(60px,8vw,100px) 16px;}
+  .cta-h2{font-size:clamp(26px,7vw,44px);}
+  .cta-sub{font-size:15px;}
+
+  /* Footer */
+  footer{padding:36px 20px 24px;}
+  .footer-links{gap:18px;}
+
+  /* Phase 4 dashboard columns — collapse on narrow */
+  .p4-row-grid{grid-template-columns:1fr 70px 50px!important;}
+  /* Hide audience + CTR columns on mobile */
+  .p4-ctr,.p4-audience-cell{display:none!important;}
 }
 </style>
 </head>
@@ -1616,14 +1698,15 @@ const P4_CAMPAIGNS = [
   if (!rowsEl) return;
   rowsEl.innerHTML = P4_CAMPAIGNS.map((c, i) => `
     <div class="p4-row" data-i="${i}" style="opacity:0;transform:translateY(12px);
-      display:grid;grid-template-columns:1fr 90px 100px 80px 60px;gap:8px;align-items:center;
-      padding:14px 12px;${i<2?'border-bottom:1px solid rgba(255,255,255,.03)':''};transition:none">
+      display:grid;gap:8px;align-items:center;
+      padding:14px 12px;${i<2?'border-bottom:1px solid rgba(255,255,255,.03)':''};transition:none"
+      class="p4-row-grid">
       <div>
         <div style="font-size:13px;font-weight:600;color:#fff">${c.name}</div>
         <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:2px">${c.type}</div>
       </div>
       <div style="font-size:12px;color:rgba(255,255,255,.5);text-align:center">${c.budget}</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.3);text-align:center">${c.audience}</div>
+      <div class="p4-audience-cell" style="font-size:10px;color:rgba(255,255,255,.3);text-align:center">${c.audience}</div>
       <div class="p4-status-cell" style="display:flex;align-items:center;gap:5px;justify-content:center">
         <div class="p4-dot" style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></div>
         <span class="p4-status-txt" style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.05em">Ready</span>
