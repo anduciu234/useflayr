@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Flayr — Create Meta & TikTok Ads 30x Faster</title>
+<title>Flayr.com — Create Meta & TikTok Ads 30x Faster</title>
 <meta name="description" content="Flayr learns your brand, creates weekly ad creatives, and launches them to Meta — all on autopilot. From $49.99/mo."/>
 <meta property="og:title" content="Flayr — AI Ad Creation Platform"/>
 <meta property="og:description" content="Create Meta and TikTok ads 30x faster. AI generates weekly creatives, competitor intelligence, and launches campaigns automatically."/>
@@ -386,7 +386,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #showcase-sticky{
   position:sticky;top:0;height:100vh;width:100%;
   overflow:hidden;display:flex;align-items:center;justify-content:center;
-  transform:translateZ(0);will-change:transform;
+  transform:translateZ(0);
+  contain:layout style;
 }
 .showcase-glow{
   position:absolute;top:50%;left:50%;
@@ -689,6 +690,9 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   transition:color .12s ease;
   display:inline;
 }
+.manifesto-word:has(.manifesto-icon){
+  color:rgba(255,255,255,1)!important;
+}
 .manifesto-icon{
   display:inline-flex;vertical-align:middle;
   font-size:1.1em;margin:0 6px;
@@ -931,6 +935,11 @@ footer{
   /* Scroll showcase phases */
   #showcase{height:500vh;}
   .phase-title{font-size:clamp(22px,6vw,36px);}
+  /* Reduce top margin on phases so content isn't pushed off screen */
+  #p2-title,#p3-title,#p4-title{top:clamp(40px,7vh,80px)!important;}
+  #p3-scene-wrap,#p4-dash{margin-top:min(120px,14vh)!important;}
+  #p2-container{margin-top:min(130px,16vh)!important;height:360px!important;}
+  #p4-dash{width:95vw!important;}
 
   /* Phase 1 — analysis box */
   .url-bar{padding:12px 14px;}
@@ -957,9 +966,15 @@ footer{
   #manifesto{padding:clamp(60px,8vw,100px) 20px clamp(30px,4vw,60px);}
   .manifesto-text{font-size:clamp(18px,5vw,26px);}
 
-  /* Compare table — horizontal scroll on tiny screens */
-  .compare-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .compare-table{min-width:420px;}
+  /* Compare table — fully responsive, no horizontal scroll */
+  .compare-wrap{overflow-x:visible;}
+  .compare-table{min-width:0;table-layout:fixed;width:100%;}
+  .compare-table th,.compare-table td{padding:10px 6px;font-size:12px;}
+  .compare-table td:first-child{font-size:12px;padding-left:0;}
+  .compare-table th.col-flayr{padding-top:16px;}
+  .check-icon{width:22px;height:22px;}
+  .compare-table th:first-child{width:50%;}
+  .compare-table th:not(:first-child){width:25%;}
 
   /* Pricing */
   .pricing-grid{grid-template-columns:1fr;}
@@ -1635,8 +1650,7 @@ function updatePhase2(progress) {
 
   // Your version phone
   yourEl.style.opacity = yourP * (1 - exitP);
-  yourEl.style.transform = `translate(-50%,-50%) scale(${lerp(0.6, 1.05, yourP)})`;
-  yourEl.style.transition = 'none';
+  yourEl.style.transform = `translate3d(-50%,-50%,0) scale(${lerp(0.6, 1.05, yourP)})`;
   if (yourLabel) yourLabel.style.opacity = yourP > 0.8 ? '1' : '0';
 
   if (titleEl) titleEl.style.opacity = Math.max(0, Math.min(1, titleOp));
@@ -2070,6 +2084,7 @@ if (manifestoEl) {
       const progress = Math.max(0, Math.min(1, raw));
       const wordProgress = progress * total;
       words.forEach((w, i) => {
+        if (w.querySelector('.manifesto-icon')) { w.style.color = 'rgba(255,255,255,1)'; return; }
         const brightness = Math.max(0, Math.min(1, (wordProgress - i + 0.5)));
         const alpha = 0.08 + brightness * 0.92;
         w.style.color = `rgba(255,255,255,${alpha.toFixed(2)})`;
