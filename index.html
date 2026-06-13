@@ -1619,8 +1619,15 @@ function updatePhase2(progress) {
   const row = document.getElementById('p2-row');
   if (!_p2VideosLoaded && row) {
     _p2VideosLoaded = true;
-    row.querySelectorAll('video[data-src]').forEach(v => {
-      v.src = v.dataset.src; v.removeAttribute('data-src'); v.play().catch(()=>{});
+    const vids = Array.from(row.querySelectorAll('video[data-src]'));
+    vids.forEach((v, i) => {
+      setTimeout(() => {
+        v.src = v.dataset.src;
+        v.removeAttribute('data-src');
+        v.load();
+        const tryPlay = () => v.play().catch(() => {});
+        v.readyState >= 3 ? tryPlay() : v.addEventListener('canplay', tryPlay, { once: true });
+      }, i * 150);
     });
   }
   const yourEl = document.getElementById('p2-your');
