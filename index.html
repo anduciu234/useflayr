@@ -491,6 +491,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #p4-footer-live{top:16px;}
 /* Phase 4 campaign row grid — desktop default */
 .p4-row-grid{grid-template-columns:1fr 90px 100px 80px 60px;}
+/* Phase 4 dashboard — constrain height so it fits in viewport */
+#p4-dash{max-height:72vh;overflow:hidden;}
 
 /* Phase 1 — Brand intel */
 .url-bar{
@@ -1002,14 +1004,6 @@ footer{
   .p4-row-grid{grid-template-columns:1fr 70px 50px!important;}
   /* Hide audience + CTR columns on mobile */
   .p4-ctr,.p4-audience-cell{display:none!important;}
-  /* Phase 4 dashboard — shrink text/padding so it fits on mobile */
-  #p4-dash{font-size:12px;}
-  #p4-dash [style*="padding:16px 24px"]{padding:10px 14px!important;}
-  #p4-dash [style*="padding:8px 12px"]{padding:4px 10px!important;}
-  #p4-dash [style*="font-size:14px;font-weight:600"]{font-size:12px!important;}
-  #p4-dash [style*="font-size:12px"]{font-size:11px!important;}
-  #p4-dash [style*="font-size:13px"]{font-size:11px!important;}
-  #p4-dash [style*="font-size:14px;font-weight:700"]{font-size:12px!important;}
 }
 </style>
 </head>
