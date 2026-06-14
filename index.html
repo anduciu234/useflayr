@@ -757,18 +757,6 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   border-bottom:2px solid rgba(0,212,255,.15);
   border-radius:0 0 20px 20px;
 }
-
-/* ── Product purpose ───────────────────────── */
-#purpose{background:var(--bg);padding:clamp(90px,10vw,150px) 24px;position:relative;}
-.purpose-wrap{max-width:980px;margin:0 auto;}
-.purpose-kicker{color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;}
-.purpose-title{font-family:var(--font-head);font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-.055em;max-width:760px;margin:0 0 22px;}
-.purpose-copy{color:rgba(255,255,255,.55);font-size:clamp(15px,1.3vw,18px);line-height:1.75;max-width:790px;margin:0;}
-.purpose-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:38px;}
-.purpose-item{padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.025);}
-.purpose-item strong{display:block;color:#fff;font-size:14px;margin-bottom:8px;}
-.purpose-item span{display:block;color:rgba(255,255,255,.42);font-size:13px;line-height:1.55;}
-.purpose-auth{margin-top:16px;padding:16px 18px;border:1px solid rgba(0,212,255,.13);border-radius:14px;background:rgba(0,212,255,.035);color:rgba(255,255,255,.48);font-size:12px;line-height:1.6;}
 .check-icon{
   width:28px;height:28px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -976,7 +964,6 @@ footer{
   /* How it works */
   .steps-grid{grid-template-columns:1fr;gap:32px;}
   .step-visual{max-width:320px;margin:0 auto;}
-  .purpose-grid{grid-template-columns:1fr;}
 
   /* Manifesto */
   #manifesto{padding:clamp(60px,8vw,100px) 20px clamp(30px,4vw,60px);}
@@ -1030,7 +1017,6 @@ footer{
       <img src="logo.png" alt="Flayr" style="height:22px;width:auto"/>
     </a>
     <ul class="nav-links">
-      <li><a href="#purpose">What Flayr does</a></li>
       <li><a href="#showcase">How it works</a></li>
       <li><a href="#pricing">Pricing</a></li>
     </ul>
@@ -1111,34 +1097,6 @@ footer{
     <div class="stat-cell rv d1"><div class="stat-val">4.2x</div><div class="stat-lbl">Avg ROAS</div></div>
     <div class="stat-cell rv d2"><div class="stat-val">&lt;3min</div><div class="stat-lbl">Per Ad</div></div>
     <div class="stat-cell rv d3"><div class="stat-val">$0</div><div class="stat-lbl">Agency Fees</div></div>
-  </div>
-</section>
-
-<!-- Product purpose -->
-<section id="purpose">
-  <div class="purpose-wrap">
-    <div class="purpose-kicker">What Flayr does</div>
-    <h2 class="purpose-title">Flayr creates and manages advertising creative for your brand.</h2>
-    <p class="purpose-copy">
-      Flayr is an AI advertising platform for ecommerce, app, and SaaS brands. It studies a brand's products, audience, positioning, and competitor advertising to create ready-to-publish video and image ads. Users can edit those creatives, organize them in an ad library, and launch or monitor campaigns across supported advertising platforms.
-    </p>
-    <div class="purpose-grid">
-      <div class="purpose-item">
-        <strong>Understand your brand</strong>
-        <span>Analyze your website, products, audience, tone, and competitive market.</span>
-      </div>
-      <div class="purpose-item">
-        <strong>Create ad creatives</strong>
-        <span>Generate, edit, and organize product photos, UGC videos, and custom ad formats.</span>
-      </div>
-      <div class="purpose-item">
-        <strong>Launch and improve</strong>
-        <span>Send approved creatives to supported ad platforms and monitor campaign performance.</span>
-      </div>
-    </div>
-    <div class="purpose-auth">
-      Google Sign-In is used only to let users securely create and access their Flayr account. Flayr does not access Google Ads, Gmail, Drive, or other Google services through Sign-In.
-    </div>
   </div>
 </section>
 
