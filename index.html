@@ -251,24 +251,6 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .hero-trust-dot{
   width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.2);
 }
-.google-verification-disclosure{
-  position:relative;z-index:6;
-  width:min(760px,calc(100% - 32px));
-  margin:24px auto 0;
-  padding:16px 18px;
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:16px;
-  background:rgba(8,8,8,.88);
-  box-shadow:0 20px 60px rgba(0,0,0,.35);
-  color:rgba(255,255,255,.62);
-  font-size:12px;
-  line-height:1.6;
-}
-.google-verification-disclosure strong{color:#fff;}
-.google-verification-disclosure p{margin:0 0 8px;}
-.google-verification-disclosure p:last-of-type{margin-bottom:10px;}
-.google-verification-links{display:flex;gap:14px;flex-wrap:wrap;}
-.google-verification-links a{color:var(--accent);font-weight:600;text-decoration:none;}
 
 /* ── Floating UI cards ───────────────────── */
 .hero-floats{
@@ -966,7 +948,6 @@ footer{
   .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;width:100%;}
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
   .hero-trust{gap:6px;font-size:11px;}
-  .google-verification-disclosure{margin-top:18px;padding:14px;font-size:11px;text-align:left;}
   .hero-batch{padding:16px 16px 20px;border-radius:18px 18px 0 0;}
   .batch-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
   .batch-title{font-size:13px;}
@@ -1110,16 +1091,6 @@ footer{
       <span>Meta/TikTok ready</span>
       <span class="hero-trust-dot"></span>
       <span>Performance insights</span>
-    </div>
-    <!-- TEMPORARY: Google OAuth branding verification disclosure. Remove after approval. -->
-    <div class="google-verification-disclosure">
-      <p><strong>About Flayr:</strong> Flayr is an AI advertising creation and campaign management platform operated by NOVA LABS S.R.L. It helps ecommerce, app, and SaaS businesses create and edit video and image advertisements, organize advertising creatives, launch campaigns, and monitor campaign performance.</p>
-      <p><strong>Why Flayr uses Google Sign-In:</strong> Google Sign-In lets users securely create and access their Flayr account. Flayr receives the user's name, email address, and profile picture for authentication and account identification only. Flayr does not access Gmail, Google Drive, Google Ads, contacts, or other Google services.</p>
-      <div class="google-verification-links">
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="mailto:support@useflayr.com">Contact Support</a>
-      </div>
     </div>
   </div>
 
