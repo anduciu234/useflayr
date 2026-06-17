@@ -104,19 +104,16 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   padding:130px 24px 80px;position:relative;overflow:hidden;
   overflow-x:clip;
 }
-/* Video background */
+/* Hero video — inline below CTA */
 #hero-video{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center 30%;
+  width:80%;max-width:720px;
+  border-radius:20px;
   opacity:.7;
-  mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
+  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,212,255,.06);
+  mask-image:linear-gradient(to bottom,black 0%,black 70%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 70%,transparent 100%);
 }
-#hero-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(0,0,0,.2) 0%,rgba(0,0,0,.35) 40%,rgba(0,0,0,.7) 80%,#000 100%);
-  pointer-events:none;
-}
+#hero-overlay{display:none;}
 
 /* Subtle atmospheric glow behind headline */
 .hero-glow{
@@ -266,58 +263,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   to{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));}
 }
 
-/* Bottom batch panel */
-.hero-batch{
-  position:relative;z-index:4;
-  width:100%;max-width:900px;
-  margin:20px auto 0;
-  background:rgba(18,18,20,.75);
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:22px 22px 0 0;
-  backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
-  box-shadow:0 -12px 60px rgba(0,0,0,.5),0 -4px 20px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.04) inset;
-  padding:20px 28px 28px;
-  opacity:0;
-  animation:batchIn 1s 1.1s cubic-bezier(.16,1,.3,1) forwards;
-}
-.batch-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
-}
-.batch-title{font-size:15px;font-weight:700;color:#fff;}
-.batch-badge{
-  font-size:11px;font-weight:600;color:var(--accent);
-  background:var(--accent-dim);padding:4px 12px;border-radius:8px;
-}
-.batch-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
-}
-.batch-thumb{
-  border-radius:12px;overflow:hidden;
-  aspect-ratio:9/14;position:relative;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-}
-.batch-thumb video,.batch-thumb img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity .5s ease;
-}
-.batch-thumb video.loaded,.batch-thumb img.loaded{opacity:1;}
-.batch-thumb-label{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:8px 10px;
-  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
-  font-size:10px;color:rgba(255,255,255,.7);font-weight:500;
-}
-.batch-thumb-type{
-  font-size:8px;color:var(--accent);margin-top:2px;font-weight:600;
-}
-
 @keyframes fadeup{to{opacity:1;transform:translateY(0);}}
-@keyframes batchIn{
-  from{opacity:0;transform:translateY(40px);}
-  to{opacity:1;transform:translateY(0);}
-}
 
 @keyframes gentleFloat{
   0%,100%{transform:translate(0,0) rotate(var(--rot,0deg));}
@@ -405,42 +351,37 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .phase-title{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,3.5vw,44px);color:#fff;line-height:1.12;letter-spacing:-.02em;text-align:center;margin-bottom:0;}
 .phase-title em{font-family:var(--font-accent);font-weight:400;font-style:italic;}
 
-/* Phase 3 — Calendar week view */
-.p3-calendar{
-  width:min(640px,90vw);margin:0 auto;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  border-radius:20px;padding:20px 16px 24px;
-  backdrop-filter:blur(20px);
+/* Phase 3 — Premium row-based queue (matches Phase 4 style) */
+.p3-row{
+  display:flex;align-items:center;gap:12px;
+  padding:12px;border-radius:14px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);
+  transition:none;
 }
-.p3-cal-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:18px;padding:0 8px;
+.p3-row.generated{border-color:rgba(52,211,153,.2);background:rgba(52,211,153,.04);}
+.p3-row-day{
+  font-size:10px;font-weight:700;color:rgba(255,255,255,.3);
+  text-transform:uppercase;letter-spacing:.06em;width:28px;flex-shrink:0;
 }
-.p3-cal-title{font-size:15px;font-weight:700;color:#fff;}
-.p3-cal-month{font-size:11px;color:rgba(255,255,255,.3);font-weight:500;}
-.p3-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
-.p3-cal-day{
-  text-align:center;font-size:10px;font-weight:600;
-  color:rgba(255,255,255,.25);text-transform:uppercase;
-  letter-spacing:.06em;padding-bottom:8px;
+.p3-row-info{flex:1;min-width:0;}
+.p3-row-name{font-size:12px;font-weight:600;color:#fff;}
+.p3-row-type{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px;}
+.p3-row-thumb{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
 }
-.p3-cal-slot{
-  aspect-ratio:3/4;border-radius:10px;
-  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;position:relative;overflow:hidden;transition:none;
+.p3-row-status{display:flex;align-items:center;gap:5px;}
+.p3-row-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.15);transition:background .3s,box-shadow .3s;
 }
-.p3-cal-slot.filled{
-  border-color:rgba(0,212,255,.15);background:rgba(0,212,255,.04);
+.p3-row.generated .p3-row-dot{background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4);}
+.p3-row-status-txt{
+  font-size:10px;font-weight:600;color:rgba(255,255,255,.25);
+  text-transform:uppercase;letter-spacing:.04em;transition:color .3s;
 }
-.p3-cal-thumb{
-  width:70%;aspect-ratio:9/16;border-radius:6px;
-  background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  opacity:0;transform:translateY(-20px) scale(.85);transition:none;
-}
-.p3-cal-slot.filled .p3-cal-thumb{opacity:1;transform:translateY(0) scale(1);}
-.p3-cal-label{font-size:8px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.04em;}
+.p3-row.generated .p3-row-status-txt{color:#34d399;}
 
 /* Phase 2 phone row */
 .p2-phone{position:relative;}
@@ -819,8 +760,6 @@ footer{
   .footer-links{flex-wrap:wrap;justify-content:center;}
   .phase-content{padding:0 16px;}
   .hero-floats{display:none;}
-  .hero-batch{margin-top:24px;}
-  .batch-grid{grid-template-columns:repeat(2,1fr);}
   /* Formats: hide ghost phones, just show center */
   .phone-ghost{display:none;}
   .formats-carousel{height:auto;padding:0 0 32px;}
@@ -839,10 +778,6 @@ footer{
   .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;width:100%;}
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
   .hero-trust{gap:6px;font-size:11px;}
-  .hero-batch{padding:16px 16px 20px;border-radius:18px 18px 0 0;}
-  .batch-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .batch-title{font-size:13px;}
-
   /* Stats */
   .stats-grid{grid-template-columns:1fr 1fr;}
   .stat-cell{padding:18px 10px;}
@@ -864,10 +799,10 @@ footer{
   #p1-arrow{display:none!important;}
   #p1-cards{width:min(300px,85vw)!important;}
 
-  /* Phase 3 — calendar */
-  .p3-calendar{padding:14px 10px 18px;}
-  .p3-cal-slot{aspect-ratio:2/3;}
-  .p3-cal-thumb{font-size:14px;}
+  /* Phase 3 — queue rows */
+  .p3-row{padding:10px;gap:8px;}
+  .p3-row-name{font-size:11px;}
+  .p3-row-thumb{width:30px;height:30px;font-size:14px;}
 
   /* Formats */
   .formats-carousel{height:auto;}
@@ -939,9 +874,6 @@ footer{
 
 <!-- Hero -->
 <section id="hero">
-  <video id="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-bg.mp4" type="video/mp4"/>
-  </video>
   <div id="hero-overlay"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
@@ -970,7 +902,9 @@ footer{
     </div>
   </div>
 
-
+  <video id="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-bg.mp4" type="video/mp4"/>
+  </video>
 </section>
 
 <!-- Stats Bar -->
@@ -998,26 +932,9 @@ footer{
       <div id="p1-scene" style="position:relative;margin-top:min(170px,22vh);width:min(800px,90vw);display:flex;align-items:center;justify-content:center;gap:40px">
         <!-- Website screenshot (left side) -->
         <div id="p1-site" style="position:relative;flex-shrink:0;width:280px;border-radius:16px;overflow:hidden;
-          border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5);transition:none">
-          <!-- Placeholder — replace with actual screenshot -->
-          <div style="aspect-ratio:9/14;background:linear-gradient(180deg,#1a1a2e 0%,#16213e 40%,#0f172a 100%);
-            display:flex;flex-direction:column;padding:16px;gap:8px">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-              <div style="width:6px;height:6px;border-radius:50%;background:#ef4444"></div>
-              <div style="width:6px;height:6px;border-radius:50%;background:#f59e0b"></div>
-              <div style="width:6px;height:6px;border-radius:50%;background:#22c55e"></div>
-              <div style="flex:1;height:18px;background:rgba(255,255,255,.06);border-radius:6px;margin-left:8px"></div>
-            </div>
-            <div style="height:60px;background:rgba(255,255,255,.04);border-radius:10px"></div>
-            <div style="height:20px;width:65%;background:rgba(255,255,255,.06);border-radius:6px"></div>
-            <div style="height:12px;width:80%;background:rgba(255,255,255,.03);border-radius:4px"></div>
-            <div style="height:12px;width:60%;background:rgba(255,255,255,.03);border-radius:4px"></div>
-            <div style="display:flex;gap:8px;margin-top:8px">
-              <div style="flex:1;height:80px;background:rgba(255,255,255,.04);border-radius:8px"></div>
-              <div style="flex:1;height:80px;background:rgba(255,255,255,.04);border-radius:8px"></div>
-            </div>
-            <div style="height:28px;width:40%;background:rgba(0,212,255,.15);border-radius:8px;margin-top:4px"></div>
-          </div>
+          border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3);transition:none">
+          <img id="p1-screenshot" src="comfrt-screenshot.png" alt="Brand website"
+            style="width:100%;display:block;object-fit:cover;aspect-ratio:9/14;object-position:top"/>
           <!-- Scan line overlay -->
           <div id="p1-scan" style="position:absolute;top:0;left:0;right:0;height:3px;
             background:linear-gradient(90deg,transparent,var(--accent),transparent);
@@ -1097,33 +1014,56 @@ footer{
       </div>
     </div>
 
-    <!-- Phase 3: Weekly Ad Gen — calendar week view -->
+    <!-- Phase 3: Weekly Ad Gen — premium dashboard -->
     <div class="phase" id="phase-3" style="opacity:0;pointer-events:none">
       <div id="p3-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
         <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
         <h2 class="phase-title">5 fresh ads, <em>every week</em></h2>
       </div>
       <div style="margin-top:min(170px,22vh)">
-        <div class="p3-calendar" id="p3-calendar" style="opacity:0;transform:translateY(30px)">
-          <div class="p3-cal-header">
-            <div class="p3-cal-title">Ad Schedule</div>
-            <div class="p3-cal-month">Week of Jun 16</div>
+        <div id="p3-calendar" style="width:90vw;max-width:580px;opacity:0;transform:translateY(30px);
+          background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;
+          overflow:hidden;backdrop-filter:blur(20px)">
+          <!-- Top bar -->
+          <div style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:14px;font-weight:700;color:#fff">Weekly Queue</span>
+              <span id="p3-counter" style="font-size:11px;color:rgba(255,255,255,.3)">0 / 5 generated</span>
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,.25);font-weight:500">Jun 16 – 22</div>
           </div>
-          <div class="p3-cal-grid">
-            <div class="p3-cal-day">Mon</div>
-            <div class="p3-cal-day">Tue</div>
-            <div class="p3-cal-day">Wed</div>
-            <div class="p3-cal-day">Thu</div>
-            <div class="p3-cal-day">Fri</div>
-            <div class="p3-cal-day">Sat</div>
-            <div class="p3-cal-day">Sun</div>
-            <div class="p3-cal-slot" data-slot="0"><div class="p3-cal-thumb">🎬</div><div class="p3-cal-label">UGC</div></div>
-            <div class="p3-cal-slot" data-slot="1"><div class="p3-cal-thumb">📸</div><div class="p3-cal-label">Photo</div></div>
-            <div class="p3-cal-slot" data-slot="2"><div class="p3-cal-thumb">🗣️</div><div class="p3-cal-label">Talking</div></div>
-            <div class="p3-cal-slot" data-slot="3"><div class="p3-cal-thumb">🎭</div><div class="p3-cal-label">Story</div></div>
-            <div class="p3-cal-slot" data-slot="4"><div class="p3-cal-thumb">🔄</div><div class="p3-cal-label">Retarget</div></div>
-            <div class="p3-cal-slot" data-slot="5" style="opacity:.3"><div class="p3-cal-label" style="color:rgba(255,255,255,.15)">—</div></div>
-            <div class="p3-cal-slot" data-slot="6" style="opacity:.3"><div class="p3-cal-label" style="color:rgba(255,255,255,.15)">—</div></div>
+          <!-- Day rows -->
+          <div style="padding:6px 10px 10px;display:flex;flex-direction:column;gap:6px" id="p3-rows">
+            <div class="p3-row" data-slot="0" style="opacity:0;transform:translateY(14px)">
+              <div class="p3-row-day">Mon</div>
+              <div class="p3-row-info"><div class="p3-row-name">Summer Vibes UGC</div><div class="p3-row-type">Talking UGC · 15s</div></div>
+              <div class="p3-row-thumb">🎬</div>
+              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+            </div>
+            <div class="p3-row" data-slot="1" style="opacity:0;transform:translateY(14px)">
+              <div class="p3-row-day">Tue</div>
+              <div class="p3-row-info"><div class="p3-row-name">Product Showcase</div><div class="p3-row-type">Photo Ad · Static</div></div>
+              <div class="p3-row-thumb">📸</div>
+              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+            </div>
+            <div class="p3-row" data-slot="2" style="opacity:0;transform:translateY(14px)">
+              <div class="p3-row-day">Wed</div>
+              <div class="p3-row-info"><div class="p3-row-name">Founder Story</div><div class="p3-row-type">Talking Head · 30s</div></div>
+              <div class="p3-row-thumb">🗣️</div>
+              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+            </div>
+            <div class="p3-row" data-slot="3" style="opacity:0;transform:translateY(14px)">
+              <div class="p3-row-day">Thu</div>
+              <div class="p3-row-info"><div class="p3-row-name">Before & After</div><div class="p3-row-type">Story Ad · 12s</div></div>
+              <div class="p3-row-thumb">🎭</div>
+              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+            </div>
+            <div class="p3-row" data-slot="4" style="opacity:0;transform:translateY(14px)">
+              <div class="p3-row-day">Fri</div>
+              <div class="p3-row-info"><div class="p3-row-name">Retarget Carousel</div><div class="p3-row-type">Reaction UGC · 20s</div></div>
+              <div class="p3-row-thumb">🔄</div>
+              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1437,17 +1377,6 @@ window.addEventListener('scroll', () => {
   navInner.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
 
-/* ── Batch media fade-in on load ── */
-document.querySelectorAll('.batch-thumb video').forEach(v => {
-  v.preload = 'auto';
-  v.addEventListener('canplay', () => v.classList.add('loaded'), { once: true });
-  if (v.readyState >= 3) v.classList.add('loaded');
-});
-document.querySelectorAll('.batch-thumb img').forEach(img => {
-  img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
-  if (img.complete && img.naturalHeight) img.classList.add('loaded');
-});
-
 /* ── Hero product cards gentle float after entrance ── */
 document.querySelectorAll('.float-card').forEach((card, i) => {
   const delay = parseFloat(card.style.animationDelay || '0') * 1000 + 1400;
@@ -1589,43 +1518,34 @@ function updatePhase2(progress) {
   if (titleEl) titleEl.style.opacity = Math.max(0, Math.min(1, titleOp));
 }
 
-/* ── Phase 3: Weekly Ad Gen — Calendar ── */
+/* ── Phase 3: Weekly Ad Gen — Row Queue ── */
 function updatePhase3(progress) {
   const cal = document.getElementById('p3-calendar');
   const title = document.getElementById('p3-title');
+  const counter = document.getElementById('p3-counter');
   if (!cal) return;
 
-  // 0–0.15: calendar fades in
   const calP = eo(mr(progress, 0, 0.15));
   cal.style.opacity = calP;
   cal.style.transform = `translateY(${lerp(30, 0, calP)}px)`;
 
-  // 0.15–0.75: ad thumbnails drop into slots one by one (5 active days)
-  const slots = cal.querySelectorAll('.p3-cal-slot[data-slot]');
-  const activeSlots = 5;
-  for (let i = 0; i < activeSlots; i++) {
-    const slot = slots[i];
-    if (!slot) continue;
-    const thumb = slot.querySelector('.p3-cal-thumb');
-    const slotStart = 0.15 + i * 0.11;
-    const slotP = eo(mr(progress, slotStart, slotStart + 0.1));
+  const rows = cal.querySelectorAll('.p3-row');
+  let generated = 0;
+  rows.forEach((row, i) => {
+    const enterStart = 0.1 + i * 0.08;
+    const enterP = eo(mr(progress, enterStart, enterStart + 0.08));
+    row.style.opacity = enterP;
+    row.style.transform = `translateY(${lerp(14, 0, enterP)}px)`;
 
-    if (slotP > 0) {
-      slot.classList.add('filled');
-      if (thumb) {
-        thumb.style.opacity = slotP;
-        thumb.style.transform = `translateY(${lerp(-20, 0, slotP)}px) scale(${lerp(0.85, 1, slotP)})`;
-      }
-    } else {
-      slot.classList.remove('filled');
-      if (thumb) {
-        thumb.style.opacity = '0';
-        thumb.style.transform = 'translateY(-20px) scale(.85)';
-      }
-    }
-  }
+    const genStart = 0.35 + i * 0.1;
+    const isGen = progress >= genStart;
+    row.classList.toggle('generated', isGen);
+    const txt = row.querySelector('.p3-row-status-txt');
+    if (txt) txt.textContent = isGen ? 'Ready' : 'Queued';
+    if (isGen) generated++;
+  });
 
-  // Title
+  if (counter) counter.textContent = `${generated} / 5 generated`;
   if (title) title.style.opacity = Math.max(0, Math.min(1, mr(progress, 0, 0.1)));
 }
 
