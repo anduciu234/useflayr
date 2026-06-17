@@ -106,13 +106,11 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 /* Video background */
 #hero-video{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:50%;height:50%;
+  position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.3;
-  border-radius:24px;
-  mask-image:radial-gradient(ellipse 100% 100% at center,black 30%,transparent 70%);
-  -webkit-mask-image:radial-gradient(ellipse 100% 100% at center,black 30%,transparent 70%);
+  opacity:.7;
+  mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
 }
 #hero-overlay{
   position:absolute;inset:0;
@@ -973,31 +971,6 @@ footer{
   </div>
 
 
-  <!-- Bottom: weekly batch panel -->
-  <div class="hero-batch">
-    <div class="batch-header">
-      <div class="batch-title">This week's ads</div>
-      <div class="batch-badge">5 creatives ready</div>
-    </div>
-    <div class="batch-grid">
-      <div class="batch-thumb">
-        <video src="https://v3b.fal.media/files/b/0a9bcbc1/LB8DXqIon3eBPBOlJ6v8O_output.mp4" autoplay muted loop playsinline></video>
-        <div class="batch-thumb-label">Summer UGC<div class="batch-thumb-type">Talking UGC</div></div>
-      </div>
-      <div class="batch-thumb">
-        <img src="https://v3b.fal.media/files/b/0a9e0198/-cXVrSAqBZ7qC5xj9def3_QZrl8fEv.png" alt=""/>
-        <div class="batch-thumb-label">Product Launch<div class="batch-thumb-type">Photo Ad</div></div>
-      </div>
-      <div class="batch-thumb">
-        <video src="https://v3b.fal.media/files/b/0a9bd951/sjeknRlsClFTRn39lv73o_output.mp4" autoplay muted loop playsinline></video>
-        <div class="batch-thumb-label">Retargeting<div class="batch-thumb-type">Reaction UGC</div></div>
-      </div>
-      <div class="batch-thumb">
-        <video src="https://v3b.fal.media/files/b/0a9bcc08/S_fFiRfk9U2YicOD9ZrJC_output.mp4" autoplay muted loop playsinline></video>
-        <div class="batch-thumb-label">Brand Story<div class="batch-thumb-type">Custom Video</div></div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- Stats Bar -->
