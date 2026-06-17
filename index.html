@@ -106,11 +106,13 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 /* Video background */
 #hero-video{
-  position:absolute;inset:0;width:100%;height:100%;
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:50%;height:50%;
   object-fit:cover;object-position:center 30%;
-  opacity:.7;
-  mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 50%,rgba(0,0,0,.5) 75%,transparent 100%);
+  opacity:.3;
+  border-radius:24px;
+  mask-image:radial-gradient(ellipse 100% 100% at center,black 30%,transparent 70%);
+  -webkit-mask-image:radial-gradient(ellipse 100% 100% at center,black 30%,transparent 70%);
 }
 #hero-overlay{
   position:absolute;inset:0;
@@ -405,86 +407,42 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .phase-title{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,3.5vw,44px);color:#fff;line-height:1.12;letter-spacing:-.02em;text-align:center;margin-bottom:0;}
 .phase-title em{font-family:var(--font-accent);font-weight:400;font-style:italic;}
 
-/* Phase 3 — iPhone + floating notifications */
-.p3-scene{
-  position:relative;display:flex;flex-direction:column;align-items:center;
-  width:min(546px,92vw);margin:0 auto;
+/* Phase 3 — Calendar week view */
+.p3-calendar{
+  width:min(640px,90vw);margin:0 auto;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;padding:20px 16px 24px;
+  backdrop-filter:blur(20px);
 }
-.p3-phone{
-  position:relative;width:309px;height:617px;
-  border-radius:54px;
-  border:2.5px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.6);
-  box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,
-             0 40px 80px rgba(0,0,0,.6),
-             0 0 60px rgba(0,212,255,.03);
-  opacity:.6;flex-shrink:0;
-  overflow:hidden;
-  margin-top:140px;
-  mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
-  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 40%,rgba(0,0,0,.3) 65%,transparent 85%);
+.p3-cal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;padding:0 8px;
 }
-.p3-phone::before{
-  content:'';position:absolute;
-  top:16px;left:50%;transform:translateX(-50%);
-  width:112px;height:32px;border-radius:18px;
-  background:rgba(0,0,0,.9);
-  border:1px solid rgba(255,255,255,.06);
-  z-index:2;
+.p3-cal-title{font-size:15px;font-weight:700;color:#fff;}
+.p3-cal-month{font-size:11px;color:rgba(255,255,255,.3);font-weight:500;}
+.p3-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.p3-cal-day{
+  text-align:center;font-size:10px;font-weight:600;
+  color:rgba(255,255,255,.25);text-transform:uppercase;
+  letter-spacing:.06em;padding-bottom:8px;
 }
-.p3-phone::after{
-  content:'';position:absolute;inset:0;border-radius:52px;
-  background:linear-gradient(180deg,rgba(255,255,255,.03) 0%,transparent 40%);
-  pointer-events:none;
+.p3-cal-slot{
+  aspect-ratio:3/4;border-radius:10px;
+  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;position:relative;overflow:hidden;transition:none;
 }
-.p3-phone-screen{
-  position:absolute;inset:8px;border-radius:46px;
-  background:linear-gradient(180deg,#0a0a0a 0%,#111 100%);
-  display:flex;flex-direction:column;align-items:center;
-  padding-top:65px;gap:11px;overflow:hidden;
+.p3-cal-slot.filled{
+  border-color:rgba(0,212,255,.15);background:rgba(0,212,255,.04);
 }
-.p3-phone-time{
-  font-family:var(--font-head);font-size:50px;font-weight:300;
-  color:rgba(255,255,255,.2);letter-spacing:-.02em;
+.p3-cal-thumb{
+  width:70%;aspect-ratio:9/16;border-radius:6px;
+  background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  opacity:0;transform:translateY(-20px) scale(.85);transition:none;
 }
-.p3-phone-date{
-  font-size:13px;color:rgba(255,255,255,.1);margin-top:-4px;
-}
-.p3-notif-stack{
-  position:absolute;top:175px;left:50%;transform:translateX(-50%);
-  width:min(445px,88vw);z-index:2;
-  height:80px;
-}
-.p3-notif{
-  position:absolute;top:0;left:0;right:0;
-  background:rgba(22,22,24,.92);
-  backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:15px;
-  padding:16px 14px;
-  display:flex;align-items:flex-start;gap:11px;
-  opacity:0;
-  transform:translateY(40px) scale(.92);
-  box-shadow:0 16px 56px rgba(0,0,0,.7),0 6px 20px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06) inset,0 1px 0 rgba(255,255,255,.04) inset;
-}
-.p3-notif-icon{
-  width:34px;height:34px;border-radius:8px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;
-  background:linear-gradient(135deg,#00d4ff,#0066ff);
-  box-shadow:0 4px 14px rgba(0,136,255,.25);
-}
-.p3-notif-body{flex:1;min-width:0;}
-.p3-notif-app{
-  font-size:12px;font-weight:600;color:rgba(255,255,255,.9);
-  margin-bottom:2px;display:flex;align-items:center;gap:6px;
-}
-.p3-notif-app .p3-time{
-  font-weight:400;color:rgba(255,255,255,.3);font-size:10.5px;margin-left:auto;
-}
-.p3-notif-msg{
-  font-size:12.5px;font-weight:400;color:rgba(255,255,255,.7);line-height:1.35;
-}
+.p3-cal-slot.filled .p3-cal-thumb{opacity:1;transform:translateY(0) scale(1);}
+.p3-cal-label{font-size:8px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.04em;}
 
 /* Phase 2 phone row */
 .p2-phone{position:relative;}
@@ -494,52 +452,14 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 /* Phase 4 dashboard — constrain height so it fits in viewport */
 #p4-dash{max-height:72vh;overflow:hidden;}
 
-/* Phase 1 — Brand intel */
-.url-bar{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;padding:16px 22px;
-  display:flex;align-items:center;gap:12px;
-  width:100%;max-width:520px;
-  box-shadow:none;transition:border-color .4s,box-shadow .4s;
+/* Phase 1 — Brand intelligence: site dissolve → cards */
+.p1-card{
+  padding:14px 16px;background:rgba(255,255,255,.03);border-radius:12px;
+  border:1px solid rgba(255,255,255,.05);
+  backdrop-filter:blur(10px);transition:none;
 }
-.url-bar.active{border-color:var(--accent);box-shadow:0 0 30px var(--accent-glow-dim);}
-.url-analyze-btn{
-  background:rgba(255,255,255,.06);color:rgba(255,255,255,.3);
-  padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;
-  border:none;cursor:default;transition:all .4s;white-space:nowrap;
-}
-.url-analyze-btn.active{background:var(--accent);color:#000;}
-.analysis-box{
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  border-radius:20px;padding:28px;max-width:600px;width:100%;
-  backdrop-filter:blur(20px);
-}
-.analysis-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:24px;padding-bottom:16px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.analysis-status{display:flex;align-items:center;gap:10px;}
-.status-dot{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4);}
-.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.analysis-item{padding:12px 14px;background:rgba(255,255,255,.02);border-radius:10px;border:1px solid rgba(255,255,255,.04);}
 .analysis-item-lbl{font-size:9px;color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
 .analysis-item-val{font-size:12px;color:rgba(255,255,255,.55);line-height:1.45;}
-
-/* Phase 3 — Weekly ads */
-.weekly-cards{display:flex;flex-direction:column;gap:8px;width:100%;max-width:460px;}
-.weekly-card{
-  display:flex;align-items:center;gap:14px;
-  padding:14px 18px;background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.06);border-radius:14px;
-  transition:all .4s;
-}
-.weekly-card.generating{border-color:var(--accent);background:var(--accent-dim);}
-.weekly-card.done{border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.05);}
-.weekly-card-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.weekly-card-label{font-size:13px;font-weight:600;color:#fff;}
-.weekly-card-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
-.weekly-card-status{margin-left:auto;font-size:10px;font-weight:600;}
 
 /* Phase 4 — Launch */
 .launch-box{
@@ -936,21 +856,20 @@ footer{
   .phase-title{font-size:clamp(22px,6vw,36px);}
   /* Reduce top margin on phases so content isn't pushed off screen */
   #p2-title,#p3-title,#p4-title{top:clamp(40px,7vh,80px)!important;}
-  #p3-scene-wrap,#p4-dash{margin-top:min(120px,14vh)!important;}
+  #p3-calendar,#p4-dash{margin-top:min(120px,14vh)!important;}
   #p2-container{margin-top:min(130px,16vh)!important;height:360px!important;}
   #p4-dash{width:95vw!important;}
 
-  /* Phase 1 — analysis box */
-  .url-bar{padding:12px 14px;}
-  .analysis-box{padding:18px;}
-  .analysis-grid{grid-template-columns:1fr;}
+  /* Phase 1 — brand intel */
+  #p1-scene{flex-direction:column!important;gap:24px!important;align-items:center!important;}
+  #p1-site{width:220px!important;}
+  #p1-arrow{display:none!important;}
+  #p1-cards{width:min(300px,85vw)!important;}
 
-  /* Phase 3 — phone + notifs */
-  .p3-phone{width:240px;height:480px;border-radius:42px;margin-top:110px;}
-  .p3-notif-stack{width:min(340px,90vw);top:140px;}
-  .p3-notif{padding:12px 12px;}
-  .p3-notif-msg{font-size:11.5px;}
-  .p3-scene{width:min(400px,92vw);}
+  /* Phase 3 — calendar */
+  .p3-calendar{padding:14px 10px 18px;}
+  .p3-cal-slot{aspect-ratio:2/3;}
+  .p3-cal-thumb{font-size:14px;}
 
   /* Formats */
   .formats-carousel{height:auto;}
@@ -1097,33 +1016,68 @@ footer{
   <div id="showcase-sticky">
     <div class="showcase-glow"></div>
 
-    <!-- Phase 1: Brand Intelligence -->
+    <!-- Phase 1: Brand Intelligence — website dissolve into brand DNA -->
     <div class="phase" id="phase-1" style="opacity:0;pointer-events:none">
-      <div class="phase-content" style="display:flex;flex-direction:column;align-items:center;gap:28px;width:100%">
-        <div style="text-align:center">
-          <div class="phase-eyebrow">01 — Brand Intelligence</div>
-          <h2 class="phase-title">Paste your link. <em>We do the rest.</em></h2>
-        </div>
-        <div class="url-bar" id="url-bar">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;opacity:.3"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.5"/><path d="M3 12h18M12 3c2 2.5 3 5.5 3 9s-1 6.5-3 9c-2-2.5-3-5.5-3-9s1-6.5 3-9z" stroke="#fff" stroke-width="1.5"/></svg>
-          <span id="url-typed" style="font-size:15px;color:rgba(255,255,255,.2);flex:1;letter-spacing:-.01em">Enter your website URL...</span>
-          <button class="url-analyze-btn" id="url-btn">Analyze</button>
-        </div>
-        <div class="analysis-box" id="analysis-box" style="opacity:0;transform:translateY(20px);transition:all .6s cubic-bezier(.16,1,.3,1)">
-          <div class="analysis-header">
-            <div class="analysis-status">
-              <div class="status-dot"></div>
-              <span style="font-size:13px;font-weight:600">Brand Analysis Complete</span>
+      <div id="p1-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
+        <div class="phase-eyebrow">01 — Brand Intelligence</div>
+        <h2 class="phase-title">We read your brand. <em>In seconds.</em></h2>
+      </div>
+      <div id="p1-scene" style="position:relative;margin-top:min(170px,22vh);width:min(800px,90vw);display:flex;align-items:center;justify-content:center;gap:40px">
+        <!-- Website screenshot (left side) -->
+        <div id="p1-site" style="position:relative;flex-shrink:0;width:280px;border-radius:16px;overflow:hidden;
+          border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5);transition:none">
+          <!-- Placeholder — replace with actual screenshot -->
+          <div style="aspect-ratio:9/14;background:linear-gradient(180deg,#1a1a2e 0%,#16213e 40%,#0f172a 100%);
+            display:flex;flex-direction:column;padding:16px;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div style="width:6px;height:6px;border-radius:50%;background:#ef4444"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:#f59e0b"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:#22c55e"></div>
+              <div style="flex:1;height:18px;background:rgba(255,255,255,.06);border-radius:6px;margin-left:8px"></div>
             </div>
-            <span style="font-size:11px;color:rgba(255,255,255,.25)">yourbrand.com</span>
+            <div style="height:60px;background:rgba(255,255,255,.04);border-radius:10px"></div>
+            <div style="height:20px;width:65%;background:rgba(255,255,255,.06);border-radius:6px"></div>
+            <div style="height:12px;width:80%;background:rgba(255,255,255,.03);border-radius:4px"></div>
+            <div style="height:12px;width:60%;background:rgba(255,255,255,.03);border-radius:4px"></div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <div style="flex:1;height:80px;background:rgba(255,255,255,.04);border-radius:8px"></div>
+              <div style="flex:1;height:80px;background:rgba(255,255,255,.04);border-radius:8px"></div>
+            </div>
+            <div style="height:28px;width:40%;background:rgba(0,212,255,.15);border-radius:8px;margin-top:4px"></div>
           </div>
-          <div class="analysis-grid">
-            <div class="analysis-item"><div class="analysis-item-lbl">Target Audience</div><div class="analysis-item-val">DTC founders, 25–45, US &amp; EU</div></div>
-            <div class="analysis-item"><div class="analysis-item-lbl">Brand Tone</div><div class="analysis-item-val">Direct, confident, slightly provocative</div></div>
-            <div class="analysis-item"><div class="analysis-item-lbl">Core Promise</div><div class="analysis-item-val">Ready-to-use Meta ads, no agency</div></div>
-            <div class="analysis-item"><div class="analysis-item-lbl">Pain Points</div><div class="analysis-item-val">High agency costs, slow turnaround</div></div>
-            <div class="analysis-item"><div class="analysis-item-lbl">CTA Style</div><div class="analysis-item-val">Action-oriented: "Start", "Get", "Launch"</div></div>
-            <div class="analysis-item"><div class="analysis-item-lbl">Visual DNA</div><div class="analysis-item-val">Clean, modern, bold product shots</div></div>
+          <!-- Scan line overlay -->
+          <div id="p1-scan" style="position:absolute;top:0;left:0;right:0;height:3px;
+            background:linear-gradient(90deg,transparent,var(--accent),transparent);
+            box-shadow:0 0 20px var(--accent),0 0 60px rgba(0,212,255,.3);
+            opacity:0;transition:none;z-index:5"></div>
+        </div>
+        <!-- Arrow -->
+        <div id="p1-arrow" style="opacity:0;display:flex;align-items:center;transition:none">
+          <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+            <path d="M0 12h32M26 6l8 6-8 6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <!-- Brand DNA cards (right side) -->
+        <div id="p1-cards" style="display:flex;flex-direction:column;gap:8px;width:280px;transition:none">
+          <div class="p1-card" style="opacity:0;transform:translateX(20px)">
+            <div class="analysis-item-lbl">Target Audience</div>
+            <div class="analysis-item-val">DTC founders, 25–45, US & EU</div>
+          </div>
+          <div class="p1-card" style="opacity:0;transform:translateX(20px)">
+            <div class="analysis-item-lbl">Brand Tone</div>
+            <div class="analysis-item-val">Direct, confident, slightly provocative</div>
+          </div>
+          <div class="p1-card" style="opacity:0;transform:translateX(20px)">
+            <div class="analysis-item-lbl">Pain Points</div>
+            <div class="analysis-item-val">High agency costs, slow turnaround</div>
+          </div>
+          <div class="p1-card" style="opacity:0;transform:translateX(20px)">
+            <div class="analysis-item-lbl">Hook Angles</div>
+            <div class="analysis-item-val">"Stop wasting money on…", "What if your ads…"</div>
+          </div>
+          <div class="p1-card" style="opacity:0;transform:translateX(20px)">
+            <div class="analysis-item-lbl">CTA Style</div>
+            <div class="analysis-item-val">Action-oriented: "Start", "Get", "Launch"</div>
           </div>
         </div>
       </div>
@@ -1170,20 +1124,33 @@ footer{
       </div>
     </div>
 
-    <!-- Phase 3: Weekly Ad Gen — iMessage notification style -->
+    <!-- Phase 3: Weekly Ad Gen — calendar week view -->
     <div class="phase" id="phase-3" style="opacity:0;pointer-events:none">
       <div id="p3-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
         <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
         <h2 class="phase-title">5 fresh ads, <em>every week</em></h2>
       </div>
-      <div class="p3-scene" style="margin-top:min(160px,20vh)">
-        <div class="p3-notif-stack" id="p3-notif-area">
-          <!-- Filled by JS -->
-        </div>
-        <div class="p3-phone" id="p3-phone">
-          <div class="p3-phone-screen">
-            <div class="p3-phone-time">9:41</div>
-            <div class="p3-phone-date">Monday, June 9</div>
+      <div style="margin-top:min(170px,22vh)">
+        <div class="p3-calendar" id="p3-calendar" style="opacity:0;transform:translateY(30px)">
+          <div class="p3-cal-header">
+            <div class="p3-cal-title">Ad Schedule</div>
+            <div class="p3-cal-month">Week of Jun 16</div>
+          </div>
+          <div class="p3-cal-grid">
+            <div class="p3-cal-day">Mon</div>
+            <div class="p3-cal-day">Tue</div>
+            <div class="p3-cal-day">Wed</div>
+            <div class="p3-cal-day">Thu</div>
+            <div class="p3-cal-day">Fri</div>
+            <div class="p3-cal-day">Sat</div>
+            <div class="p3-cal-day">Sun</div>
+            <div class="p3-cal-slot" data-slot="0"><div class="p3-cal-thumb">🎬</div><div class="p3-cal-label">UGC</div></div>
+            <div class="p3-cal-slot" data-slot="1"><div class="p3-cal-thumb">📸</div><div class="p3-cal-label">Photo</div></div>
+            <div class="p3-cal-slot" data-slot="2"><div class="p3-cal-thumb">🗣️</div><div class="p3-cal-label">Talking</div></div>
+            <div class="p3-cal-slot" data-slot="3"><div class="p3-cal-thumb">🎭</div><div class="p3-cal-label">Story</div></div>
+            <div class="p3-cal-slot" data-slot="4"><div class="p3-cal-thumb">🔄</div><div class="p3-cal-label">Retarget</div></div>
+            <div class="p3-cal-slot" data-slot="5" style="opacity:.3"><div class="p3-cal-label" style="color:rgba(255,255,255,.15)">—</div></div>
+            <div class="p3-cal-slot" data-slot="6" style="opacity:.3"><div class="p3-cal-label" style="color:rgba(255,255,255,.15)">—</div></div>
           </div>
         </div>
       </div>
@@ -1531,38 +1498,40 @@ function lerp(a, b, t) { return a + (b - a) * t; }
 
 /* ── Phase 1: Brand Intelligence (scroll-driven) ── */
 function updatePhase1(progress) {
-  const url = 'https://yourbrand.com';
-  const typedEl = document.getElementById('url-typed');
-  const urlBar = document.getElementById('url-bar');
-  const urlBtn = document.getElementById('url-btn');
-  const analysisBox = document.getElementById('analysis-box');
-  if (!typedEl) return;
+  const site = document.getElementById('p1-site');
+  const scan = document.getElementById('p1-scan');
+  const arrow = document.getElementById('p1-arrow');
+  const cards = document.querySelectorAll('.p1-card');
+  const title = document.getElementById('p1-title');
+  if (!site) return;
 
-  // 0–0.4: type URL letter by letter
-  const typeP = mr(progress, 0.05, 0.4);
-  const chars = Math.round(typeP * url.length);
-  if (chars === 0) {
-    typedEl.style.color = 'rgba(255,255,255,.2)';
-    typedEl.textContent = 'Enter your website URL...';
-    if (urlBar) urlBar.classList.remove('active');
-    if (urlBtn) { urlBtn.classList.remove('active'); urlBtn.textContent = 'Analyze'; }
-    if (analysisBox) { analysisBox.style.opacity = '0'; analysisBox.style.transform = 'translateY(20px)'; }
-  } else {
-    typedEl.style.color = '#fff';
-    typedEl.innerHTML = url.substring(0, chars) + (typeP < 1 ? '<span style="color:var(--accent);animation:blink .9s infinite">|</span>' : '');
+  // 0–0.15: site fades in
+  const siteP = eo(mr(progress, 0, 0.15));
+  site.style.opacity = siteP;
+  site.style.transform = `scale(${lerp(0.92, 1, siteP)})`;
+
+  // 0.15–0.45: scan line sweeps down the site
+  const scanP = mr(progress, 0.15, 0.45);
+  if (scan) {
+    scan.style.opacity = scanP > 0 && scanP < 1 ? '1' : '0';
+    scan.style.top = `${scanP * 100}%`;
   }
 
-  // 0.4–0.55: activate bar + analyzing
-  const analyzeP = mr(progress, 0.4, 0.55);
-  if (analyzeP > 0 && urlBar) urlBar.classList.add('active');
-  if (analyzeP > 0 && urlBtn) { urlBtn.classList.add('active'); urlBtn.textContent = analyzeP < 0.8 ? 'Analyzing...' : 'Done ✓'; }
+  // 0.4–0.5: site dims + shrinks slightly, arrow appears
+  const dissolveP = eo(mr(progress, 0.4, 0.55));
+  site.style.filter = `brightness(${lerp(1, 0.5, dissolveP)})`;
+  if (arrow) arrow.style.opacity = dissolveP;
 
-  // 0.55–0.75: show analysis results
-  const resultsP = eo(mr(progress, 0.55, 0.75));
-  if (analysisBox) {
-    analysisBox.style.opacity = resultsP;
-    analysisBox.style.transform = `translateY(${lerp(20, 0, resultsP)}px)`;
-  }
+  // 0.45–0.8: cards stagger in
+  cards.forEach((card, i) => {
+    const cardStart = 0.45 + i * 0.06;
+    const cardP = eo(mr(progress, cardStart, cardStart + 0.12));
+    card.style.opacity = cardP;
+    card.style.transform = `translateX(${lerp(20, 0, cardP)}px)`;
+  });
+
+  // Title
+  if (title) title.style.opacity = Math.max(0, Math.min(1, mr(progress, 0, 0.1)));
 }
 
 /* ── Phase 2: Competitor Learning ──────── */
@@ -1647,60 +1616,44 @@ function updatePhase2(progress) {
   if (titleEl) titleEl.style.opacity = Math.max(0, Math.min(1, titleOp));
 }
 
-/* ── Phase 3: Weekly Ad Gen ───────────── */
-const P3_NOTIFS = [
-  { icon: '🎬', app: 'Flayr', msg: 'Your Talking UGC ad is ready to preview.', time: 'now' },
-  { icon: '📸', app: 'Flayr', msg: 'Photo Ad generated — "Summer Collection"', time: '1m ago' },
-  { icon: '🚀', app: 'Flayr', msg: '5/5 ads ready — Review & Launch to Meta →', time: '3m ago' },
-];
-
-(function setupPhase3() {
-  const area = document.getElementById('p3-notif-area');
-  if (!area) return;
-  area.innerHTML = P3_NOTIFS.map((n, i) => `
-    <div class="p3-notif" data-i="${i}">
-      <div class="p3-notif-icon">${n.icon}</div>
-      <div class="p3-notif-body">
-        <div class="p3-notif-app">${n.app} <span class="p3-time">${n.time}</span></div>
-        <div class="p3-notif-msg">${n.msg}</div>
-      </div>
-    </div>
-  `).join('');
-})();
-
+/* ── Phase 3: Weekly Ad Gen — Calendar ── */
 function updatePhase3(progress) {
-  const area = document.getElementById('p3-notif-area');
-  const phone = document.getElementById('p3-phone');
-  if (!area) return;
-  const notifs = area.querySelectorAll('.p3-notif');
-  const N = notifs.length; // 3
+  const cal = document.getElementById('p3-calendar');
+  const title = document.getElementById('p3-title');
+  if (!cal) return;
 
-  const exitP = eo(mr(progress, 0.82, 1, 0, 1));
+  // 0–0.15: calendar fades in
+  const calP = eo(mr(progress, 0, 0.15));
+  cal.style.opacity = calP;
+  cal.style.transform = `translateY(${lerp(30, 0, calP)}px)`;
 
-  // Phone fades in first
-  if (phone) {
-    const phoneP = eo(mr(progress, 0, 0.15, 0, 1));
-    phone.style.opacity = lerp(0, 0.6, phoneP) * (1 - exitP);
-    phone.style.transform = `translateY(${lerp(40, 0, phoneP)}px)`;
+  // 0.15–0.75: ad thumbnails drop into slots one by one (5 active days)
+  const slots = cal.querySelectorAll('.p3-cal-slot[data-slot]');
+  const activeSlots = 5;
+  for (let i = 0; i < activeSlots; i++) {
+    const slot = slots[i];
+    if (!slot) continue;
+    const thumb = slot.querySelector('.p3-cal-thumb');
+    const slotStart = 0.15 + i * 0.11;
+    const slotP = eo(mr(progress, slotStart, slotStart + 0.1));
+
+    if (slotP > 0) {
+      slot.classList.add('filled');
+      if (thumb) {
+        thumb.style.opacity = slotP;
+        thumb.style.transform = `translateY(${lerp(-20, 0, slotP)}px) scale(${lerp(0.85, 1, slotP)})`;
+      }
+    } else {
+      slot.classList.remove('filled');
+      if (thumb) {
+        thumb.style.opacity = '0';
+        thumb.style.transform = 'translateY(-20px) scale(.85)';
+      }
+    }
   }
 
-  // Each notif: enter from below → rest at Y=0 → exit upward
-  const slotSize = 0.7 / N;
-  notifs.forEach((el, i) => {
-    const start = 0.1 + i * slotSize;
-    const enterEnd = start + slotSize * 0.25;
-    const holdEnd = start + slotSize * 0.75;
-    const outEnd = start + slotSize;
-
-    const enterVal = eo(mr(progress, start, enterEnd, 0, 1));
-    const outVal = i < N - 1 ? eo(mr(progress, holdEnd, outEnd, 0, 1)) : 0;
-    const vis = enterVal * (1 - outVal) * (1 - exitP);
-
-    // Enter: Y 40→0, Exit: Y 0→-30
-    const y = outVal > 0 ? lerp(0, -30, outVal) : lerp(40, 0, enterVal);
-    el.style.opacity = vis;
-    el.style.transform = `translateY(${y}px) scale(${lerp(0.92, 1, enterVal)})`;
-  });
+  // Title
+  if (title) title.style.opacity = Math.max(0, Math.min(1, mr(progress, 0, 0.1)));
 }
 
 /* ── Phase 4: Launch to Meta & TikTok ──── */
