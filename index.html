@@ -110,10 +110,12 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   object-fit:cover;object-position:center 30%;
   opacity:.15;pointer-events:none;
 }
-/* Hero video — inline below CTA */
+/* Hero video — inline below CTA, cropped from top */
 #hero-video{
   position:relative;z-index:5;
   width:100%;max-width:1200px;
+  height:clamp(300px,42vw,560px);
+  object-fit:cover;object-position:center bottom;
   margin-top:48px;
   opacity:.7;
 }
@@ -142,10 +144,10 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 /* Fade the phone video edges so they blend with the starry bg */
 #hero-video{
-  -webkit-mask-image:linear-gradient(to bottom,#000 50%,transparent 98%),
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 10%,#000 50%,transparent 98%),
     linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
   -webkit-mask-composite:destination-in;
-  mask-image:linear-gradient(to bottom,#000 50%,transparent 98%),
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 10%,#000 50%,transparent 98%),
     linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
   mask-composite:intersect;
 }
@@ -1450,10 +1452,9 @@ function updatePhase1(progress) {
   const title = document.getElementById('p1-title');
   if (!site) return;
 
-  // 0–0.15: site fades in
+  // 0–0.15: site fades in flat
   const siteP = eo(mr(progress, 0, 0.15));
   site.style.opacity = siteP;
-  site.style.transform = `perspective(800px) rotateY(0deg) rotateX(0deg) scale(${lerp(0.92, 1, siteP)})`;
 
   // 0.15–0.45: scan line sweeps down + screenshot tilts from 2D to 3D
   const scanP = mr(progress, 0.15, 0.45);
@@ -1462,14 +1463,17 @@ function updatePhase1(progress) {
     scan.style.opacity = scanP > 0 && scanP < 1 ? '1' : '0';
     scan.style.top = `${scanP * 100}%`;
   }
-  if (progress >= 0.15 && progress < 0.4) {
-    site.style.transform = `perspective(800px) rotateY(${lerp(0, -6, tiltP)}deg) rotateX(${lerp(0, 3, tiltP)}deg) scale(1)`;
-  }
 
   // 0.4–0.55: site dims, shrinks, loses glow — no longer the focus
   const dissolveP = eo(mr(progress, 0.4, 0.55));
   site.style.filter = `brightness(${lerp(1, 0.5, dissolveP)})`;
-  site.style.transform = `perspective(800px) rotateY(-6deg) rotateX(3deg) scale(${lerp(1, 0.78, dissolveP)})`;
+
+  // Compute transform: 2D → 3D tilt → shrink (mutually exclusive phases)
+  const ry = lerp(0, -6, tiltP);
+  const rx = lerp(0, 3, tiltP);
+  const sc = progress >= 0.4 ? lerp(1, 0.78, dissolveP) : lerp(0.92, 1, siteP);
+  site.style.transform = `perspective(800px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${sc})`;
+
   site.style.boxShadow = dissolveP > 0
     ? `0 20px 60px rgba(0,0,0,.5),0 0 ${lerp(80,20,dissolveP)}px rgba(0,0,0,.3),0 0 ${lerp(120,0,dissolveP)}px rgba(0,212,255,${lerp(.12,0,dissolveP)})`
     : '';
