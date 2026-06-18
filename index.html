@@ -136,9 +136,13 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 /* Curved dark landscape at bottom */
 .hero-floor{
-  position:absolute;bottom:0;left:-10%;right:-10%;height:30vh;
-  background:radial-gradient(ellipse 120% 100% at 50% 100%,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%);
+  position:absolute;bottom:0;left:-10%;right:-10%;height:40vh;
+  background:radial-gradient(ellipse 120% 100% at 50% 100%,rgba(0,0,0,.5) 0%,rgba(0,0,0,0) 100%);
   pointer-events:none;
+}
+#hero-video{
+  -webkit-mask-image:radial-gradient(ellipse 90% 85% at 50% 45%,#000 60%,transparent 100%);
+  mask-image:radial-gradient(ellipse 90% 85% at 50% 45%,#000 60%,transparent 100%);
 }
 
 /* ── Hero center column ── */
@@ -371,10 +375,12 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .p3-row-name{font-size:12px;font-weight:600;color:#fff;}
 .p3-row-type{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px;}
 .p3-row-thumb{
-  width:36px;height:36px;border-radius:10px;flex-shrink:0;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);
-  display:flex;align-items:center;justify-content:center;font-size:16px;
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  border:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
 }
+.p3-row-thumb svg{position:relative;z-index:2;opacity:.5;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));}
 .p3-row-status{display:flex;align-items:center;gap:5px;}
 .p3-row-dot{
   width:6px;height:6px;border-radius:50%;
@@ -587,7 +593,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   padding:22px 20px 16px;text-align:center;
   font-family:var(--font-head);font-size:13px;font-weight:600;color:rgba(255,255,255,.35);
   letter-spacing:.04em;text-transform:uppercase;
-  vertical-align:bottom;
+  vertical-align:middle;
 }
 .compare-table th:first-child{text-align:left;color:transparent;padding-left:24px;}
 .compare-table th.col-flayr{
@@ -908,7 +914,7 @@ footer{
   </div>
 
   <video id="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-phones.mp4" type="video/mp4"/>
+    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-bg.mp4" type="video/mp4"/>
   </video>
 </section>
 
@@ -934,9 +940,9 @@ footer{
         <div class="phase-eyebrow">01 — Brand Intelligence</div>
         <h2 class="phase-title">We read your brand. <em>In seconds.</em></h2>
       </div>
-      <div id="p1-scene" style="position:relative;margin-top:min(170px,22vh);width:min(800px,90vw);display:flex;align-items:center;justify-content:center;gap:40px">
+      <div id="p1-scene" style="position:relative;margin-top:min(170px,22vh);width:min(920px,90vw);display:flex;align-items:center;justify-content:center;gap:40px">
         <!-- Website screenshot (left side) -->
-        <div id="p1-site" style="position:relative;flex-shrink:0;width:240px;border-radius:16px;overflow:hidden;
+        <div id="p1-site" style="position:relative;flex-shrink:0;width:360px;border-radius:16px;overflow:hidden;
           border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3),0 0 120px rgba(0,212,255,.06);transition:transform .6s cubic-bezier(.16,1,.3,1),filter .6s cubic-bezier(.16,1,.3,1),box-shadow .6s cubic-bezier(.16,1,.3,1)">
           <img id="p1-screenshot" src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/comfrt-screenshot.png" alt="Brand website"
             style="width:100%;display:block"/>
@@ -1065,27 +1071,27 @@ footer{
               <!-- Ad cards -->
               <div style="padding:8px 14px 14px;display:flex;flex-direction:column;gap:6px" id="p3-rows">
                 <div class="p3-row" data-slot="0" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.2)">🎬</div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);border-color:rgba(139,92,246,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Summer Vibes UGC</div><div class="p3-row-type">Talking UGC · 15s · Mon</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="1" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2)">📸</div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#f59e0b,#d97706);border-color:rgba(245,158,11,.3)"><svg width="14" height="12" viewBox="0 0 14 12" fill="none"><rect x="1" y="2" width="12" height="8" rx="1.5" stroke="#fff" stroke-width="1.2" fill="none"/><circle cx="4.5" cy="5.5" r="1.2" fill="#fff"/><path d="M1 9l3-2.5 2 1.5 3-3 4 4" stroke="#fff" stroke-width="1" fill="none"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Product Showcase</div><div class="p3-row-type">Photo Ad · Static · Tue</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="2" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.2)">🗣️</div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#06b6d4,#0891b2);border-color:rgba(6,182,212,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Founder Story</div><div class="p3-row-type">Talking Head · 30s · Wed</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="3" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:rgba(236,72,153,.1);border-color:rgba(236,72,153,.2)">🎭</div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#ec4899,#db2777);border-color:rgba(236,72,153,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Before &amp; After</div><div class="p3-row-type">Story Ad · 12s · Thu</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="4" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2)">🔄</div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#22c55e,#16a34a);border-color:rgba(34,197,94,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Retarget Carousel</div><div class="p3-row-type">Reaction UGC · 20s · Fri</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
@@ -1303,7 +1309,7 @@ footer{
           <th></th>
           <th class="col-flayr">
             <div class="flayr-logo-icon">
-              <img src="logo.png" alt="Flayr" style="height:28px;width:auto;filter:brightness(0) invert(1)"/>
+              <img src="logo.png" alt="Flayr" style="height:20px;width:auto;filter:brightness(0) invert(1)"/>
             </div>
           </th>
           <th>Agencies</th>
@@ -1588,9 +1594,9 @@ function updatePhase3(progress) {
 
 /* ── Phase 4: Launch to Meta & TikTok ──── */
 const P4_CAMPAIGNS = [
-  { name: 'Summer UGC', type: 'Talking UGC', budget: '$25/day', thumb: '🎬', color: '#8b5cf6' },
-  { name: 'Product Launch', type: 'Photo Ad', budget: '$40/day', thumb: '📸', color: '#f59e0b' },
-  { name: 'Retargeting', type: 'Reaction UGC', budget: '$15/day', thumb: '🔄', color: '#06b6d4' },
+  { name: 'Summer UGC', type: 'Talking UGC', budget: '$25/day', thumb: 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/p4-thumb-summer-ugc.png', color: '#8b5cf6' },
+  { name: 'Product Launch', type: 'Photo Ad', budget: '$40/day', thumb: 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/p4-thumb-product-launch.png', color: '#f59e0b' },
+  { name: 'Retargeting', type: 'Reaction UGC', budget: '$15/day', thumb: 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/p4-thumb-retargeting.png', color: '#06b6d4' },
 ];
 
 (function setupPhase4() {
@@ -1601,8 +1607,8 @@ const P4_CAMPAIGNS = [
       display:flex;align-items:center;gap:12px;
       padding:12px;border-radius:14px;background:rgba(255,255,255,.03);
       border:1px solid rgba(255,255,255,.04);transition:none">
-      <div style="width:40px;height:40px;border-radius:10px;background:${c.color}15;border:1px solid ${c.color}30;
-        display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${c.thumb}</div>
+      <div style="width:40px;height:40px;border-radius:10px;overflow:hidden;border:1px solid ${c.color}30;flex-shrink:0">
+        <img src="${c.thumb}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;display:block"/></div>
       <div style="flex:1;min-width:0">
         <div style="font-size:12px;font-weight:600;color:#fff">${c.name}</div>
         <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:1px">${c.type} · ${c.budget}</div>
@@ -2000,20 +2006,18 @@ if (manifestoEl) {
 /* ── Why Flayr comparison table ─────────── */
 const CK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const NO = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>';
-const PT = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="rgba(255,255,255,.2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const compareRows = [
   { feature:'Weekly fresh creatives', flayr:'yes', agency:'no', tools:'no' },
-  { feature:'Under 3 min per ad', flayr:'yes', agency:'no', tools:'partial' },
-  { feature:'Brand intelligence built-in', flayr:'yes', agency:'partial', tools:'no' },
-  { feature:'Competitor analysis', flayr:'yes', agency:'yes', tools:'no' },
-  { feature:'One-click Meta launch', flayr:'yes', agency:'yes', tools:'partial' },
-  { feature:'UGC video generation', flayr:'yes', agency:'yes', tools:'partial' },
+  { feature:'Under 3 min per ad', flayr:'yes', agency:'no', tools:'yes' },
+  { feature:'Brand intelligence built-in', flayr:'yes', agency:'no', tools:'no' },
+  { feature:'Competitor analysis', flayr:'yes', agency:'yes', tools:'yes' },
+  { feature:'One-click Meta launch', flayr:'yes', agency:'yes', tools:'yes' },
+  { feature:'UGC video generation', flayr:'yes', agency:'yes', tools:'no' },
   { feature:'No contracts or minimums', flayr:'yes', agency:'no', tools:'yes' },
-  { feature:'From $49.99/mo', flayr:'yes', agency:'no', tools:'partial' },
+  { feature:'From $49.99/mo', flayr:'yes', agency:'no', tools:'yes' },
 ];
 function cellIcon(v) {
   if (v === 'yes') return `<span class="check-icon yes">${CK}</span>`;
-  if (v === 'partial') return `<span class="check-icon partial">${PT}</span>`;
   return `<span class="check-icon no">${NO}</span>`;
 }
 const compareBody = document.getElementById('compare-body');
