@@ -134,15 +134,20 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   background:radial-gradient(ellipse,rgba(0,212,255,.03) 0%,transparent 60%);
   filter:blur(80px);pointer-events:none;
 }
-/* Curved dark landscape at bottom */
+/* Curved dark landscape at bottom — feathers into the bg video */
 .hero-floor{
-  position:absolute;bottom:0;left:-10%;right:-10%;height:40vh;
-  background:radial-gradient(ellipse 120% 100% at 50% 100%,rgba(0,0,0,.5) 0%,rgba(0,0,0,0) 100%);
-  pointer-events:none;
+  position:absolute;bottom:0;left:-10%;right:-10%;height:50vh;
+  background:linear-gradient(to top,var(--bg) 0%,transparent 100%);
+  pointer-events:none;z-index:4;
 }
+/* Fade the phone video edges so they blend with the starry bg */
 #hero-video{
-  -webkit-mask-image:radial-gradient(ellipse 90% 85% at 50% 45%,#000 60%,transparent 100%);
-  mask-image:radial-gradient(ellipse 90% 85% at 50% 45%,#000 60%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,#000 50%,transparent 98%),
+    linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  -webkit-mask-composite:destination-in;
+  mask-image:linear-gradient(to bottom,#000 50%,transparent 98%),
+    linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  mask-composite:intersect;
 }
 
 /* ── Hero center column ── */
@@ -598,13 +603,14 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .compare-table th:first-child{text-align:left;color:transparent;padding-left:24px;}
 .compare-table th.col-flayr{
   color:var(--accent);
-  background:rgba(0,212,255,.04);
-  border-bottom:1px solid rgba(0,212,255,.1);
+  background:rgba(0,212,255,.06);
+  border-bottom:1px solid rgba(0,212,255,.15);
   font-weight:700;
 }
 .compare-table th.col-flayr .flayr-logo-icon{
   display:flex;align-items:center;justify-content:center;
   margin:8px auto 10px;
+  filter:drop-shadow(0 0 10px rgba(0,212,255,.35)) drop-shadow(0 0 20px rgba(0,212,255,.15));
 }
 .compare-table td{
   padding:16px 20px;text-align:center;
@@ -940,10 +946,13 @@ footer{
         <div class="phase-eyebrow">01 — Brand Intelligence</div>
         <h2 class="phase-title">We read your brand. <em>In seconds.</em></h2>
       </div>
-      <div id="p1-scene" style="position:relative;margin-top:min(170px,22vh);width:min(920px,90vw);display:flex;align-items:center;justify-content:center;gap:40px">
+      <div id="p1-scene" style="position:relative;margin-top:min(170px,22vh);width:min(980px,92vw);display:flex;align-items:center;justify-content:center;gap:48px">
         <!-- Website screenshot (left side) -->
-        <div id="p1-site" style="position:relative;flex-shrink:0;width:360px;border-radius:16px;overflow:hidden;
-          border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3),0 0 120px rgba(0,212,255,.06);transition:transform .6s cubic-bezier(.16,1,.3,1),filter .6s cubic-bezier(.16,1,.3,1),box-shadow .6s cubic-bezier(.16,1,.3,1)">
+        <div id="p1-site" style="position:relative;flex-shrink:0;width:420px;border-radius:16px;overflow:hidden;
+          border:1px solid rgba(255,255,255,.1);
+          box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3),0 0 120px rgba(0,212,255,.12),0 0 200px rgba(0,212,255,.04);
+          transform:perspective(800px) rotateY(-4deg) rotateX(2deg);
+          transition:transform .6s cubic-bezier(.16,1,.3,1),filter .6s cubic-bezier(.16,1,.3,1),box-shadow .6s cubic-bezier(.16,1,.3,1)">
           <img id="p1-screenshot" src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/comfrt-screenshot.png" alt="Brand website"
             style="width:100%;display:block"/>
           <!-- Scan line overlay -->
@@ -1071,27 +1080,27 @@ footer{
               <!-- Ad cards -->
               <div style="padding:8px 14px 14px;display:flex;flex-direction:column;gap:6px" id="p3-rows">
                 <div class="p3-row" data-slot="0" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);border-color:rgba(139,92,246,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#a855f7 0%,#6366f1 40%,#06b6d4 100%);border-color:rgba(139,92,246,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Summer Vibes UGC</div><div class="p3-row-type">Talking UGC · 15s · Mon</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="1" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#f59e0b,#d97706);border-color:rgba(245,158,11,.3)"><svg width="14" height="12" viewBox="0 0 14 12" fill="none"><rect x="1" y="2" width="12" height="8" rx="1.5" stroke="#fff" stroke-width="1.2" fill="none"/><circle cx="4.5" cy="5.5" r="1.2" fill="#fff"/><path d="M1 9l3-2.5 2 1.5 3-3 4 4" stroke="#fff" stroke-width="1" fill="none"/></svg></div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(160deg,#fb923c 0%,#f43f5e 50%,#a855f7 100%);border-color:rgba(245,158,11,.3)"><svg width="14" height="12" viewBox="0 0 14 12" fill="none"><rect x="1" y="2" width="12" height="8" rx="1.5" stroke="#fff" stroke-width="1.2" fill="none"/><circle cx="4.5" cy="5.5" r="1.2" fill="#fff"/><path d="M1 9l3-2.5 2 1.5 3-3 4 4" stroke="#fff" stroke-width="1" fill="none"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Product Showcase</div><div class="p3-row-type">Photo Ad · Static · Tue</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="2" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#06b6d4,#0891b2);border-color:rgba(6,182,212,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 50%,#8b5cf6 100%);border-color:rgba(6,182,212,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Founder Story</div><div class="p3-row-type">Talking Head · 30s · Wed</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="3" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#ec4899,#db2777);border-color:rgba(236,72,153,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(145deg,#f472b6 0%,#c084fc 40%,#60a5fa 100%);border-color:rgba(236,72,153,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Before &amp; After</div><div class="p3-row-type">Story Ad · 12s · Thu</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
                 <div class="p3-row" data-slot="4" style="opacity:0;transform:translateY(14px)">
-                  <div class="p3-row-thumb" style="background:linear-gradient(135deg,#22c55e,#16a34a);border-color:rgba(34,197,94,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
+                  <div class="p3-row-thumb" style="background:linear-gradient(150deg,#34d399 0%,#2dd4bf 40%,#38bdf8 100%);border-color:rgba(34,197,94,.3)"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1 1.5v11l10-5.5L1 1.5z" fill="#fff"/></svg></div>
                   <div class="p3-row-info"><div class="p3-row-name">Retarget Carousel</div><div class="p3-row-type">Reaction UGC · 20s · Fri</div></div>
                   <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
                 </div>
@@ -1309,7 +1318,7 @@ footer{
           <th></th>
           <th class="col-flayr">
             <div class="flayr-logo-icon">
-              <img src="logo.png" alt="Flayr" style="height:20px;width:auto;filter:brightness(0) invert(1)"/>
+              <img src="logo.png" alt="Flayr" style="height:24px;width:auto;filter:brightness(0) invert(1);drop-shadow(0 0 8px rgba(0,212,255,.4))"/>
             </div>
           </th>
           <th>Agencies</th>
@@ -1444,7 +1453,7 @@ function updatePhase1(progress) {
   // 0–0.15: site fades in
   const siteP = eo(mr(progress, 0, 0.15));
   site.style.opacity = siteP;
-  site.style.transform = `scale(${lerp(0.92, 1, siteP)})`;
+  site.style.transform = `perspective(800px) rotateY(-4deg) rotateX(2deg) scale(${lerp(0.92, 1, siteP)})`;
 
   // 0.15–0.45: scan line sweeps down the site
   const scanP = mr(progress, 0.15, 0.45);
@@ -1456,9 +1465,9 @@ function updatePhase1(progress) {
   // 0.4–0.55: site dims, shrinks, loses glow — no longer the focus
   const dissolveP = eo(mr(progress, 0.4, 0.55));
   site.style.filter = `brightness(${lerp(1, 0.5, dissolveP)})`;
-  site.style.transform = `scale(${lerp(1, 0.78, dissolveP)})`;
+  site.style.transform = `perspective(800px) rotateY(-4deg) rotateX(2deg) scale(${lerp(1, 0.78, dissolveP)})`;
   site.style.boxShadow = dissolveP > 0
-    ? `0 20px 60px rgba(0,0,0,.5),0 0 ${lerp(80,20,dissolveP)}px rgba(0,0,0,.3),0 0 ${lerp(120,0,dissolveP)}px rgba(0,212,255,${lerp(.06,0,dissolveP)})`
+    ? `0 20px 60px rgba(0,0,0,.5),0 0 ${lerp(80,20,dissolveP)}px rgba(0,0,0,.3),0 0 ${lerp(120,0,dissolveP)}px rgba(0,212,255,${lerp(.12,0,dissolveP)})`
     : '';
   if (arrow) arrow.style.opacity = dissolveP;
 
@@ -2010,11 +2019,11 @@ const compareRows = [
   { feature:'Weekly fresh creatives', flayr:'yes', agency:'no', tools:'no' },
   { feature:'Under 3 min per ad', flayr:'yes', agency:'no', tools:'yes' },
   { feature:'Brand intelligence built-in', flayr:'yes', agency:'no', tools:'no' },
-  { feature:'Competitor analysis', flayr:'yes', agency:'yes', tools:'yes' },
-  { feature:'One-click Meta launch', flayr:'yes', agency:'yes', tools:'yes' },
-  { feature:'UGC video generation', flayr:'yes', agency:'yes', tools:'no' },
+  { feature:'Competitor analysis', flayr:'yes', agency:'yes', tools:'no' },
+  { feature:'One-click Meta launch', flayr:'yes', agency:'no', tools:'no' },
+  { feature:'UGC video generation', flayr:'yes', agency:'yes', tools:'yes' },
   { feature:'No contracts or minimums', flayr:'yes', agency:'no', tools:'yes' },
-  { feature:'From $49.99/mo', flayr:'yes', agency:'no', tools:'yes' },
+  { feature:'From $49.99/mo', flayr:'yes', agency:'no', tools:'no' },
 ];
 function cellIcon(v) {
   if (v === 'yes') return `<span class="check-icon yes">${CK}</span>`;
