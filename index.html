@@ -796,28 +796,27 @@ footer{
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
   .hero-trust{gap:6px;font-size:11px;}
 
-  /* Hero video — visible but not dominating */
+  /* Hero video — BIG, let it bleed off-screen if needed */
   #hero-video{
-    height:clamp(260px,58vw,380px);
-    margin-top:12px;
+    height:clamp(340px,80vw,500px);
+    margin-top:10px;
     object-position:center bottom;
   }
-  /* Softer bottom fade on mobile so phones aren't cut off */
   #hero-video{
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 78%,transparent 100%),
-      linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%)!important;
-    mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 78%,transparent 100%),
-      linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%)!important;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%),
+      linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%)!important;
+    mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%),
+      linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%)!important;
   }
 
-  /* Stats — smoother overlap */
-  #stats{margin-top:-60px;padding-top:40px!important;}
+  /* Stats — no overlap, clean flow */
+  #stats{margin-top:-40px;}
   .stats-grid{grid-template-columns:1fr 1fr;}
   .stat-cell{padding:18px 10px;}
   .stat-val{font-size:clamp(26px,7vw,40px);}
   .stat-lbl{font-size:11px;}
 
-  /* ── Scroll showcase: stacked sections on mobile (no sticky scroll) ── */
+  /* ═══ Scroll showcase: stacked sections on mobile (no sticky) ═══ */
   #showcase{height:auto!important;}
   #showcase-sticky{
     position:relative!important;
@@ -826,6 +825,8 @@ footer{
     display:block!important;
   }
   .showcase-glow{display:none!important;}
+
+  /* Phases: stacked in flow, fade in via CSS only */
   .phase{
     position:relative!important;
     inset:auto!important;
@@ -835,74 +836,113 @@ footer{
     min-height:auto;
     padding:40px 16px 50px!important;
     opacity:0!important;
-    transform:translateY(30px)!important;
-    transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)!important;
+    transform:translateY(24px)!important;
+    transition:opacity .8s ease-out,transform .8s ease-out!important;
   }
   .phase.mob-visible{
     opacity:1!important;
     transform:none!important;
   }
-  /* Phase titles: relative flow instead of absolute */
+
+  /* Phase titles: in-flow, not absolute */
   #p1-title,#p2-title,#p3-title,#p4-title{
     position:relative!important;
-    top:auto!important;
-    left:auto!important;
-    right:auto!important;
+    top:auto!important;left:auto!important;right:auto!important;
     margin-bottom:24px!important;
+    opacity:1!important;
   }
   .phase-title{font-size:clamp(22px,6vw,36px);}
   .phase-eyebrow{font-size:10px;letter-spacing:.08em;}
 
-  /* Phase content: remove scroll-based margins */
+  /* ── Phase 1: brand intel — pure CSS reveal ── */
   #p1-scene{flex-direction:column!important;gap:20px!important;align-items:center!important;margin-top:0!important;}
-  #p2-container{margin-top:0!important;height:300px!important;width:100vw!important;}
-  #p2-row{gap:16px!important;padding:0 20vw!important;}
-  .p2-phone .iphone{width:120px!important;}
-  /* Hide the "your ad" overlay on mobile — it overlaps the title */
-  #p2-your{display:none!important;}
-  #p3-dash{margin-top:0!important;}
-  /* P3 wrapper div margin */
-  #phase-3 > div:last-child{margin-top:0!important;}
-  #p4-dash{margin-top:0!important;width:95vw!important;}
-
-  /* Phase 1 — brand intel */
   #p1-site{width:min(300px,80vw)!important;}
   #p1-arrow{display:none!important;}
   #p1-cards{width:min(300px,85vw)!important;}
+  /* On visible: reveal site + cards with staggered transitions */
+  .mob-visible #p1-site{
+    opacity:1!important;
+    transform:perspective(900px) rotateY(-4deg) rotateX(2deg) scale(1)!important;
+    transition:opacity .8s ease-out .1s,transform .8s ease-out .1s!important;
+  }
+  .mob-visible .p1-card{
+    opacity:1!important;transform:none!important;
+    transition:opacity .5s ease-out,transform .5s ease-out!important;
+  }
+  .mob-visible .p1-card:nth-child(1){transition-delay:.4s!important;}
+  .mob-visible .p1-card:nth-child(2){transition-delay:.55s!important;}
+  .mob-visible .p1-card:nth-child(3){transition-delay:.7s!important;}
+  .mob-visible .p1-card:nth-child(4){transition-delay:.85s!important;}
+  .mob-visible .p1-card:nth-child(5){transition-delay:1s!important;}
 
-  /* Phase 3 — hide sidebar, queue rows tighter */
+  /* ── Phase 2: competitor phones — CSS auto-scroll loop ── */
+  #p2-container{margin-top:0!important;height:280px!important;width:100vw!important;}
+  #p2-row{gap:16px!important;padding:0 10vw!important;}
+  .p2-phone .iphone{width:120px!important;}
+  #p2-your{display:none!important;}
+  .mob-visible #p2-row{
+    animation:mobP2Scroll 20s linear infinite!important;
+  }
+
+  /* ── Phase 3: dashboard — CSS staggered rows ── */
+  #p3-dash{margin-top:0!important;}
+  #phase-3 > div:last-child{margin-top:0!important;}
+  .mob-visible #p3-dash{
+    opacity:1!important;transform:none!important;
+    transition:opacity .7s ease-out .1s,transform .7s ease-out .1s!important;
+  }
+  .mob-visible .p3-row{
+    opacity:1!important;transform:none!important;
+    transition:opacity .5s ease-out,transform .5s ease-out!important;
+  }
+  .mob-visible .p3-row[data-slot="0"]{transition-delay:.3s!important;}
+  .mob-visible .p3-row[data-slot="1"]{transition-delay:.5s!important;}
+  .mob-visible .p3-row[data-slot="2"]{transition-delay:.7s!important;}
+  .mob-visible .p3-row[data-slot="3"]{transition-delay:.9s!important;}
+  .mob-visible .p3-row[data-slot="4"]{transition-delay:1.1s!important;}
   #phase-3 .p3-row{padding:10px;gap:8px;}
   .p3-row-name{font-size:12px;}
   .p3-row-type{font-size:9px;}
   .p3-row-thumb{width:32px;height:32px;font-size:14px;}
   .p3-row-status-txt{font-size:9px;}
-  /* Hide P3 sidebar on mobile */
   #p3-dash > div > div:first-child{width:0!important;padding:0!important;border:none!important;overflow:hidden!important;}
 
-  /* Phase 4 sidebar — hide on mobile */
+  /* ── Phase 4: launch — CSS staggered cards ── */
+  #p4-dash{margin-top:0!important;width:95vw!important;}
   .p4-sidebar{display:none!important;}
+  .mob-visible #p4-dash{
+    opacity:1!important;transform:none!important;
+    transition:opacity .7s ease-out .1s,transform .7s ease-out .1s!important;
+  }
+  .mob-visible .p4-card{
+    opacity:1!important;transform:none!important;
+    transition:opacity .5s ease-out,transform .5s ease-out!important;
+  }
+  .mob-visible .p4-card[data-i="0"]{transition-delay:.3s!important;}
+  .mob-visible .p4-card[data-i="1"]{transition-delay:.5s!important;}
+  .mob-visible .p4-card[data-i="2"]{transition-delay:.7s!important;}
 
-  /* Formats — tighter padding on mobile */
+  /* Formats — tighter */
   #formats{padding:clamp(50px,8vw,80px) 16px!important;}
   .formats-carousel{height:auto;}
   .format-tabs{gap:6px;}
   .format-tab{padding:6px 12px;font-size:11px;}
 
-  /* How it works — less vertical space */
+  /* How it works */
   #how{padding:clamp(50px,8vw,80px) 16px!important;}
   .steps-grid{grid-template-columns:1fr;gap:32px;}
   .step-visual{max-width:320px;margin:0 auto;}
 
-  /* Manifesto — bigger text, fewer words per line, less height */
+  /* Manifesto — bigger text, fewer words per line */
   #manifesto{padding:clamp(50px,8vw,80px) 16px clamp(30px,4vw,60px);min-height:120vh!important;}
   .manifesto-text{font-size:clamp(22px,6vw,30px);line-height:1.55;max-width:100%;}
 
-  /* General section spacing tighter */
+  /* Section spacing */
   #why{padding:clamp(50px,8vw,80px) 16px!important;}
   .sec-h2{font-size:clamp(24px,6.5vw,36px);}
   .sec-sub{font-size:clamp(14px,3.5vw,16px);}
 
-  /* Compare table — fully responsive, no horizontal scroll */
+  /* Compare table */
   .compare-wrap{overflow-x:visible;}
   .compare-table{min-width:0;table-layout:fixed;width:100%;}
   .compare-table th,.compare-table td{padding:10px 6px;font-size:12px;}
@@ -922,7 +962,7 @@ footer{
   .faq-title{font-size:clamp(28px,7vw,40px);}
   .faq-grid{grid-template-columns:1fr;}
 
-  /* CTA section */
+  /* CTA */
   #cta{padding:clamp(60px,8vw,100px) 16px;}
   .cta-h2{font-size:clamp(26px,7vw,44px);}
   .cta-sub{font-size:15px;}
@@ -930,9 +970,12 @@ footer{
   /* Footer */
   footer{padding:36px 20px 24px;}
   .footer-links{gap:18px;}
-
-  /* Compare table Flayr logo — smaller on mobile */
   .flayr-logo-icon img{height:18px!important;}
+}
+/* Phase 2 mobile auto-scroll keyframes (outside media query for compat) */
+@keyframes mobP2Scroll{
+  0%{transform:translate3d(10%,0,0);}
+  100%{transform:translate3d(-65%,0,0);}
 }
 </style>
 </head>
@@ -1838,75 +1881,13 @@ if (!_isMobile) {
   }, { passive: true });
 }
 
-/* ── Mobile: stacked phases with IntersectionObserver ── */
+/* ── Mobile: pure CSS animations, no JS loops ── */
 if (_isMobile) {
-  function _mobAnimate(updateFn, duration, onDone) {
-    const start = performance.now();
-    function tick(now) {
-      const raw = Math.min(1, (now - start) / duration);
-      const t = raw * raw * (3 - 2 * raw); // smoothstep
-      updateFn(t);
-      if (raw < 1) requestAnimationFrame(tick);
-      else if (onDone) onDone();
-    }
-    requestAnimationFrame(tick);
-  }
-
-  // Mobile Phase 2: simplified — just scroll the competitor row and load videos
-  function _mobUpdatePhase2(progress) {
-    const row = document.getElementById('p2-row');
-    const titleEl = document.getElementById('p2-title');
-    if (!row) return;
-    // Load videos once
-    if (!_p2VideosLoaded) {
-      _p2VideosLoaded = true;
-      Array.from(row.querySelectorAll('video[data-src]')).forEach((v, i) => {
-        setTimeout(() => {
-          v.src = v.dataset.src;
-          v.removeAttribute('data-src');
-          v.load();
-          const tryPlay = () => v.play().catch(() => {});
-          v.readyState >= 3 ? tryPlay() : v.addEventListener('canplay', tryPlay, { once: true });
-        }, i * 150);
-      });
-    }
-    if (titleEl) titleEl.style.opacity = '1';
-    // Scroll the row across
-    const totalW = row.scrollWidth;
-    const offsetX = lerp(100, -totalW * 0.3, progress);
-    row.style.transform = `translate3d(${offsetX}px,0,0)`;
-    // Fade in phones
-    const phones = row.querySelectorAll('.p2-phone');
-    phones.forEach(phone => {
-      phone.style.opacity = '1';
-      phone.style.filter = 'none';
-      const aura = phone.querySelector('.p2-red-aura');
-      if (aura) aura.style.opacity = '0';
-    });
-  }
-
-  // Looping Phase 2 auto-scroll
-  function _mobLoopPhase2() {
-    const row = document.getElementById('p2-row');
-    if (!row) return;
-    const totalW = row.scrollWidth;
-    let offset = 100;
-    function scroll() {
-      offset -= 0.3;
-      if (offset < -totalW * 0.35) offset = 100;
-      row.style.transform = `translate3d(${offset}px,0,0)`;
-      requestAnimationFrame(scroll);
-    }
-    requestAnimationFrame(scroll);
-  }
-
   phases.forEach(p => {
     if (!p) return;
-    p.style.opacity = '0';
     p.style.pointerEvents = 'auto';
   });
 
-  const _mobDurations = [4000, 3000, 3500, 4000];
   const _mobTriggered = [false, false, false, false];
 
   const _mobObserver = new IntersectionObserver((entries) => {
@@ -1918,17 +1899,77 @@ if (_isMobile) {
 
       entry.target.classList.add('mob-visible');
 
-      setTimeout(() => {
-        if (idx === 1) {
-          // Phase 2: quick entrance then loop
-          _mobAnimate(_mobUpdatePhase2, 2000, _mobLoopPhase2);
-        } else {
-          const fns = [updatePhase1, null, updatePhase3, updatePhase4];
-          if (fns[idx]) _mobAnimate(fns[idx], _mobDurations[idx]);
+      // Phase 2: load videos + show phones
+      if (idx === 1) {
+        const row = document.getElementById('p2-row');
+        if (row && !_p2VideosLoaded) {
+          _p2VideosLoaded = true;
+          Array.from(row.querySelectorAll('video[data-src]')).forEach((v, i) => {
+            setTimeout(() => {
+              v.src = v.dataset.src;
+              v.removeAttribute('data-src');
+              v.load();
+              const tryPlay = () => v.play().catch(() => {});
+              v.readyState >= 3 ? tryPlay() : v.addEventListener('canplay', tryPlay, { once: true });
+            }, i * 200);
+          });
         }
-      }, 500);
+        const phones = row ? row.querySelectorAll('.p2-phone') : [];
+        phones.forEach(phone => {
+          phone.style.opacity = '1';
+          phone.style.filter = 'none';
+        });
+      }
+
+      // Phase 3: flip rows to "Ready" after staggered delay
+      if (idx === 2) {
+        const rows = document.querySelectorAll('#p3-dash .p3-row');
+        const counter = document.getElementById('p3-counter');
+        const bar = document.getElementById('p3-bar');
+        const pct = document.getElementById('p3-pct');
+        rows.forEach((row, i) => {
+          setTimeout(() => {
+            row.classList.add('generated');
+            const txt = row.querySelector('.p3-row-status-txt');
+            if (txt) txt.textContent = 'Ready';
+            const done = i + 1;
+            if (counter) counter.textContent = `${done} / 5 ready`;
+            if (bar) bar.style.width = `${done * 20}%`;
+            if (pct) pct.textContent = `${done * 20}%`;
+          }, 1400 + i * 400);
+        });
+      }
+
+      // Phase 4: flip to "Live" after cards appear
+      if (idx === 3) {
+        setTimeout(() => {
+          const launchBtn = document.getElementById('p4-launch-btn');
+          if (launchBtn) {
+            launchBtn.style.background = 'var(--accent)';
+            launchBtn.style.color = '#000';
+            launchBtn.style.boxShadow = '0 0 20px var(--accent-glow-dim)';
+            launchBtn.textContent = 'Launching...';
+          }
+        }, 1500);
+        setTimeout(() => {
+          document.querySelectorAll('.p4-card').forEach(card => {
+            const dot = card.querySelector('.p4-dot');
+            const txt = card.querySelector('.p4-status-txt');
+            if (dot) { dot.style.background = '#34d399'; dot.style.boxShadow = '0 0 8px rgba(52,211,153,.4)'; }
+            if (txt) { txt.style.color = '#34d399'; txt.textContent = 'Live'; }
+          });
+          const statusBar = document.getElementById('p4-status-bar');
+          if (statusBar) statusBar.innerHTML = '<div style="width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4)"></div><span style="font-size:11px;color:#34d399;font-weight:600">Live</span>';
+          const launchBtn = document.getElementById('p4-launch-btn');
+          if (launchBtn) launchBtn.textContent = 'Live ✓';
+          const footerPre = document.getElementById('p4-footer-pre');
+          const footerLive = document.getElementById('p4-footer-live');
+          if (footerPre) footerPre.style.opacity = '0';
+          if (footerLive) footerLive.style.opacity = '1';
+        }, 2200);
+      }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.12 });
 
   phases.forEach(p => { if (p) _mobObserver.observe(p); });
 }
