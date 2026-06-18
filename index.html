@@ -108,7 +108,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-bg-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.10;pointer-events:none;
+  opacity:.07;pointer-events:none;
 }
 /* Hero video — inline below CTA, cropped from top */
 #hero-video{
@@ -802,12 +802,12 @@ footer{
     margin-top:10px;
     object-position:center bottom;
   }
-  /* Wider visible area — less side fade so phones aren't cut */
+  /* No side fade on mobile — show full phone width */
   #hero-video{
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%),
-      linear-gradient(to right,transparent 0%,#000 1%,#000 99%,transparent 100%)!important;
-    mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%),
-      linear-gradient(to right,transparent 0%,#000 1%,#000 99%,transparent 100%)!important;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%)!important;
+    -webkit-mask-composite:auto!important;
+    mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%)!important;
+    mask-composite:add!important;
   }
 
   /* Nav: always scrolled style on mobile to prevent glitch on scroll back */
@@ -867,14 +867,19 @@ footer{
   #p1-site{
     width:min(300px,80vw)!important;
     box-shadow:0 10px 40px rgba(0,0,0,.4),0 0 80px rgba(0,212,255,.1),0 0 140px rgba(0,212,255,.05)!important;
+    opacity:0!important;transform:perspective(900px) rotateY(-4deg) rotateX(2deg) scale(.92)!important;
+    transition:opacity .8s ease-out,transform .8s ease-out!important;
   }
   #p1-arrow{display:none!important;}
   #p1-cards{width:min(300px,85vw)!important;}
-  /* Stronger card borders on mobile */
+  /* Stronger card borders on mobile + force initial state */
   .p1-card{
     border:1px solid rgba(255,255,255,.1)!important;
     background:rgba(255,255,255,.04)!important;
     box-shadow:0 2px 12px rgba(0,0,0,.3)!important;
+    opacity:0!important;
+    transform:translateY(16px)!important;
+    transition:opacity .5s ease-out,transform .5s ease-out!important;
   }
   /* On visible: reveal site + cards with staggered transitions */
   .mob-visible #p1-site{
@@ -884,7 +889,6 @@ footer{
   }
   .mob-visible .p1-card{
     opacity:1!important;transform:translateY(0)!important;
-    transition:opacity .5s ease-out,transform .5s ease-out!important;
   }
   .mob-visible .p1-card:nth-child(1){transition-delay:.4s!important;}
   .mob-visible .p1-card:nth-child(2){transition-delay:.55s!important;}
@@ -902,15 +906,15 @@ footer{
   }
 
   /* ── Phase 3: dashboard — CSS staggered rows ── */
-  #p3-dash{margin-top:0!important;}
+  #p3-dash{margin-top:0!important;opacity:0!important;transform:translateY(16px)!important;transition:opacity .7s ease-out,transform .7s ease-out!important;}
   #phase-3 > div:last-child{margin-top:0!important;}
+  .p3-row{opacity:0!important;transform:translateY(10px)!important;transition:opacity .5s ease-out,transform .5s ease-out!important;}
   .mob-visible #p3-dash{
     opacity:1!important;transform:none!important;
     transition:opacity .7s ease-out .1s,transform .7s ease-out .1s!important;
   }
   .mob-visible .p3-row{
     opacity:1!important;transform:none!important;
-    transition:opacity .5s ease-out,transform .5s ease-out!important;
   }
   .mob-visible .p3-row[data-slot="0"]{transition-delay:.3s!important;}
   .mob-visible .p3-row[data-slot="1"]{transition-delay:.5s!important;}
@@ -925,15 +929,15 @@ footer{
   #p3-dash > div > div:first-child{width:0!important;padding:0!important;border:none!important;overflow:hidden!important;}
 
   /* ── Phase 4: launch — CSS staggered cards ── */
-  #p4-dash{margin-top:0!important;width:95vw!important;}
+  #p4-dash{margin-top:0!important;width:95vw!important;opacity:0!important;transform:translateY(16px)!important;transition:opacity .7s ease-out,transform .7s ease-out!important;}
   .p4-sidebar{display:none!important;}
+  .p4-card{opacity:0!important;transform:translateY(14px)!important;transition:opacity .5s ease-out,transform .5s ease-out!important;}
   .mob-visible #p4-dash{
     opacity:1!important;transform:none!important;
     transition:opacity .7s ease-out .1s,transform .7s ease-out .1s!important;
   }
   .mob-visible .p4-card{
     opacity:1!important;transform:none!important;
-    transition:opacity .5s ease-out,transform .5s ease-out!important;
   }
   .mob-visible .p4-card[data-i="0"]{transition-delay:.3s!important;}
   .mob-visible .p4-card[data-i="1"]{transition-delay:.5s!important;}
@@ -952,15 +956,15 @@ footer{
 
   /* Manifesto — bigger text, fewer words per line */
   #manifesto{padding:clamp(50px,8vw,80px) 16px clamp(30px,4vw,60px);min-height:120vh!important;}
-  .manifesto-text{font-size:clamp(22px,6vw,30px);line-height:1.55;max-width:100%;}
+  .manifesto-text{font-size:clamp(26px,7.5vw,34px);line-height:1.5;max-width:100%;}
 
   /* Section spacing */
   #why{padding:clamp(50px,8vw,80px) 16px!important;}
   .sec-h2{font-size:clamp(24px,6.5vw,36px);}
   .sec-sub{font-size:clamp(14px,3.5vw,16px);}
 
-  /* Compare table */
-  .compare-wrap{overflow-x:visible;}
+  /* Compare table — visible corners */
+  .compare-wrap{overflow:hidden;border:1px solid rgba(255,255,255,.12)!important;border-radius:16px!important;}
   .compare-table{min-width:0;table-layout:fixed;width:100%;}
   .compare-table th,.compare-table td{padding:10px 6px;font-size:12px;}
   .compare-table td:first-child{font-size:12px;padding-left:0;}
@@ -1954,6 +1958,7 @@ if (_isMobile) {
       const footerLive = document.getElementById('p4-footer-live');
       if (footerPre) footerPre.style.opacity = '1';
       if (footerLive) footerLive.style.opacity = '0';
+      document.querySelectorAll('.p4-metric').forEach(el => { el.textContent = '0'; });
     }
   }
 
@@ -2000,7 +2005,7 @@ if (_isMobile) {
       });
     }
 
-    // Phase 4: launch sequence
+    // Phase 4: launch sequence + metric count-up
     if (idx === 3) {
       _mobTimeouts[idx].push(setTimeout(() => {
         const launchBtn = document.getElementById('p4-launch-btn');
@@ -2021,6 +2026,24 @@ if (_isMobile) {
         const footerLive = document.getElementById('p4-footer-live');
         if (footerPre) footerPre.style.opacity = '0';
         if (footerLive) footerLive.style.opacity = '1';
+        // Count up metrics
+        const duration = 1200;
+        const start = performance.now();
+        function tick(now) {
+          const t = Math.min(1, (now - start) / duration);
+          const ease = 1 - Math.pow(1 - t, 3);
+          document.querySelectorAll('.p4-metric').forEach(el => {
+            const target = parseFloat(el.dataset.target);
+            const decimals = parseInt(el.dataset.decimals || '0');
+            const prefix = el.dataset.prefix || '';
+            const suffix = el.dataset.suffix || '';
+            const current = target * ease;
+            let display = decimals > 0 ? current.toFixed(decimals) : Math.round(current).toLocaleString();
+            el.textContent = prefix + display + suffix;
+          });
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
       }, 2200));
     }
   }
@@ -2035,7 +2058,7 @@ if (_isMobile) {
         _mobResetPhase(idx);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
 
   phases.forEach(p => { if (p) _mobObserver.observe(p); });
 
