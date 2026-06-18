@@ -108,7 +108,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-bg-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.2;pointer-events:none;
+  opacity:.15;pointer-events:none;
 }
 /* Hero video — inline below CTA */
 #hero-video{
@@ -281,7 +281,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 /* ── Stats Bar ───────────────────────────── */
 #stats{
   background:var(--bg);padding:clamp(60px,8vw,100px) 24px;
-  position:relative;margin-top:-80px;z-index:10;
+  position:relative;margin-top:-120px;z-index:10;
 }
 .stats-divider{
   position:absolute;top:0;left:10%;right:10%;height:1px;
@@ -578,44 +578,43 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 
 /* ── Why Flayr (comparison table) ─────────── */
 #why{background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;}
-.compare-wrap{max-width:800px;margin:0 auto;}
-.compare-table{width:100%;border-collapse:collapse;}
+.compare-wrap{max-width:860px;margin:0 auto;
+  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);
+  border-radius:24px;padding:4px;backdrop-filter:blur(20px);
+}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;}
 .compare-table th{
-  padding:20px 16px 16px;text-align:center;
-  font-family:var(--font-head);font-size:15px;font-weight:700;color:rgba(255,255,255,.4);
+  padding:22px 20px 16px;text-align:center;
+  font-family:var(--font-head);font-size:13px;font-weight:600;color:rgba(255,255,255,.35);
+  letter-spacing:.04em;text-transform:uppercase;
   vertical-align:bottom;
 }
-.compare-table th:first-child{text-align:left;color:transparent;}
+.compare-table th:first-child{text-align:left;color:transparent;padding-left:24px;}
 .compare-table th.col-flayr{
   color:var(--accent);
-  border:2px solid rgba(0,212,255,.15);
-  border-bottom:none;
-  border-radius:20px 20px 0 0;
-  background:rgba(0,212,255,.03);
-  padding-top:24px;
+  background:rgba(0,212,255,.04);
+  border-bottom:1px solid rgba(0,212,255,.1);
+  font-weight:700;
 }
 .compare-table th.col-flayr .flayr-logo-icon{
   display:flex;align-items:center;justify-content:center;
   margin:8px auto 10px;
 }
 .compare-table td{
-  padding:18px 16px;text-align:center;
-  border-top:1px solid rgba(255,255,255,.05);
-  font-size:14px;color:rgba(255,255,255,.5);
+  padding:16px 20px;text-align:center;
+  border-top:1px solid rgba(255,255,255,.04);
+  font-size:14px;color:rgba(255,255,255,.45);
 }
 .compare-table td:first-child{
-  text-align:left;font-size:15px;font-weight:500;color:rgba(255,255,255,.7);
-  padding-left:0;
+  text-align:left;font-size:14px;font-weight:500;color:rgba(255,255,255,.65);
+  padding-left:24px;
 }
 .compare-table td.col-flayr{
-  border-left:2px solid rgba(0,212,255,.15);
-  border-right:2px solid rgba(0,212,255,.15);
   background:rgba(0,212,255,.02);
 }
-.compare-table tr:last-child td.col-flayr{
-  border-bottom:2px solid rgba(0,212,255,.15);
-  border-radius:0 0 20px 20px;
-}
+.compare-table tr:first-child td{border-top:none;}
+.check-icon.partial svg{opacity:.5;}
+.check-icon.partial{color:rgba(255,255,255,.3);}
 .check-icon{
   width:28px;height:28px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -828,8 +827,8 @@ footer{
   .compare-table td:first-child{font-size:12px;padding-left:0;}
   .compare-table th.col-flayr{padding-top:16px;}
   .check-icon{width:22px;height:22px;}
-  .compare-table th:first-child{width:50%;}
-  .compare-table th:not(:first-child){width:25%;}
+  .compare-table th:first-child{width:40%;}
+  .compare-table th:not(:first-child){width:20%;}
 
   /* Pricing */
   .pricing-grid{grid-template-columns:1fr;}
@@ -937,10 +936,10 @@ footer{
       </div>
       <div id="p1-scene" style="position:relative;margin-top:min(170px,22vh);width:min(800px,90vw);display:flex;align-items:center;justify-content:center;gap:40px">
         <!-- Website screenshot (left side) -->
-        <div id="p1-site" style="position:relative;flex-shrink:0;width:280px;border-radius:16px;overflow:hidden;
-          border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3);transition:none">
+        <div id="p1-site" style="position:relative;flex-shrink:0;width:240px;border-radius:16px;overflow:hidden;
+          border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3),0 0 120px rgba(0,212,255,.06);transition:transform .6s cubic-bezier(.16,1,.3,1),filter .6s cubic-bezier(.16,1,.3,1),box-shadow .6s cubic-bezier(.16,1,.3,1)">
           <img id="p1-screenshot" src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/comfrt-screenshot.png" alt="Brand website"
-            style="width:100%;display:block;object-fit:cover;aspect-ratio:9/14;object-position:top"/>
+            style="width:100%;display:block"/>
           <!-- Scan line overlay -->
           <div id="p1-scan" style="position:absolute;top:0;left:0;right:0;height:3px;
             background:linear-gradient(90deg,transparent,var(--accent),transparent);
@@ -1307,7 +1306,8 @@ footer{
               <img src="logo.png" alt="Flayr" style="height:28px;width:auto;filter:brightness(0) invert(1)"/>
             </div>
           </th>
-          <th>Agency</th>
+          <th>Agencies</th>
+          <th>Other tools</th>
         </tr>
       </thead>
       <tbody id="compare-body"></tbody>
@@ -1447,9 +1447,13 @@ function updatePhase1(progress) {
     scan.style.top = `${scanP * 100}%`;
   }
 
-  // 0.4–0.5: site dims + shrinks slightly, arrow appears
+  // 0.4–0.55: site dims, shrinks, loses glow — no longer the focus
   const dissolveP = eo(mr(progress, 0.4, 0.55));
   site.style.filter = `brightness(${lerp(1, 0.5, dissolveP)})`;
+  site.style.transform = `scale(${lerp(1, 0.78, dissolveP)})`;
+  site.style.boxShadow = dissolveP > 0
+    ? `0 20px 60px rgba(0,0,0,.5),0 0 ${lerp(80,20,dissolveP)}px rgba(0,0,0,.3),0 0 ${lerp(120,0,dissolveP)}px rgba(0,212,255,${lerp(.06,0,dissolveP)})`
+    : '';
   if (arrow) arrow.style.opacity = dissolveP;
 
   // 0.45–0.8: cards stagger in
@@ -1994,21 +1998,32 @@ if (manifestoEl) {
 }
 
 /* ── Why Flayr comparison table ─────────── */
+const CK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const NO = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>';
+const PT = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="rgba(255,255,255,.2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const compareRows = [
-  { feature:'Weekly fresh creatives', flayr:true, agency:false },
-  { feature:'Under 3 minutes per ad', flayr:true, agency:false },
-  { feature:'Brand intelligence built-in', flayr:true, agency:false },
-  { feature:'Competitor analysis', flayr:true, agency:false },
-  { feature:'One-click Meta launch', flayr:true, agency:false },
-  { feature:'From $49.99/mo', flayr:true, agency:false },
+  { feature:'Weekly fresh creatives', flayr:'yes', agency:'no', tools:'no' },
+  { feature:'Under 3 min per ad', flayr:'yes', agency:'no', tools:'partial' },
+  { feature:'Brand intelligence built-in', flayr:'yes', agency:'partial', tools:'no' },
+  { feature:'Competitor analysis', flayr:'yes', agency:'yes', tools:'no' },
+  { feature:'One-click Meta launch', flayr:'yes', agency:'yes', tools:'partial' },
+  { feature:'UGC video generation', flayr:'yes', agency:'yes', tools:'partial' },
+  { feature:'No contracts or minimums', flayr:'yes', agency:'no', tools:'yes' },
+  { feature:'From $49.99/mo', flayr:'yes', agency:'no', tools:'partial' },
 ];
+function cellIcon(v) {
+  if (v === 'yes') return `<span class="check-icon yes">${CK}</span>`;
+  if (v === 'partial') return `<span class="check-icon partial">${PT}</span>`;
+  return `<span class="check-icon no">${NO}</span>`;
+}
 const compareBody = document.getElementById('compare-body');
 if (compareBody) {
   compareBody.innerHTML = compareRows.map(row => `
     <tr class="blur-rv rv">
       <td>${row.feature}</td>
-      <td class="col-flayr"><span class="check-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
-      <td><span class="check-icon ${row.agency?'yes':'no'}">${row.agency?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>'}</span></td>
+      <td class="col-flayr">${cellIcon(row.flayr)}</td>
+      <td>${cellIcon(row.agency)}</td>
+      <td>${cellIcon(row.tools)}</td>
     </tr>
   `).join('');
 }
