@@ -108,7 +108,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-bg-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.1;pointer-events:none;
+  opacity:.2;pointer-events:none;
 }
 /* Hero video — inline below CTA */
 #hero-video{
@@ -281,7 +281,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 /* ── Stats Bar ───────────────────────────── */
 #stats{
   background:var(--bg);padding:clamp(60px,8vw,100px) 24px;
-  position:relative;
+  position:relative;margin-top:-80px;z-index:10;
 }
 .stats-divider{
   position:absolute;top:0;left:10%;right:10%;height:1px;
@@ -895,7 +895,7 @@ footer{
         <em>Launch fresh creatives weekly.</em>
       </h1>
     </div>
-    <p class="hero-sub">Flayr learns your brand, generates ready-to-launch UGC ads every week, and pushes them live to Meta & TikTok — on autopilot.</p>
+    <p class="hero-sub">Flayr learns your brand, generates ready-to-launch UGC ads every week, and pushes them live to Meta & TikTok - <strong>on autopilot.</strong></p>
     <div class="hero-ctas">
       <a href="https://app.useflayr.com/signup" class="btn-primary">Start creating ads</a>
     </div>
@@ -939,7 +939,7 @@ footer{
         <!-- Website screenshot (left side) -->
         <div id="p1-site" style="position:relative;flex-shrink:0;width:280px;border-radius:16px;overflow:hidden;
           border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3);transition:none">
-          <img id="p1-screenshot" src="comfrt-screenshot.png" alt="Brand website"
+          <img id="p1-screenshot" src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/comfrt-screenshot.png" alt="Brand website"
             style="width:100%;display:block;object-fit:cover;aspect-ratio:9/14;object-position:top"/>
           <!-- Scan line overlay -->
           <div id="p1-scan" style="position:absolute;top:0;left:0;right:0;height:3px;
@@ -1020,55 +1020,77 @@ footer{
       </div>
     </div>
 
-    <!-- Phase 3: Weekly Ad Gen — premium dashboard -->
+    <!-- Phase 3: Weekly Ad Gen — dashboard with sidebar -->
     <div class="phase" id="phase-3" style="opacity:0;pointer-events:none">
       <div id="p3-title" style="position:absolute;top:clamp(60px,10vh,100px);left:0;right:0;text-align:center;z-index:10">
         <div class="phase-eyebrow">03 — Weekly Ad Generation</div>
         <h2 class="phase-title">5 fresh ads, <em>every week</em></h2>
       </div>
-      <div style="margin-top:min(170px,22vh)">
-        <div id="p3-calendar" style="width:90vw;max-width:580px;opacity:0;transform:translateY(30px);
-          background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;
-          overflow:hidden;backdrop-filter:blur(20px)">
-          <!-- Top bar -->
-          <div style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
-            <div style="display:flex;align-items:center;gap:10px">
-              <span style="font-size:14px;font-weight:700;color:#fff">Weekly Queue</span>
-              <span id="p3-counter" style="font-size:11px;color:rgba(255,255,255,.3)">0 / 5 generated</span>
+      <div style="margin-top:min(140px,18vh)">
+        <div id="p3-dash" style="width:90vw;max-width:680px;opacity:0;transform:translateY(30px)">
+          <div style="display:flex;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;overflow:hidden;backdrop-filter:blur(20px)">
+            <!-- Sidebar -->
+            <div style="width:48px;flex-shrink:0;background:rgba(0,0,0,.3);border-right:1px solid rgba(255,255,255,.04);
+              display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:18px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="var(--accent)" stroke-width="1.5"/><path d="M16 2v4M8 2v4M3 10h18" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <div style="width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <div style="width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 20V10M6 20V4M18 20v-4" stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
             </div>
-            <div style="font-size:11px;color:rgba(255,255,255,.25);font-weight:500">Jun 16 – 22</div>
-          </div>
-          <!-- Day rows -->
-          <div style="padding:6px 10px 10px;display:flex;flex-direction:column;gap:6px" id="p3-rows">
-            <div class="p3-row" data-slot="0" style="opacity:0;transform:translateY(14px)">
-              <div class="p3-row-day">Mon</div>
-              <div class="p3-row-info"><div class="p3-row-name">Summer Vibes UGC</div><div class="p3-row-type">Talking UGC · 15s</div></div>
-              <div class="p3-row-thumb">🎬</div>
-              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
-            </div>
-            <div class="p3-row" data-slot="1" style="opacity:0;transform:translateY(14px)">
-              <div class="p3-row-day">Tue</div>
-              <div class="p3-row-info"><div class="p3-row-name">Product Showcase</div><div class="p3-row-type">Photo Ad · Static</div></div>
-              <div class="p3-row-thumb">📸</div>
-              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
-            </div>
-            <div class="p3-row" data-slot="2" style="opacity:0;transform:translateY(14px)">
-              <div class="p3-row-day">Wed</div>
-              <div class="p3-row-info"><div class="p3-row-name">Founder Story</div><div class="p3-row-type">Talking Head · 30s</div></div>
-              <div class="p3-row-thumb">🗣️</div>
-              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
-            </div>
-            <div class="p3-row" data-slot="3" style="opacity:0;transform:translateY(14px)">
-              <div class="p3-row-day">Thu</div>
-              <div class="p3-row-info"><div class="p3-row-name">Before & After</div><div class="p3-row-type">Story Ad · 12s</div></div>
-              <div class="p3-row-thumb">🎭</div>
-              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
-            </div>
-            <div class="p3-row" data-slot="4" style="opacity:0;transform:translateY(14px)">
-              <div class="p3-row-day">Fri</div>
-              <div class="p3-row-info"><div class="p3-row-name">Retarget Carousel</div><div class="p3-row-type">Reaction UGC · 20s</div></div>
-              <div class="p3-row-thumb">🔄</div>
-              <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+            <!-- Main content -->
+            <div style="flex:1;min-width:0">
+              <!-- Top bar -->
+              <div style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:14px;font-weight:700;color:#fff">Weekly Queue</span>
+                  <span id="p3-counter" style="font-size:11px;color:rgba(255,255,255,.3)">0 / 5 ready</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="font-size:11px;color:rgba(255,255,255,.25);font-weight:500">Jun 16 – 22</div>
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent-glow-dim)"></div>
+                </div>
+              </div>
+              <!-- Progress bar -->
+              <div style="padding:0 20px;margin:12px 0 4px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                  <span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.06em">Generation Progress</span>
+                  <span id="p3-pct" style="font-size:9px;font-weight:700;color:var(--accent)">0%</span>
+                </div>
+                <div style="height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden">
+                  <div id="p3-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#34d399);border-radius:2px;transition:width .3s"></div>
+                </div>
+              </div>
+              <!-- Ad cards -->
+              <div style="padding:8px 14px 14px;display:flex;flex-direction:column;gap:6px" id="p3-rows">
+                <div class="p3-row" data-slot="0" style="opacity:0;transform:translateY(14px)">
+                  <div class="p3-row-thumb" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.2)">🎬</div>
+                  <div class="p3-row-info"><div class="p3-row-name">Summer Vibes UGC</div><div class="p3-row-type">Talking UGC · 15s · Mon</div></div>
+                  <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+                </div>
+                <div class="p3-row" data-slot="1" style="opacity:0;transform:translateY(14px)">
+                  <div class="p3-row-thumb" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2)">📸</div>
+                  <div class="p3-row-info"><div class="p3-row-name">Product Showcase</div><div class="p3-row-type">Photo Ad · Static · Tue</div></div>
+                  <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+                </div>
+                <div class="p3-row" data-slot="2" style="opacity:0;transform:translateY(14px)">
+                  <div class="p3-row-thumb" style="background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.2)">🗣️</div>
+                  <div class="p3-row-info"><div class="p3-row-name">Founder Story</div><div class="p3-row-type">Talking Head · 30s · Wed</div></div>
+                  <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+                </div>
+                <div class="p3-row" data-slot="3" style="opacity:0;transform:translateY(14px)">
+                  <div class="p3-row-thumb" style="background:rgba(236,72,153,.1);border-color:rgba(236,72,153,.2)">🎭</div>
+                  <div class="p3-row-info"><div class="p3-row-name">Before &amp; After</div><div class="p3-row-type">Story Ad · 12s · Thu</div></div>
+                  <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+                </div>
+                <div class="p3-row" data-slot="4" style="opacity:0;transform:translateY(14px)">
+                  <div class="p3-row-thumb" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2)">🔄</div>
+                  <div class="p3-row-info"><div class="p3-row-name">Retarget Carousel</div><div class="p3-row-type">Reaction UGC · 20s · Fri</div></div>
+                  <div class="p3-row-status"><div class="p3-row-dot"></div><span class="p3-row-status-txt">Queued</span></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1140,7 +1162,7 @@ footer{
 <!-- Ad Formats -->
 <section id="formats" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;overflow:hidden;">
   <div class="divider-line"></div>
-  <div class="sec-head rv">
+  <div class="sec-head blur-rv">
     <div class="sec-eyebrow">Ad Formats</div>
     <h2 class="sec-h2">Every format that <em>converts</em></h2>
   </div>
@@ -1179,7 +1201,7 @@ footer{
   </div>
   <div class="steps-grid">
     <!-- Step 1 -->
-    <div class="step-card rv">
+    <div class="step-card blur-rv">
       <div class="step-visual">
         <div style="padding:24px;width:100%">
           <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:14px 18px;margin-bottom:14px">
@@ -1201,7 +1223,7 @@ footer{
       <div class="step-desc">Flayr scans your brand, audience, tone, and products. No briefs needed.</div>
     </div>
     <!-- Step 2 -->
-    <div class="step-card rv d1">
+    <div class="step-card blur-rv rv d1">
       <div class="step-visual">
         <div style="padding:20px;width:100%">
           <div style="display:flex;gap:10px;justify-content:center">
@@ -1233,7 +1255,7 @@ footer{
       <div class="step-desc">AI generates 5 fresh creatives — UGC videos, photo ads — every week automatically.</div>
     </div>
     <!-- Step 3 -->
-    <div class="step-card rv d2">
+    <div class="step-card blur-rv rv d2">
       <div class="step-visual">
         <div style="padding:24px;width:100%">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
@@ -1275,7 +1297,7 @@ footer{
     <h2 class="sec-h2">One tool to do <em>it all</em></h2>
     <p class="sec-sub">Save $5,000/month with Flayr.</p>
   </div>
-  <div class="compare-wrap rv">
+  <div class="compare-wrap blur-rv rv">
     <table class="compare-table">
       <thead>
         <tr>
@@ -1302,7 +1324,7 @@ footer{
     <h2 class="sec-h2">Your agency charges more.<br>And delivers <em>less.</em></h2>
   </div>
   <div class="pricing-grid">
-    <div class="pricing-card rv">
+    <div class="pricing-card blur-rv rv">
       <div class="pricing-plan">Starter</div>
       <div class="pricing-price"><span class="pricing-amount">$49.99</span><span class="pricing-period">/month</span></div>
       <p class="pricing-desc">For founders testing creative every week.</p>
@@ -1317,7 +1339,7 @@ footer{
         <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Meta launch queue</span></div>
       </div>
     </div>
-    <div class="pricing-card featured rv d1">
+    <div class="pricing-card featured blur-rv rv d1">
       <div class="pricing-badge">Most Popular</div>
       <div class="pricing-plan">Growth</div>
       <div class="pricing-price"><span class="pricing-amount">$149.99</span><span class="pricing-period">/month</span></div>
@@ -1339,7 +1361,7 @@ footer{
 <!-- FAQ -->
 <section id="faq">
   <div class="faq-layout">
-    <div class="faq-sticky rv">
+    <div class="faq-sticky blur-rv rv">
       <h2 class="faq-title">Frequently<br>Asked<br><span>Questions</span></h2>
     </div>
     <div class="faq-grid" id="faq-grid"></div>
@@ -1349,9 +1371,9 @@ footer{
 <!-- Final CTA -->
 <section id="cta">
   <div class="cta-glow"></div>
-  <h2 class="cta-h2 rv">Your next winning ad is<br><em>60 seconds</em> away.</h2>
-  <p class="cta-sub rv d1">Join brands creating high-performing Meta ads on autopilot — starting at $49.99/mo.</p>
-  <div class="rv d2">
+  <h2 class="cta-h2 blur-rv rv">Your next winning ad is<br><em>60 seconds</em> away.</h2>
+  <p class="cta-sub blur-rv rv d1">Join brands creating high-performing Meta ads on autopilot — starting at $49.99/mo.</p>
+  <div class="blur-rv rv d2">
     <a href="https://app.useflayr.com/signup" class="btn-primary" style="font-size:16px;padding:17px 44px;">Start Creating Ads</a>
   </div>
 </section>
@@ -1524,18 +1546,20 @@ function updatePhase2(progress) {
   if (titleEl) titleEl.style.opacity = Math.max(0, Math.min(1, titleOp));
 }
 
-/* ── Phase 3: Weekly Ad Gen — Row Queue ── */
+/* ── Phase 3: Weekly Ad Gen — Dashboard ── */
 function updatePhase3(progress) {
-  const cal = document.getElementById('p3-calendar');
+  const dash = document.getElementById('p3-dash');
   const title = document.getElementById('p3-title');
   const counter = document.getElementById('p3-counter');
-  if (!cal) return;
+  const bar = document.getElementById('p3-bar');
+  const pct = document.getElementById('p3-pct');
+  if (!dash) return;
 
-  const calP = eo(mr(progress, 0, 0.15));
-  cal.style.opacity = calP;
-  cal.style.transform = `translateY(${lerp(30, 0, calP)}px)`;
+  const dashP = eo(mr(progress, 0, 0.15));
+  dash.style.opacity = dashP;
+  dash.style.transform = `translateY(${lerp(30, 0, dashP)}px)`;
 
-  const rows = cal.querySelectorAll('.p3-row');
+  const rows = dash.querySelectorAll('.p3-row');
   let generated = 0;
   rows.forEach((row, i) => {
     const enterStart = 0.1 + i * 0.08;
@@ -1551,7 +1575,10 @@ function updatePhase3(progress) {
     if (isGen) generated++;
   });
 
-  if (counter) counter.textContent = `${generated} / 5 generated`;
+  const pctVal = Math.round((generated / 5) * 100);
+  if (counter) counter.textContent = `${generated} / 5 ready`;
+  if (bar) bar.style.width = `${pctVal}%`;
+  if (pct) pct.textContent = `${pctVal}%`;
   if (title) title.style.opacity = Math.max(0, Math.min(1, mr(progress, 0, 0.1)));
 }
 
@@ -1978,7 +2005,7 @@ const compareRows = [
 const compareBody = document.getElementById('compare-body');
 if (compareBody) {
   compareBody.innerHTML = compareRows.map(row => `
-    <tr class="rv">
+    <tr class="blur-rv rv">
       <td>${row.feature}</td>
       <td class="col-flayr"><span class="check-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
       <td><span class="check-icon ${row.agency?'yes':'no'}">${row.agency?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>'}</span></td>
@@ -2000,7 +2027,7 @@ const faqs = [
 const faqGrid = document.getElementById('faq-grid');
 if (faqGrid) {
   faqGrid.innerHTML = faqs.map((f, i) => `
-    <div class="faq-item rv">
+    <div class="faq-item blur-rv rv">
       <button class="faq-q" onclick="toggleFaq(this)">
         <span>${f.q}</span>
         <svg class="faq-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
