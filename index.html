@@ -108,7 +108,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-bg-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
-  opacity:.15;pointer-events:none;
+  opacity:.10;pointer-events:none;
 }
 /* Hero video — inline below CTA, cropped from top */
 #hero-video{
@@ -802,11 +802,19 @@ footer{
     margin-top:10px;
     object-position:center bottom;
   }
+  /* Wider visible area — less side fade so phones aren't cut */
   #hero-video{
     -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%),
-      linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%)!important;
+      linear-gradient(to right,transparent 0%,#000 1%,#000 99%,transparent 100%)!important;
     mask-image:linear-gradient(to bottom,transparent 0%,#000 6%,#000 82%,transparent 100%),
-      linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%)!important;
+      linear-gradient(to right,transparent 0%,#000 1%,#000 99%,transparent 100%)!important;
+  }
+
+  /* Nav: always scrolled style on mobile to prevent glitch on scroll back */
+  #nav-inner{
+    max-width:100%!important;
+    background:rgba(10,10,10,.9)!important;
+    border-color:rgba(255,255,255,.1)!important;
   }
 
   /* Stats — no overlap, clean flow */
@@ -856,9 +864,18 @@ footer{
 
   /* ── Phase 1: brand intel — pure CSS reveal ── */
   #p1-scene{flex-direction:column!important;gap:20px!important;align-items:center!important;margin-top:0!important;}
-  #p1-site{width:min(300px,80vw)!important;}
+  #p1-site{
+    width:min(300px,80vw)!important;
+    box-shadow:0 10px 40px rgba(0,0,0,.4),0 0 80px rgba(0,212,255,.1),0 0 140px rgba(0,212,255,.05)!important;
+  }
   #p1-arrow{display:none!important;}
   #p1-cards{width:min(300px,85vw)!important;}
+  /* Stronger card borders on mobile */
+  .p1-card{
+    border:1px solid rgba(255,255,255,.1)!important;
+    background:rgba(255,255,255,.04)!important;
+    box-shadow:0 2px 12px rgba(0,0,0,.3)!important;
+  }
   /* On visible: reveal site + cards with staggered transitions */
   .mob-visible #p1-site{
     opacity:1!important;
@@ -866,7 +883,7 @@ footer{
     transition:opacity .8s ease-out .1s,transform .8s ease-out .1s!important;
   }
   .mob-visible .p1-card{
-    opacity:1!important;transform:none!important;
+    opacity:1!important;transform:translateY(0)!important;
     transition:opacity .5s ease-out,transform .5s ease-out!important;
   }
   .mob-visible .p1-card:nth-child(1){transition-delay:.4s!important;}
@@ -876,7 +893,7 @@ footer{
   .mob-visible .p1-card:nth-child(5){transition-delay:1s!important;}
 
   /* ── Phase 2: competitor phones — CSS auto-scroll loop ── */
-  #p2-container{margin-top:0!important;height:280px!important;width:100vw!important;}
+  #p2-container{margin-top:16px!important;height:280px!important;width:100vw!important;}
   #p2-row{gap:16px!important;padding:0 10vw!important;}
   .p2-phone .iphone{width:120px!important;}
   #p2-your{display:none!important;}
@@ -952,9 +969,15 @@ footer{
   .compare-table th:first-child{width:40%;}
   .compare-table th:not(:first-child){width:20%;}
 
-  /* Pricing */
+  /* Pricing — slide-in animation */
   .pricing-grid{grid-template-columns:1fr;}
-  .pricing-card{padding:24px 20px;}
+  .pricing-card{
+    padding:24px 20px;
+    opacity:0;transform:translateY(20px);
+    transition:opacity .6s ease-out,transform .6s ease-out;
+  }
+  .pricing-card.vi{opacity:1;transform:none;}
+  .pricing-card:nth-child(2){transition-delay:.15s;}
   .pricing-amount{font-size:clamp(32px,8vw,44px);}
 
   /* FAQ */
@@ -1881,97 +1904,152 @@ if (!_isMobile) {
   }, { passive: true });
 }
 
-/* ── Mobile: pure CSS animations, no JS loops ── */
+/* ── Mobile: pure CSS animations that LOOP (reset when out of view) ── */
 if (_isMobile) {
   phases.forEach(p => {
     if (!p) return;
     p.style.pointerEvents = 'auto';
   });
 
-  const _mobTriggered = [false, false, false, false];
+  // Track active timeouts so we can cancel on reset
+  const _mobTimeouts = [[], [], [], []];
+
+  function _mobResetPhase(idx) {
+    const phase = phases[idx];
+    if (!phase) return;
+    // Cancel pending timeouts
+    _mobTimeouts[idx].forEach(t => clearTimeout(t));
+    _mobTimeouts[idx] = [];
+    // Remove visible class — CSS transitions handle fade-out
+    phase.classList.remove('mob-visible');
+
+    if (idx === 2) {
+      // Reset P3 rows
+      document.querySelectorAll('#p3-dash .p3-row').forEach(row => {
+        row.classList.remove('generated');
+        const txt = row.querySelector('.p3-row-status-txt');
+        if (txt) txt.textContent = 'Queued';
+      });
+      const counter = document.getElementById('p3-counter');
+      const bar = document.getElementById('p3-bar');
+      const pct = document.getElementById('p3-pct');
+      if (counter) counter.textContent = '0 / 5 ready';
+      if (bar) bar.style.width = '0%';
+      if (pct) pct.textContent = '0%';
+    }
+
+    if (idx === 3) {
+      // Reset P4 to pre-launch state
+      document.querySelectorAll('.p4-card').forEach(card => {
+        const dot = card.querySelector('.p4-dot');
+        const txt = card.querySelector('.p4-status-txt');
+        if (dot) { dot.style.background = 'var(--accent)'; dot.style.boxShadow = 'none'; }
+        if (txt) { txt.style.color = 'var(--accent)'; txt.textContent = 'Ready'; }
+      });
+      const launchBtn = document.getElementById('p4-launch-btn');
+      if (launchBtn) { launchBtn.style.background = 'rgba(255,255,255,.06)'; launchBtn.style.color = 'rgba(255,255,255,.4)'; launchBtn.style.boxShadow = 'none'; launchBtn.textContent = 'Launch All →'; }
+      const statusBar = document.getElementById('p4-status-bar');
+      if (statusBar) statusBar.innerHTML = '<span style="font-size:11px;color:rgba(255,255,255,.3)">3 ready</span>';
+      const footerPre = document.getElementById('p4-footer-pre');
+      const footerLive = document.getElementById('p4-footer-live');
+      if (footerPre) footerPre.style.opacity = '1';
+      if (footerLive) footerLive.style.opacity = '0';
+    }
+  }
+
+  function _mobEnterPhase(idx) {
+    const phase = phases[idx];
+    if (!phase) return;
+    phase.classList.add('mob-visible');
+
+    // Phase 2: load videos + show phones (videos load once, rest replays)
+    if (idx === 1) {
+      const row = document.getElementById('p2-row');
+      if (row && !_p2VideosLoaded) {
+        _p2VideosLoaded = true;
+        Array.from(row.querySelectorAll('video[data-src]')).forEach((v, i) => {
+          setTimeout(() => {
+            v.src = v.dataset.src;
+            v.removeAttribute('data-src');
+            v.load();
+            const tryPlay = () => v.play().catch(() => {});
+            v.readyState >= 3 ? tryPlay() : v.addEventListener('canplay', tryPlay, { once: true });
+          }, i * 200);
+        });
+      }
+      const phones = row ? row.querySelectorAll('.p2-phone') : [];
+      phones.forEach(phone => { phone.style.opacity = '1'; phone.style.filter = 'none'; });
+    }
+
+    // Phase 3: stagger rows to "Ready"
+    if (idx === 2) {
+      const rows = document.querySelectorAll('#p3-dash .p3-row');
+      const counter = document.getElementById('p3-counter');
+      const bar = document.getElementById('p3-bar');
+      const pct = document.getElementById('p3-pct');
+      rows.forEach((row, i) => {
+        _mobTimeouts[idx].push(setTimeout(() => {
+          row.classList.add('generated');
+          const txt = row.querySelector('.p3-row-status-txt');
+          if (txt) txt.textContent = 'Ready';
+          const done = i + 1;
+          if (counter) counter.textContent = `${done} / 5 ready`;
+          if (bar) bar.style.width = `${done * 20}%`;
+          if (pct) pct.textContent = `${done * 20}%`;
+        }, 1400 + i * 400));
+      });
+    }
+
+    // Phase 4: launch sequence
+    if (idx === 3) {
+      _mobTimeouts[idx].push(setTimeout(() => {
+        const launchBtn = document.getElementById('p4-launch-btn');
+        if (launchBtn) { launchBtn.style.background = 'var(--accent)'; launchBtn.style.color = '#000'; launchBtn.style.boxShadow = '0 0 20px var(--accent-glow-dim)'; launchBtn.textContent = 'Launching...'; }
+      }, 1500));
+      _mobTimeouts[idx].push(setTimeout(() => {
+        document.querySelectorAll('.p4-card').forEach(card => {
+          const dot = card.querySelector('.p4-dot');
+          const txt = card.querySelector('.p4-status-txt');
+          if (dot) { dot.style.background = '#34d399'; dot.style.boxShadow = '0 0 8px rgba(52,211,153,.4)'; }
+          if (txt) { txt.style.color = '#34d399'; txt.textContent = 'Live'; }
+        });
+        const statusBar = document.getElementById('p4-status-bar');
+        if (statusBar) statusBar.innerHTML = '<div style="width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4)"></div><span style="font-size:11px;color:#34d399;font-weight:600">Live</span>';
+        const launchBtn = document.getElementById('p4-launch-btn');
+        if (launchBtn) launchBtn.textContent = 'Live ✓';
+        const footerPre = document.getElementById('p4-footer-pre');
+        const footerLive = document.getElementById('p4-footer-live');
+        if (footerPre) footerPre.style.opacity = '0';
+        if (footerLive) footerLive.style.opacity = '1';
+      }, 2200));
+    }
+  }
 
   const _mobObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
       const idx = phases.indexOf(entry.target);
-      if (idx < 0 || _mobTriggered[idx]) return;
-      _mobTriggered[idx] = true;
-
-      entry.target.classList.add('mob-visible');
-
-      // Phase 2: load videos + show phones
-      if (idx === 1) {
-        const row = document.getElementById('p2-row');
-        if (row && !_p2VideosLoaded) {
-          _p2VideosLoaded = true;
-          Array.from(row.querySelectorAll('video[data-src]')).forEach((v, i) => {
-            setTimeout(() => {
-              v.src = v.dataset.src;
-              v.removeAttribute('data-src');
-              v.load();
-              const tryPlay = () => v.play().catch(() => {});
-              v.readyState >= 3 ? tryPlay() : v.addEventListener('canplay', tryPlay, { once: true });
-            }, i * 200);
-          });
-        }
-        const phones = row ? row.querySelectorAll('.p2-phone') : [];
-        phones.forEach(phone => {
-          phone.style.opacity = '1';
-          phone.style.filter = 'none';
-        });
-      }
-
-      // Phase 3: flip rows to "Ready" after staggered delay
-      if (idx === 2) {
-        const rows = document.querySelectorAll('#p3-dash .p3-row');
-        const counter = document.getElementById('p3-counter');
-        const bar = document.getElementById('p3-bar');
-        const pct = document.getElementById('p3-pct');
-        rows.forEach((row, i) => {
-          setTimeout(() => {
-            row.classList.add('generated');
-            const txt = row.querySelector('.p3-row-status-txt');
-            if (txt) txt.textContent = 'Ready';
-            const done = i + 1;
-            if (counter) counter.textContent = `${done} / 5 ready`;
-            if (bar) bar.style.width = `${done * 20}%`;
-            if (pct) pct.textContent = `${done * 20}%`;
-          }, 1400 + i * 400);
-        });
-      }
-
-      // Phase 4: flip to "Live" after cards appear
-      if (idx === 3) {
-        setTimeout(() => {
-          const launchBtn = document.getElementById('p4-launch-btn');
-          if (launchBtn) {
-            launchBtn.style.background = 'var(--accent)';
-            launchBtn.style.color = '#000';
-            launchBtn.style.boxShadow = '0 0 20px var(--accent-glow-dim)';
-            launchBtn.textContent = 'Launching...';
-          }
-        }, 1500);
-        setTimeout(() => {
-          document.querySelectorAll('.p4-card').forEach(card => {
-            const dot = card.querySelector('.p4-dot');
-            const txt = card.querySelector('.p4-status-txt');
-            if (dot) { dot.style.background = '#34d399'; dot.style.boxShadow = '0 0 8px rgba(52,211,153,.4)'; }
-            if (txt) { txt.style.color = '#34d399'; txt.textContent = 'Live'; }
-          });
-          const statusBar = document.getElementById('p4-status-bar');
-          if (statusBar) statusBar.innerHTML = '<div style="width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.4)"></div><span style="font-size:11px;color:#34d399;font-weight:600">Live</span>';
-          const launchBtn = document.getElementById('p4-launch-btn');
-          if (launchBtn) launchBtn.textContent = 'Live ✓';
-          const footerPre = document.getElementById('p4-footer-pre');
-          const footerLive = document.getElementById('p4-footer-live');
-          if (footerPre) footerPre.style.opacity = '0';
-          if (footerLive) footerLive.style.opacity = '1';
-        }, 2200);
+      if (idx < 0) return;
+      if (entry.isIntersecting) {
+        _mobEnterPhase(idx);
+      } else {
+        _mobResetPhase(idx);
       }
     });
   }, { threshold: 0.12 });
 
   phases.forEach(p => { if (p) _mobObserver.observe(p); });
+
+  // Pricing cards: fade in on scroll
+  const pricingCards = document.querySelectorAll('.pricing-card');
+  if (pricingCards.length) {
+    const pricingObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('vi');
+        else e.target.classList.remove('vi');
+      });
+    }, { threshold: 0.15 });
+    pricingCards.forEach(c => pricingObs.observe(c));
+  }
 }
 
 /* ── Ad Formats carousel ─────────────────── */
