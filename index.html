@@ -114,7 +114,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 #hero-video{
   position:relative;z-index:5;
   width:100%;max-width:1200px;
-  height:clamp(360px,50vw,680px);
+  height:clamp(400px,55vw,740px);
   object-fit:cover;object-position:center bottom;
   margin-top:24px;
   opacity:.7;
@@ -1452,27 +1452,27 @@ function updatePhase1(progress) {
   const title = document.getElementById('p1-title');
   if (!site) return;
 
-  // 0–0.15: site fades in while gently starting tilt
-  const siteP = eo(mr(progress, 0, 0.15));
+  // 0–0.2: site fades in while gently starting tilt
+  const siteP = eo(mr(progress, 0, 0.2));
   site.style.opacity = siteP;
 
-  // 0.05–0.5: smooth continuous tilt from flat to 3D (overlaps fade-in for seamlessness)
-  const scanP = mr(progress, 0.15, 0.45);
-  const tiltRaw = mr(progress, 0.05, 0.5);
+  // 0.05–0.6: smooth continuous tilt from flat to 3D
+  const scanP = mr(progress, 0.2, 0.55);
+  const tiltRaw = mr(progress, 0.05, 0.6);
   const tiltP = tiltRaw * tiltRaw * (3 - 2 * tiltRaw);
   if (scan) {
     scan.style.opacity = scanP > 0 && scanP < 1 ? '1' : '0';
     scan.style.top = `${scanP * 100}%`;
   }
 
-  // 0.4–0.55: site dims, shrinks, loses glow — no longer the focus
-  const dissolveP = eo(mr(progress, 0.4, 0.55));
+  // 0.55–0.72: site dims, shrinks, loses glow — no longer the focus
+  const dissolveP = eo(mr(progress, 0.55, 0.72));
   site.style.filter = `brightness(${lerp(1, 0.5, dissolveP)})`;
 
   // Compute transform: gentle continuous tilt + scale
   const ry = lerp(0, -5, tiltP);
   const rx = lerp(0, 2.5, tiltP);
-  const sc = progress >= 0.4 ? lerp(1, 0.78, dissolveP) : lerp(0.94, 1, siteP);
+  const sc = progress >= 0.55 ? lerp(1, 0.78, dissolveP) : lerp(0.94, 1, siteP);
   site.style.transform = `perspective(900px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${sc})`;
 
   site.style.boxShadow = dissolveP > 0
@@ -1480,9 +1480,9 @@ function updatePhase1(progress) {
     : '';
   if (arrow) arrow.style.opacity = dissolveP;
 
-  // 0.45–0.8: cards stagger in
+  // 0.6–0.95: cards stagger in (more spread out)
   cards.forEach((card, i) => {
-    const cardStart = 0.45 + i * 0.06;
+    const cardStart = 0.6 + i * 0.07;
     const cardP = eo(mr(progress, cardStart, cardStart + 0.12));
     card.style.opacity = cardP;
     card.style.transform = `translateX(${lerp(20, 0, cardP)}px)`;
