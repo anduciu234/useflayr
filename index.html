@@ -292,7 +292,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 /* ── Stats Bar ───────────────────────────── */
 #stats{
   background:var(--bg);padding:clamp(60px,8vw,100px) 24px;
-  position:relative;margin-top:-150px;z-index:10;
+  position:relative;margin-top:-180px;z-index:10;
 }
 .stats-divider{
   position:absolute;top:0;left:10%;right:10%;height:1px;
@@ -1452,13 +1452,14 @@ function updatePhase1(progress) {
   const title = document.getElementById('p1-title');
   if (!site) return;
 
-  // 0–0.15: site fades in flat
+  // 0–0.15: site fades in while gently starting tilt
   const siteP = eo(mr(progress, 0, 0.15));
   site.style.opacity = siteP;
 
-  // 0.15–0.45: scan line sweeps down + screenshot tilts from 2D to 3D
+  // 0.05–0.5: smooth continuous tilt from flat to 3D (overlaps fade-in for seamlessness)
   const scanP = mr(progress, 0.15, 0.45);
-  const tiltP = eo(mr(progress, 0.15, 0.4));
+  const tiltRaw = mr(progress, 0.05, 0.5);
+  const tiltP = tiltRaw * tiltRaw * (3 - 2 * tiltRaw);
   if (scan) {
     scan.style.opacity = scanP > 0 && scanP < 1 ? '1' : '0';
     scan.style.top = `${scanP * 100}%`;
@@ -1468,11 +1469,11 @@ function updatePhase1(progress) {
   const dissolveP = eo(mr(progress, 0.4, 0.55));
   site.style.filter = `brightness(${lerp(1, 0.5, dissolveP)})`;
 
-  // Compute transform: 2D → 3D tilt → shrink (mutually exclusive phases)
-  const ry = lerp(0, -6, tiltP);
-  const rx = lerp(0, 3, tiltP);
-  const sc = progress >= 0.4 ? lerp(1, 0.78, dissolveP) : lerp(0.92, 1, siteP);
-  site.style.transform = `perspective(800px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${sc})`;
+  // Compute transform: gentle continuous tilt + scale
+  const ry = lerp(0, -5, tiltP);
+  const rx = lerp(0, 2.5, tiltP);
+  const sc = progress >= 0.4 ? lerp(1, 0.78, dissolveP) : lerp(0.94, 1, siteP);
+  site.style.transform = `perspective(900px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${sc})`;
 
   site.style.boxShadow = dissolveP > 0
     ? `0 20px 60px rgba(0,0,0,.5),0 0 ${lerp(80,20,dissolveP)}px rgba(0,0,0,.3),0 0 ${lerp(120,0,dissolveP)}px rgba(0,212,255,${lerp(.12,0,dissolveP)})`
