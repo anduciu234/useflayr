@@ -136,18 +136,18 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   background:radial-gradient(ellipse,rgba(0,212,255,.03) 0%,transparent 60%);
   filter:blur(80px);pointer-events:none;
 }
-/* Subtle floor — just ensures solid black below hero, behind the video */
+/* Solid black behind the video fade zone — blocks glow artifacts */
 .hero-floor{
-  position:absolute;bottom:0;left:-10%;right:-10%;height:30vh;
+  position:absolute;bottom:0;left:-10%;right:-10%;height:55vh;
   background:var(--bg);
   pointer-events:none;z-index:4;
 }
-/* Mask fades video to transparent → reveals black bg = natural transition to black */
+/* Video fades to transparent at bottom → reveals black bg = natural blend */
 #hero-video{
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 68%,transparent 98%),
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 58%,transparent 88%),
     linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
   -webkit-mask-composite:destination-in;
-  mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 68%,transparent 98%),
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 58%,transparent 88%),
     linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
   mask-composite:intersect;
 }
@@ -785,6 +785,7 @@ footer{
   /* Nav */
   #nav{padding:10px 14px;}
   #nav-inner{height:44px;padding:0 5px 0 14px;}
+  .nav-logo img{height:13px!important;margin-top:0!important;}
   .nav-cta{padding:7px 16px;font-size:12px;}
 
   /* Hero */
@@ -800,21 +801,21 @@ footer{
   #hero-video{
     width:100vw!important;max-width:none!important;
     margin-left:-16px;
-    height:clamp(340px,85vw,500px);
+    height:clamp(300px,75vw,440px);
     margin-top:10px;
     object-position:center bottom;
     object-fit:cover!important;
     opacity:0;transform:translateY(20px);
     animation:fadeup .8s 1.1s cubic-bezier(.16,1,.3,1) forwards;
   }
-  /* Gentle bottom fade only on mobile */
+  /* Visible bottom fade on mobile */
   #hero-video{
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 82%,transparent 100%)!important;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 62%,transparent 92%)!important;
     -webkit-mask-composite:auto!important;
-    mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 82%,transparent 100%)!important;
+    mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 62%,transparent 92%)!important;
     mask-composite:add!important;
   }
-  .hero-floor{height:15vh!important;}
+  .hero-floor{height:25vh!important;}
 
   /* Nav: always scrolled style on mobile to prevent glitch on scroll back */
   #nav-inner{
