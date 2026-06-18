@@ -906,7 +906,7 @@ footer{
         <em>Launch fresh creatives weekly.</em>
       </h1>
     </div>
-    <p class="hero-sub">Flayr learns your brand, generates ready-to-launch UGC ads every week, and pushes them live to Meta & TikTok - <strong>on autopilot.</strong></p>
+    <p class="hero-sub">Flayr learns your brand, generates ready-to-launch UGC ads every week, and pushes them live to Meta & TikTok - <strong style="color:rgba(255,255,255,.85)">on autopilot.</strong></p>
     <div class="hero-ctas">
       <a href="https://app.useflayr.com/signup" class="btn-primary">Start creating ads</a>
     </div>
@@ -920,7 +920,7 @@ footer{
   </div>
 
   <video id="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-bg.mp4" type="video/mp4"/>
+    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/header3.mp4" type="video/mp4"/>
   </video>
 </section>
 
@@ -951,7 +951,7 @@ footer{
         <div id="p1-site" style="position:relative;flex-shrink:0;width:420px;border-radius:16px;overflow:hidden;
           border:1px solid rgba(255,255,255,.1);
           box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(0,0,0,.3),0 0 120px rgba(0,212,255,.12),0 0 200px rgba(0,212,255,.04);
-          transform:perspective(800px) rotateY(-4deg) rotateX(2deg);
+          transform:perspective(800px) rotateY(0deg) rotateX(0deg);
           transition:transform .6s cubic-bezier(.16,1,.3,1),filter .6s cubic-bezier(.16,1,.3,1),box-shadow .6s cubic-bezier(.16,1,.3,1)">
           <img id="p1-screenshot" src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/comfrt-screenshot.png" alt="Brand website"
             style="width:100%;display:block"/>
@@ -1453,19 +1453,23 @@ function updatePhase1(progress) {
   // 0–0.15: site fades in
   const siteP = eo(mr(progress, 0, 0.15));
   site.style.opacity = siteP;
-  site.style.transform = `perspective(800px) rotateY(-4deg) rotateX(2deg) scale(${lerp(0.92, 1, siteP)})`;
+  site.style.transform = `perspective(800px) rotateY(0deg) rotateX(0deg) scale(${lerp(0.92, 1, siteP)})`;
 
-  // 0.15–0.45: scan line sweeps down the site
+  // 0.15–0.45: scan line sweeps down + screenshot tilts from 2D to 3D
   const scanP = mr(progress, 0.15, 0.45);
+  const tiltP = eo(mr(progress, 0.15, 0.4));
   if (scan) {
     scan.style.opacity = scanP > 0 && scanP < 1 ? '1' : '0';
     scan.style.top = `${scanP * 100}%`;
+  }
+  if (progress >= 0.15 && progress < 0.4) {
+    site.style.transform = `perspective(800px) rotateY(${lerp(0, -6, tiltP)}deg) rotateX(${lerp(0, 3, tiltP)}deg) scale(1)`;
   }
 
   // 0.4–0.55: site dims, shrinks, loses glow — no longer the focus
   const dissolveP = eo(mr(progress, 0.4, 0.55));
   site.style.filter = `brightness(${lerp(1, 0.5, dissolveP)})`;
-  site.style.transform = `perspective(800px) rotateY(-4deg) rotateX(2deg) scale(${lerp(1, 0.78, dissolveP)})`;
+  site.style.transform = `perspective(800px) rotateY(-6deg) rotateX(3deg) scale(${lerp(1, 0.78, dissolveP)})`;
   site.style.boxShadow = dissolveP > 0
     ? `0 20px 60px rgba(0,0,0,.5),0 0 ${lerp(80,20,dissolveP)}px rgba(0,0,0,.3),0 0 ${lerp(120,0,dissolveP)}px rgba(0,212,255,${lerp(.12,0,dissolveP)})`
     : '';
