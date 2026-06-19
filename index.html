@@ -807,6 +807,8 @@ footer{
     object-fit:cover!important;
     opacity:0;
     animation:mobVideoIn .8s 1.1s cubic-bezier(.16,1,.3,1) forwards;
+    aspect-ratio:16/9;
+    contain:layout style paint;
   }
   /* Visible bottom fade on mobile */
   #hero-video{
@@ -816,6 +818,10 @@ footer{
     mask-composite:add!important;
   }
   .hero-floor{height:25vh!important;}
+
+  /* Kill GPU-expensive blur filter on mobile — use simple opacity/transform instead */
+  .blur-rv{filter:none!important;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)!important;}
+  .blur-rv.vi{filter:none!important;}
 
   /* Nav: locked style on mobile — no transitions, no scroll toggle flicker */
   #nav-inner{
@@ -835,7 +841,7 @@ footer{
   .stat-lbl{font-size:10px;}
 
   /* ═══ Scroll showcase: stacked sections on mobile (no sticky) ═══ */
-  #showcase{height:auto!important;}
+  #showcase{height:auto!important;contain:layout style!important;}
   #showcase-sticky{
     position:relative!important;
     height:auto!important;
@@ -857,10 +863,13 @@ footer{
     opacity:0!important;
     transform:translateY(24px)!important;
     transition:opacity .8s ease-out,transform .8s ease-out!important;
+    will-change:opacity,transform;
+    contain:layout style;
   }
   .phase.mob-visible{
     opacity:1!important;
     transform:none!important;
+    will-change:auto;
   }
 
   /* Phase titles: in-flow, not absolute */
@@ -968,8 +977,9 @@ footer{
   .step-visual{max-width:320px;margin:0 auto;}
 
   /* Manifesto — bigger text, fewer words per line */
-  #manifesto{padding:clamp(50px,8vw,80px) 16px clamp(30px,4vw,60px);min-height:120vh!important;}
+  #manifesto{padding:clamp(50px,8vw,80px) 16px clamp(30px,4vw,60px);min-height:80vh!important;}
   .manifesto-text{font-size:clamp(26px,7.5vw,34px);line-height:1.5;max-width:100%;}
+  .manifesto-word{transition:color .15s linear!important;}
 
   /* Section spacing */
   #why{padding:clamp(50px,8vw,80px) 16px!important;}
@@ -1573,9 +1583,12 @@ footer{
 if (window.matchMedia('(max-width:600px)').matches) {
   const hv = document.getElementById('hero-video');
   if (hv) {
+    hv.preload = 'auto';
     hv.src = 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/header3.mp4';
+    const _tryPlay = () => { hv.play().catch(() => {}); };
+    if (hv.readyState >= 3) { _tryPlay(); }
+    else { hv.addEventListener('canplay', _tryPlay, { once: true }); }
     hv.load();
-    hv.play().catch(() => {});
   }
 }
 
@@ -1947,7 +1960,7 @@ if (_isMobile) {
     p.style.pointerEvents = 'auto';
   });
 
-  // Preload P2 + format videos early so they're ready before user scrolls there
+  // Stagger video preloading to avoid bandwidth contention on mobile
   setTimeout(() => {
     const row = document.getElementById('p2-row');
     if (row && !_p2VideosLoaded) {
@@ -1957,17 +1970,19 @@ if (_isMobile) {
           v.src = v.dataset.src;
           v.removeAttribute('data-src');
           v.load();
-        }, i * 300);
+        }, i * 800);
       });
     }
+  }, 4000);
+  setTimeout(() => {
     document.querySelectorAll('#formats video[data-src]').forEach((v, i) => {
       setTimeout(() => {
         v.src = v.dataset.src;
         v.removeAttribute('data-src');
         v.load();
-      }, i * 400);
+      }, i * 1000);
     });
-  }, 2000);
+  }, 8000);
 
   // Track active timeouts so we can cancel on reset
   const _mobTimeouts = [[], [], [], []];
@@ -2103,7 +2118,7 @@ if (_isMobile) {
         _mobResetPhase(idx);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+  }, { threshold: 0.12, rootMargin: '50px 0px -10% 0px' });
 
   phases.forEach(p => { if (p) _mobObserver.observe(p); });
 
