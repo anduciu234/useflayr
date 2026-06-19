@@ -800,7 +800,7 @@ footer{
   /* Hero video — full-width cover, entrance animation */
   #hero-video{
     width:100vw!important;max-width:none!important;
-    margin-left:calc(-50vw + 50%)!important;
+    margin-left:calc(-50vw + 50% + 4px)!important;
     height:clamp(300px,75vw,440px);
     margin-top:10px;
     object-position:center bottom;
@@ -817,11 +817,13 @@ footer{
   }
   .hero-floor{height:25vh!important;}
 
-  /* Nav: always scrolled style on mobile to prevent glitch on scroll back */
+  /* Nav: locked style on mobile — no transitions, no scroll toggle flicker */
   #nav-inner{
     max-width:100%!important;
     background:rgba(10,10,10,.9)!important;
     border-color:rgba(255,255,255,.1)!important;
+    box-shadow:0 8px 32px rgba(0,0,0,.5)!important;
+    transition:none!important;
   }
 
   /* Stats — smaller, pulled up closer to video */
