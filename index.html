@@ -797,6 +797,9 @@ footer{
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
   .hero-trust{gap:6px;font-size:11px;}
 
+  /* Hide bg video on mobile — saves bandwidth for hero video autoplay */
+  #hero-bg-video{display:none!important;}
+
   /* Hero video — full-width cover, entrance animation */
   #hero-video{
     width:100vw!important;max-width:none!important;
@@ -805,10 +808,9 @@ footer{
     margin-top:10px;
     object-position:center bottom;
     object-fit:cover!important;
-    opacity:0;
+    opacity:.01;
     animation:mobVideoIn .8s 1.1s cubic-bezier(.16,1,.3,1) forwards;
     aspect-ratio:16/9;
-    contain:layout style paint;
   }
   /* Visible bottom fade on mobile */
   #hero-video{
@@ -1084,10 +1086,7 @@ footer{
     </div>
   </div>
 
-  <video id="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/header3.mp4" media="(max-width:600px)" type="video/mp4"/>
-    <source src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-phones-v2.mp4" type="video/mp4"/>
-  </video>
+  <video id="hero-video" autoplay muted loop playsinline preload="auto" src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/header3.mp4"></video>
 </section>
 
 <!-- Stats Bar -->
@@ -1579,6 +1578,12 @@ footer{
 <script>
 (function(){
 'use strict';
+
+/* ── Desktop: swap hero video to full-size version ── */
+if (!window.matchMedia('(max-width:600px)').matches) {
+  const hv = document.getElementById('hero-video');
+  if (hv) hv.src = 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-phones-v2.mp4';
+}
 
 /* ── Nav morph on scroll ─────────────────── */
 const navInner = document.getElementById('nav-inner');
