@@ -1583,12 +1583,23 @@ footer{
 if (window.matchMedia('(max-width:600px)').matches) {
   const hv = document.getElementById('hero-video');
   if (hv) {
+    // Remove <source> child so it doesn't conflict with .src
+    const src = hv.querySelector('source');
+    if (src) src.remove();
+    // Force muted + playsinline for iOS autoplay policy
+    hv.muted = true;
+    hv.setAttribute('muted', '');
+    hv.playsInline = true;
     hv.preload = 'auto';
     hv.src = 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/header3.mp4';
-    const _tryPlay = () => { hv.play().catch(() => {}); };
-    if (hv.readyState >= 3) { _tryPlay(); }
-    else { hv.addEventListener('canplay', _tryPlay, { once: true }); }
     hv.load();
+    // Try play on every readystate milestone
+    const _tryPlay = () => { hv.play().catch(() => {}); };
+    hv.addEventListener('loadeddata', _tryPlay, { once: true });
+    hv.addEventListener('canplay', _tryPlay, { once: true });
+    // Fallback: retry after a short delay
+    setTimeout(_tryPlay, 1500);
+    setTimeout(_tryPlay, 3000);
   }
 }
 
