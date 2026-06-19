@@ -1569,6 +1569,16 @@ footer{
 (function(){
 'use strict';
 
+/* ── Mobile: use smaller hero video for reliable autoplay ── */
+if (window.matchMedia('(max-width:600px)').matches) {
+  const hv = document.getElementById('hero-video');
+  if (hv) {
+    hv.src = 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/header3.mp4';
+    hv.load();
+    hv.play().catch(() => {});
+  }
+}
+
 /* ── Nav morph on scroll ─────────────────── */
 const navInner = document.getElementById('nav-inner');
 window.addEventListener('scroll', () => {
