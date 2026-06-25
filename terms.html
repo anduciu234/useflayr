@@ -103,6 +103,31 @@
     }
   </style>
 <script defer src="/_vercel/insights/script.js"></script>
+<script defer src="https://cdn.logr-in.com/LogRocket.min.js" crossorigin="anonymous"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+window.LogRocket && window.LogRocket.init('aox94n/flayr', {
+  shouldCaptureIP: false,
+  dom: { inputSanitizer: true, hiddenAttributes: ['value', 'data-token', 'data-secret'] },
+  network: {
+    requestSanitizer: function(request) {
+      request.body = null;
+      Object.keys(request.headers || {}).forEach(function(key) {
+        if (/authorization|cookie|token|secret|key/i.test(key)) request.headers[key] = '[redacted]';
+      });
+      return request;
+    },
+    responseSanitizer: function(response) {
+      response.body = null;
+      Object.keys(response.headers || {}).forEach(function(key) {
+        if (/authorization|cookie|token|secret|key/i.test(key)) response.headers[key] = '[redacted]';
+      });
+      return response;
+    }
+  }
+});
+});
+</script>
 </head>
 <body>
 

@@ -17,6 +17,31 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"/>
 <script defer src="/_vercel/insights/script.js"></script>
+<script defer src="https://cdn.logr-in.com/LogRocket.min.js" crossorigin="anonymous"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+window.LogRocket && window.LogRocket.init('aox94n/flayr', {
+  shouldCaptureIP: false,
+  dom: { inputSanitizer: true, hiddenAttributes: ['value', 'data-token', 'data-secret'] },
+  network: {
+    requestSanitizer: function(request) {
+      request.body = null;
+      Object.keys(request.headers || {}).forEach(function(key) {
+        if (/authorization|cookie|token|secret|key/i.test(key)) request.headers[key] = '[redacted]';
+      });
+      return request;
+    },
+    responseSanitizer: function(response) {
+      response.body = null;
+      Object.keys(response.headers || {}).forEach(function(key) {
+        if (/authorization|cookie|token|secret|key/i.test(key)) response.headers[key] = '[redacted]';
+      });
+      return response;
+    }
+  }
+});
+});
+</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;scrollbar-width:none;}
