@@ -20,8 +20,10 @@
 <script defer src="https://cdn.logr-in.com/LogRocket.min.js" crossorigin="anonymous"></script>
 <script>
 window.addEventListener('DOMContentLoaded', function() {
-window.LogRocket && window.LogRocket.init('aox94n/flayr', {
+window.LogRocket && window.LogRocket.init('ax94n8/flayr', {
+  release: 'website-2026-06-25',
   shouldCaptureIP: false,
+  console: { shouldAggregateConsoleErrors: true },
   dom: { inputSanitizer: true, hiddenAttributes: ['value', 'data-token', 'data-secret'] },
   network: {
     requestSanitizer: function(request) {
@@ -40,6 +42,7 @@ window.LogRocket && window.LogRocket.init('aox94n/flayr', {
     }
   }
 });
+window.LogRocket && window.LogRocket.track('MarketingSiteLoaded');
 });
 </script>
 <style>
