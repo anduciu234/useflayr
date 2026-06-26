@@ -5,7 +5,9 @@
     { "src": "/api/delete",    "dest": "/api/delete.html" },
     { "src": "/privacy",       "dest": "/privacy.html" },
     { "src": "/terms",         "dest": "/terms.html" },
-    { "src": "/(.*\\.(?:png|jpg|jpeg|svg|gif|ico|webp|mp4|webm|css|js|woff2?|ttf|eot)$)", "dest": "/$1" },
+    { "src": "/preview",       "dest": "/preview.html" },
+    { "src": "/robots.txt",    "dest": "/robots.txt" },
+    { "src": "/(.*\\.(?:html|txt|png|jpg|jpeg|svg|gif|ico|webp|mp4|webm|css|js|woff2?|ttf|eot)$)", "dest": "/$1" },
     { "src": "/(.*)",          "dest": "/index.html" }
   ]
 }
