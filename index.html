@@ -1270,8 +1270,8 @@ footer{
   .nav-cta{padding:6px 6px 6px 13px;font-size:12px;gap:5px;border-radius:var(--r-pill);}
   .nav-cta-arrow{width:16px;height:16px;font-size:10px;}
 
-  /* Hero — anchor near top instead of min-height:100vh vertical centering (caused a big empty gap above the headline, and the 100vh->address-bar-collapse reflow caused a jump/glitch on the first scroll) */
-  #hero{min-height:auto;justify-content:flex-start;padding:100px 16px 40px;}
+  /* Hero — anchor near top (not centered) but still reserve a full screen of height, so content isn't cut short and the next section doesn't peek into view while the headline is still fading in. 100svh (small viewport height) instead of 100vh avoids the address-bar-collapse reflow jump on first scroll. */
+  #hero{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:100px 16px 40px;}
   .hero-center{max-width:100%;padding-top:10px;}
   .hero-h1{font-size:clamp(30px,8vw,42px);}
   .hero-sub{font-size:14px;max-width:100%;}
@@ -1287,6 +1287,12 @@ footer{
   .hero-flank.fl-right{transform:translate(calc(50% + var(--flank-progress,0) * 100%),-50%) rotate(calc(var(--flank-progress,0) * 4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));}
   .hero-wave{height:220px;}
   .hero-floor{height:25vh!important;}
+
+  /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only */
+  .hero-bg-vid,.cta-bg-vid{opacity:.4;}
+
+  /* Comparison table Flayr logo — was overflowing the badge/row on narrow columns */
+  .th-badge-flayr img{height:16px;}
 
   /* Kill GPU-expensive blur filter on mobile — use simple opacity/transform instead */
   .blur-rv{filter:none!important;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)!important;}
@@ -2337,14 +2343,26 @@ function heroScrollTick() {
   }
 }
 if (window.matchMedia('(max-width:600px)').matches) {
-  // Mobile: batch into rAF — firing the style write on every raw scroll event caused visible jank/glitching on the flank cards.
-  let heroScrollTicking = false;
-  window.addEventListener('scroll', () => {
-    if (!heroScrollTicking) {
-      heroScrollTicking = true;
-      requestAnimationFrame(() => { heroScrollTick(); heroScrollTicking = false; });
-    }
-  }, { passive: true });
+  // Mobile: fast flicks fire scroll events in sparse, uneven bursts, so setting --flank-progress
+  // directly per event made the cards jump between positions. Instead run a continuous rAF loop
+  // that eases the displayed value toward the scroll-derived target every frame, smoothing it out
+  // regardless of how choppy the underlying scroll events are.
+  let flankTarget = 0, flankCurrent = 0;
+  function computeFlankTarget() {
+    navInner.classList.toggle('scrolled', window.scrollY > 60);
+    if (!heroMockup) return;
+    const t = Math.max(0, Math.min(1, (window.scrollY - 40) / 360));
+    flankTarget = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+  function flankLoop() {
+    flankCurrent += (flankTarget - flankCurrent) * 0.18;
+    if (Math.abs(flankTarget - flankCurrent) < 0.0005) flankCurrent = flankTarget;
+    if (heroMockup) heroMockup.style.setProperty('--flank-progress', flankCurrent.toFixed(4));
+    requestAnimationFrame(flankLoop);
+  }
+  window.addEventListener('scroll', computeFlankTarget, { passive: true });
+  computeFlankTarget();
+  requestAnimationFrame(flankLoop);
 } else {
   window.addEventListener('scroll', heroScrollTick, { passive: true });
 }
