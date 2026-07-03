@@ -1281,8 +1281,8 @@ footer{
 
   /* Hero phone — compact on mobile */
   .hero-mockup{max-width:100%;margin-top:20px;}
-  .hero-phone{width:min(102px,23.4vw);border-radius:15%/7%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.65)) drop-shadow(0 16px 30px rgba(0,0,0,.55));}
-  .hero-flank{width:110px;height:110px;border-radius:6px;}
+  .hero-phone{width:min(150px,34vw);border-radius:15%/7%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.65)) drop-shadow(0 16px 30px rgba(0,0,0,.55));}
+  .hero-flank{width:150px;height:150px;border-radius:6px;}
   .hero-flank.fl-left{transform:translate(calc(-50% - var(--flank-progress,0) * 100%),-50%) rotate(calc(var(--flank-progress,0) * -4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));}
   .hero-flank.fl-right{transform:translate(calc(50% + var(--flank-progress,0) * 100%),-50%) rotate(calc(var(--flank-progress,0) * 4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));}
   .hero-wave{height:220px;}
@@ -1290,6 +1290,10 @@ footer{
 
   /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only */
   .hero-bg-vid,.cta-bg-vid{opacity:.4;}
+
+  /* How it works: the scroll-driven focus/blur toggle used an expensive GPU blur filter that
+     flickered/strobed during fast mobile scrolling — kill the effect on mobile, same as blur-rv. */
+  .hiw-step.hiw-blur,.hiw-step.hiw-focus{filter:none!important;opacity:1!important;}
 
   /* Comparison table Flayr logo — was overflowing the badge/row on narrow columns */
   .th-badge-flayr img{height:16px;}
@@ -1468,8 +1472,8 @@ footer{
   .compare-table td:first-child{font-size:11px;padding-left:10px;padding-right:6px;line-height:1.4;}
   .compare-table th:first-child{padding-left:10px;}
   .compare-table th.col-flayr,.compare-table td.col-flayr{transform:none!important;box-shadow:none!important;border-radius:0!important;}
-  .compare-table th.col-flayr{padding-top:20px;}
-  .th-best{font-size:8px!important;padding:3px 8px!important;top:5px!important;}
+  .compare-table th.col-flayr{padding-top:30px;}
+  .th-best{font-size:8px!important;padding:3px 8px!important;top:10px!important;}
   .th-badge{font-size:10px!important;padding:4px 8px!important;}
   .check-icon{width:20px;height:20px;}
   .compare-table th:first-child{width:38%;}
@@ -2347,22 +2351,27 @@ if (window.matchMedia('(max-width:600px)').matches) {
   // directly per event made the cards jump between positions. Instead run a continuous rAF loop
   // that eases the displayed value toward the scroll-derived target every frame, smoothing it out
   // regardless of how choppy the underlying scroll events are.
-  let flankTarget = 0, flankCurrent = 0;
+  // Runs the rAF loop only while actively converging — an unconditional infinite loop here was
+  // burning a style write every frame for the entire page lifetime, which was starving the main
+  // thread and causing jank/flicker elsewhere on the page (header fade-ins, section reveals).
+  let flankTarget = 0, flankCurrent = 0, flankLoopRunning = false;
   function computeFlankTarget() {
     navInner.classList.toggle('scrolled', window.scrollY > 60);
     if (!heroMockup) return;
     const t = Math.max(0, Math.min(1, (window.scrollY - 40) / 360));
     flankTarget = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    if (!flankLoopRunning) { flankLoopRunning = true; requestAnimationFrame(flankLoop); }
   }
   function flankLoop() {
     flankCurrent += (flankTarget - flankCurrent) * 0.18;
-    if (Math.abs(flankTarget - flankCurrent) < 0.0005) flankCurrent = flankTarget;
+    const settled = Math.abs(flankTarget - flankCurrent) < 0.0005;
+    if (settled) flankCurrent = flankTarget;
     if (heroMockup) heroMockup.style.setProperty('--flank-progress', flankCurrent.toFixed(4));
+    if (settled) { flankLoopRunning = false; return; }
     requestAnimationFrame(flankLoop);
   }
   window.addEventListener('scroll', computeFlankTarget, { passive: true });
   computeFlankTarget();
-  requestAnimationFrame(flankLoop);
 } else {
   window.addEventListener('scroll', heroScrollTick, { passive: true });
 }
@@ -3309,7 +3318,16 @@ if (faqGrid) {
     });
   }
 
-  window.addEventListener('scroll', () => requestAnimationFrame(updateHiw), { passive: true });
+  if (window.matchMedia('(max-width:600px)').matches) {
+    let hiwTicking = false;
+    window.addEventListener('scroll', () => {
+      if (hiwTicking) return;
+      hiwTicking = true;
+      requestAnimationFrame(() => { updateHiw(); hiwTicking = false; });
+    }, { passive: true });
+  } else {
+    window.addEventListener('scroll', () => requestAnimationFrame(updateHiw), { passive: true });
+  }
   updateHiw();
 })();
 
