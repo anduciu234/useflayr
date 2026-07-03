@@ -1283,8 +1283,8 @@ footer{
   .hero-mockup{max-width:100%;margin-top:20px;}
   .hero-phone{width:min(150px,34vw);border-radius:15%/7%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.65)) drop-shadow(0 16px 30px rgba(0,0,0,.55));}
   .hero-flank{width:150px;height:150px;border-radius:6px;}
-  .hero-flank.fl-left{transform:translate(calc(-50% - var(--flank-progress,0) * 100%),-50%) rotate(calc(var(--flank-progress,0) * -4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));}
-  .hero-flank.fl-right{transform:translate(calc(50% + var(--flank-progress,0) * 100%),-50%) rotate(calc(var(--flank-progress,0) * 4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));}
+  /* transform/opacity are driven directly from JS on mobile (see script below) — cheaper than
+     the CSS custom-property + calc() path, which forced a style recalc on every scroll frame. */
   .hero-wave{height:220px;}
   .hero-floor{height:25vh!important;}
 
@@ -2350,6 +2350,14 @@ if (window.matchMedia('(max-width:600px)').matches) {
   // Runs the rAF loop only while actively converging — an unconditional infinite loop here was
   // burning a style write every frame for the entire page lifetime, which was starving the main
   // thread and causing jank/flicker elsewhere on the page (header fade-ins, section reveals).
+  //
+  // The remaining stutter came from driving this via the --flank-progress CSS custom property:
+  // every write forces the browser to re-run the calc() expressions in .hero-flank's transform
+  // AND opacity for both cards (a real style recalc on the main thread), instead of a pure
+  // compositor-only transform/opacity animation. Set transform/opacity directly on the two
+  // elements from JS instead — same visuals, none of the calc()-cascade recompute cost.
+  const flLeft = document.querySelector('.hero-flank.fl-left');
+  const flRight = document.querySelector('.hero-flank.fl-right');
   let flankTarget = 0, flankCurrent = 0, flankLoopRunning = false;
   function computeFlankTarget() {
     navInner.classList.toggle('scrolled', window.scrollY > 60);
@@ -2359,6 +2367,17 @@ if (window.matchMedia('(max-width:600px)').matches) {
     flankTarget = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     if (!flankLoopRunning) { flankLoopRunning = true; requestAnimationFrame(flankLoop); }
   }
+  function applyFlankProgress(p) {
+    const scale = (0.7 + p * 0.3).toFixed(4);
+    if (flLeft) {
+      flLeft.style.opacity = p;
+      flLeft.style.transform = `translate(${(-50 - p * 100).toFixed(3)}%,-50%) rotate(${(-4 * p).toFixed(3)}deg) scale(${scale})`;
+    }
+    if (flRight) {
+      flRight.style.opacity = p;
+      flRight.style.transform = `translate(${(50 + p * 100).toFixed(3)}%,-50%) rotate(${(4 * p).toFixed(3)}deg) scale(${scale})`;
+    }
+  }
   function flankLoop() {
     // Asymmetric easing: snap toward the target quickly while appearing, ease out slowly while
     // retracting — a fast scroll-up was yanking the cards back out of view too abruptly.
@@ -2366,7 +2385,7 @@ if (window.matchMedia('(max-width:600px)').matches) {
     flankCurrent += (flankTarget - flankCurrent) * (appearing ? 0.25 : 0.06);
     const settled = Math.abs(flankTarget - flankCurrent) < 0.0005;
     if (settled) flankCurrent = flankTarget;
-    if (heroMockup) heroMockup.style.setProperty('--flank-progress', flankCurrent.toFixed(4));
+    applyFlankProgress(flankCurrent);
     if (settled) { flankLoopRunning = false; return; }
     requestAnimationFrame(flankLoop);
   }
