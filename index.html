@@ -1292,8 +1292,13 @@ footer{
 
   /* How it works: focus/blur amount is written directly per-frame from JS as a continuous
      function of scroll distance (see updateHiwMobile below) — this short transition just
-     smooths between scroll-event ticks, it doesn't drive the effect. */
-  .hiw-step{transition:filter .15s linear,opacity .15s linear,transform .15s linear;}
+     smooths between scroll-event ticks, it doesn't drive the effect.
+     Needs the compound .hiw-step.rv selector: plain .hiw-step (element-only, specificity 0,0,1)
+     was losing the whole `transition` shorthand to .rv's (class, 0,1,0) — so filter (which .rv's
+     transition list doesn't include) was snapping instantly instead of easing, while opacity/
+     transform lagged behind on .rv's slow .8s curve. That combo is what read as the section
+     "blurring immediately" and feeling heavier/slower than the rest of the page. */
+  .hiw-step.rv{transition:filter .15s linear,opacity .15s linear,transform .15s linear;}
 
   /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only */
   .hero-bg-vid,.cta-bg-vid{opacity:.4;}
@@ -3327,7 +3332,13 @@ if (faqGrid) {
         const r = step.getBoundingClientRect();
         const center = r.top + r.height / 2;
         const dist = Math.abs(center - viewH * 0.5);
-        const norm = Math.max(0, Math.min(1, dist / (viewH * 0.55)));
+        // Blur used to ramp starting right at dead-center, so a step was already visibly
+        // softening the instant it was off by a few px — leaving almost no window to actually
+        // read it. Give it a plateau: stay fully sharp within clearZone, only start blurring
+        // beyond that, so each step gets real screen-time in focus before it fades out.
+        const clearZone = viewH * 0.22;
+        const blurRange = viewH * 0.6;
+        const norm = dist <= clearZone ? 0 : Math.max(0, Math.min(1, (dist - clearZone) / (blurRange - clearZone)));
         const focus = 1 - norm;
         step.style.filter = norm < 0.02 ? 'none' : `blur(${(norm * 6).toFixed(2)}px)`;
         step.style.opacity = (0.28 + focus * 0.72).toFixed(3);
