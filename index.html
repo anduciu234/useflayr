@@ -1283,10 +1283,15 @@ footer{
   .hero-mockup{max-width:100%;margin-top:20px;}
   .hero-phone{width:min(150px,34vw);border-radius:15%/7%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.65)) drop-shadow(0 16px 30px rgba(0,0,0,.55));}
   .hero-flank{width:150px;height:150px;border-radius:6px;}
-  /* transform/opacity are driven directly from JS on mobile (see script below) — cheaper than
-     the CSS custom-property + calc() path, which forced a style recalc on every scroll frame. */
+  /* Static on mobile now (set once via JS on load) — no more scroll-linked reveal animation. */
   .hero-wave{height:220px;}
   .hero-floor{height:25vh!important;}
+
+  /* How it works: since the hero no longer spends a scroll-driven animation budget on mobile,
+     make this one a bit richer — snappier easing + a subtle scale "pop" on the focused step. */
+  .hiw-step{transition:filter .6s cubic-bezier(.16,1,.3,1),opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);}
+  .hiw-step.hiw-blur{filter:blur(6px);opacity:.28;transform:scale(.96);}
+  .hiw-step.hiw-focus{filter:none;opacity:1;transform:scale(1);}
 
   /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only */
   .hero-bg-vid,.cta-bg-vid{opacity:.4;}
@@ -2343,54 +2348,16 @@ function heroScrollTick() {
   }
 }
 if (window.matchMedia('(max-width:600px)').matches) {
-  // Mobile: fast flicks fire scroll events in sparse, uneven bursts, so setting --flank-progress
-  // directly per event made the cards jump between positions. Instead run a continuous rAF loop
-  // that eases the displayed value toward the scroll-derived target every frame, smoothing it out
-  // regardless of how choppy the underlying scroll events are.
-  // Runs the rAF loop only while actively converging — an unconditional infinite loop here was
-  // burning a style write every frame for the entire page lifetime, which was starving the main
-  // thread and causing jank/flicker elsewhere on the page (header fade-ins, section reveals).
-  //
-  // The remaining stutter came from driving this via the --flank-progress CSS custom property:
-  // every write forces the browser to re-run the calc() expressions in .hero-flank's transform
-  // AND opacity for both cards (a real style recalc on the main thread), instead of a pure
-  // compositor-only transform/opacity animation. Set transform/opacity directly on the two
-  // elements from JS instead — same visuals, none of the calc()-cascade recompute cost.
+  // Mobile: the scroll-linked flank-card reveal was fundamentally the wrong idea for mobile —
+  // no jank-free way to keep it in the same league as native scrolling on mid/low-end phones.
+  // Just show the hero fully formed on load, like the rest of the page, no animation.
   const flLeft = document.querySelector('.hero-flank.fl-left');
   const flRight = document.querySelector('.hero-flank.fl-right');
-  let flankTarget = 0, flankCurrent = 0, flankLoopRunning = false;
-  function computeFlankTarget() {
+  if (flLeft) { flLeft.style.opacity = 1; flLeft.style.transform = 'translate(-150%,-50%) rotate(-4deg) scale(1)'; }
+  if (flRight) { flRight.style.opacity = 1; flRight.style.transform = 'translate(150%,-50%) rotate(4deg) scale(1)'; }
+  window.addEventListener('scroll', () => {
     navInner.classList.toggle('scrolled', window.scrollY > 60);
-    if (!heroMockup) return;
-    // Shorter, earlier-starting range so the cards show up sooner into the scroll.
-    const t = Math.max(0, Math.min(1, window.scrollY / 220));
-    flankTarget = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    if (!flankLoopRunning) { flankLoopRunning = true; requestAnimationFrame(flankLoop); }
-  }
-  function applyFlankProgress(p) {
-    const scale = (0.7 + p * 0.3).toFixed(4);
-    if (flLeft) {
-      flLeft.style.opacity = p;
-      flLeft.style.transform = `translate(${(-50 - p * 100).toFixed(3)}%,-50%) rotate(${(-4 * p).toFixed(3)}deg) scale(${scale})`;
-    }
-    if (flRight) {
-      flRight.style.opacity = p;
-      flRight.style.transform = `translate(${(50 + p * 100).toFixed(3)}%,-50%) rotate(${(4 * p).toFixed(3)}deg) scale(${scale})`;
-    }
-  }
-  function flankLoop() {
-    // Asymmetric easing: snap toward the target quickly while appearing, ease out slowly while
-    // retracting — a fast scroll-up was yanking the cards back out of view too abruptly.
-    const appearing = flankTarget > flankCurrent;
-    flankCurrent += (flankTarget - flankCurrent) * (appearing ? 0.25 : 0.06);
-    const settled = Math.abs(flankTarget - flankCurrent) < 0.0005;
-    if (settled) flankCurrent = flankTarget;
-    applyFlankProgress(flankCurrent);
-    if (settled) { flankLoopRunning = false; return; }
-    requestAnimationFrame(flankLoop);
-  }
-  window.addEventListener('scroll', computeFlankTarget, { passive: true });
-  computeFlankTarget();
+  }, { passive: true });
 } else {
   window.addEventListener('scroll', heroScrollTick, { passive: true });
 }
