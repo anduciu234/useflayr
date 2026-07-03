@@ -233,7 +233,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .hero-mockup{--flank-progress:0;}
 .hero-flank{
   position:absolute;z-index:2;
-  width:190px;height:190px;border-radius:8px;overflow:hidden;
+  width:230px;height:230px;border-radius:8px;overflow:hidden;
   box-shadow:0 16px 40px rgba(0,0,0,.5);
   border:1px solid rgba(255,255,255,.12);
   top:50%;
@@ -1282,16 +1282,15 @@ footer{
   /* Hero phone — compact on mobile */
   .hero-mockup{max-width:100%;margin-top:20px;}
   .hero-phone{width:min(150px,34vw);border-radius:15%/7%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.65)) drop-shadow(0 16px 30px rgba(0,0,0,.55));}
-  .hero-flank{width:150px;height:150px;border-radius:6px;}
+  .hero-flank{width:120px;height:120px;border-radius:6px;}
   /* Static on mobile now (set once via JS on load) — no more scroll-linked reveal animation. */
   .hero-wave{height:220px;}
   .hero-floor{height:25vh!important;}
 
-  /* How it works: since the hero no longer spends a scroll-driven animation budget on mobile,
-     make this one a bit richer — snappier easing + a subtle scale "pop" on the focused step. */
-  .hiw-step{transition:filter .6s cubic-bezier(.16,1,.3,1),opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);}
-  .hiw-step.hiw-blur{filter:blur(6px);opacity:.28;transform:scale(.96);}
-  .hiw-step.hiw-focus{filter:none;opacity:1;transform:scale(1);}
+  /* How it works: focus/blur amount is written directly per-frame from JS as a continuous
+     function of scroll distance (see updateHiwMobile below) — this short transition just
+     smooths between scroll-event ticks, it doesn't drive the effect. */
+  .hiw-step{transition:filter .15s linear,opacity .15s linear,transform .15s linear;}
 
   /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only */
   .hero-bg-vid,.cta-bg-vid{opacity:.4;}
@@ -3305,6 +3304,34 @@ if (faqGrid) {
   }
 
   if (window.matchMedia('(max-width:600px)').matches) {
+    // Mobile: binary hiw-blur/hiw-focus class toggling snapped between only two states, and
+    // (0,2,0) specificity beat the (0,1,0) .rv entrance-hide rule — so a step 400px off-screen
+    // could already render at opacity .28 before the user ever scrolled to it, then "pop" once
+    // it actually revealed. Fixed by writing blur/opacity/scale continuously, as a plain function
+    // of each step's distance from viewport center — same idea as a scroll-wheel/carousel picker,
+    // naturally reversible when scrolling back up — and only once the step has finished its own
+    // entrance reveal (has 'vi'), so the two animations never fight each other.
+    function updateHiwMobile() {
+      const rect = hiwSection.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      const viewH = window.innerHeight;
+      const scrolled = Math.max(0, Math.min(1, (viewH * 0.4 - sectionTop) / sectionHeight));
+      progressBar.style.height = (scrolled * 100) + '%';
+
+      steps.forEach(step => {
+        if (!step.classList.contains('vi')) return;
+        const r = step.getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        const dist = Math.abs(center - viewH * 0.5);
+        const norm = Math.max(0, Math.min(1, dist / (viewH * 0.55)));
+        const focus = 1 - norm;
+        step.style.filter = norm < 0.02 ? 'none' : `blur(${(norm * 6).toFixed(2)}px)`;
+        step.style.opacity = (0.28 + focus * 0.72).toFixed(3);
+        step.style.transform = `scale(${(0.96 + focus * 0.04).toFixed(4)})`;
+      });
+    }
+
     // Defer engaging the focus/blur effect until the section is actually approaching the
     // viewport, instead of evaluating it on every scroll from page load — cuts unnecessary work
     // while the user is still up in the hero, and keeps the effect from "loading" prematurely.
@@ -3312,14 +3339,14 @@ if (faqGrid) {
     function onHiwScroll() {
       if (!hiwActive || hiwTicking) return;
       hiwTicking = true;
-      requestAnimationFrame(() => { updateHiw(); hiwTicking = false; });
+      requestAnimationFrame(() => { updateHiwMobile(); hiwTicking = false; });
     }
     window.addEventListener('scroll', onHiwScroll, { passive: true });
     const hiwActivateObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting && !hiwActive) { hiwActive = true; updateHiw(); }
+        if (e.isIntersecting && !hiwActive) { hiwActive = true; updateHiwMobile(); }
       });
-    }, { rootMargin: '400px 0px' });
+    }, { rootMargin: '150px 0px' });
     hiwActivateObs.observe(hiwSection);
   } else {
     window.addEventListener('scroll', () => requestAnimationFrame(updateHiw), { passive: true });
