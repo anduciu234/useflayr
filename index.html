@@ -109,7 +109,7 @@ html::-webkit-scrollbar{display:none;}
 }
 body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 
-/* ── Nav ──────────────────────────────────── */
+/* ── Nav — liquid glass ──────────────────── */
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:1000;
   display:flex;justify-content:center;
@@ -119,19 +119,19 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   pointer-events:auto;
   display:flex;align-items:center;justify-content:space-between;
   width:100%;max-width:860px;
-  height:48px;padding:0 6px 0 20px;
-  background:rgba(12,12,12,.55);
-  border:1px solid rgba(255,255,255,.10);
+  height:52px;padding:0 6px 0 22px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
   border-radius:var(--r-pill);
-  backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
-  box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.04) inset;
+  backdrop-filter:blur(60px) saturate(1.8);-webkit-backdrop-filter:blur(60px) saturate(1.8);
+  box-shadow:0 4px 30px rgba(0,0,0,.3),0 1px 0 rgba(255,255,255,.08) inset;
   transition:all .5s cubic-bezier(.16,1,.3,1);
 }
 #nav-inner.scrolled{
-  max-width:680px;
-  background:rgba(10,10,10,.9);
-  border-color:rgba(255,255,255,.1);
-  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  max-width:720px;
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.15);
+  box-shadow:0 8px 40px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.1) inset;
 }
 .nav-logo{
   font-family:var(--font-head);font-size:20px;font-weight:700;
@@ -155,13 +155,19 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .nav-signin:hover{color:#fff;}
 .nav-cta{
   background:var(--accent);color:#000;border:none;
-  padding:8px 20px;border-radius:var(--r-pill);
-  font-family:var(--font-body);font-size:13px;font-weight:600;
-  cursor:pointer;transition:transform .25s,box-shadow .3s,filter .25s;
-  text-decoration:none;display:inline-flex;align-items:center;
+  padding:7px 7px 7px 16px;border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:13px;font-weight:700;
+  cursor:pointer;transition:transform .2s,box-shadow .25s,filter .2s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
   white-space:nowrap;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(0,212,255,.25);
 }
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,212,255,.3);filter:brightness(1.08);}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 5px 16px rgba(0,212,255,.35);filter:brightness(1.05);}
+.nav-cta-arrow{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;
+  background:rgba(0,0,0,.14);font-size:11px;line-height:1;
+}
 
 /* ── Hero ─────────────────────────────────── */
 #hero{
@@ -170,22 +176,79 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   padding:130px 24px 80px;position:relative;overflow:hidden;
   overflow-x:clip;
 }
-/* Hero background video — subtle starry effect */
-#hero-bg-video{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center 30%;
-  opacity:.10;pointer-events:none;
+
+/* Subtle wave — light sky-blue touch at top of hero */
+.hero-wave{
+  position:absolute;top:0;left:0;right:0;height:280px;
+  overflow:hidden;pointer-events:none;z-index:0;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,transparent 100%);
 }
-/* Hero video — inline below CTA, cropped from top */
-#hero-video{
+.hero-wave svg{
+  position:absolute;top:-60px;left:50%;
+  width:2000px;max-width:none;height:100%;
+  transform:translateX(-50%);
+  opacity:.7;
+  animation:waveDrift 28s ease-in-out infinite alternate;
+}
+@keyframes waveDrift{
+  0%{transform:translateX(-51%) translateY(0);}
+  100%{transform:translateX(-49%) translateY(5px);}
+}
+
+.hero-bg-vid-wrap{
+  position:absolute;inset:0;z-index:0;
+  pointer-events:none;overflow:hidden;
+}
+.hero-bg-vid-wrap::after{
+  content:"";
+  position:absolute;bottom:0;left:0;right:0;height:45%;
+  background:linear-gradient(to bottom,transparent 0%,var(--bg) 100%);
+  pointer-events:none;
+}
+.hero-bg-vid{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  transform:scale(1.4);
+  filter:blur(6px);
+  opacity:.2;
+}
+
+/* Hero phone video + flanking ad cards */
+.hero-mockup{
   position:relative;z-index:5;
-  width:100%;max-width:1200px;
-  height:clamp(440px,60vw,820px);
-  object-fit:cover;object-position:center bottom;
-  margin-top:24px;
-  opacity:.8;
+  width:100%;max-width:900px;
+  margin-top:36px;
+  display:flex;align-items:center;justify-content:center;
 }
-#hero-overlay{display:none;}
+.hero-phone{
+  position:relative;z-index:3;
+  width:min(258px,26.4vw);flex-shrink:0;
+  overflow:hidden;
+  border-radius:15%/6.8%;
+  filter:drop-shadow(0 14px 20px rgba(0,0,0,.65)) drop-shadow(0 30px 60px rgba(0,0,0,.6));
+}
+.hero-phone video{
+  width:100%;height:auto;display:block;
+}
+.hero-mockup{--flank-progress:0;}
+.hero-flank{
+  position:absolute;z-index:2;
+  width:190px;height:190px;border-radius:8px;overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.12);
+  top:50%;
+  opacity:var(--flank-progress,0);
+  will-change:transform,opacity;
+}
+.hero-flank img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-flank.fl-left{
+  left:50%;
+  transform:translate(calc(-50% - var(--flank-progress,0) * 160%),-50%) rotate(calc(var(--flank-progress,0) * -4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));
+}
+.hero-flank.fl-right{
+  right:50%;
+  transform:translate(calc(50% + var(--flank-progress,0) * 160%),-50%) rotate(calc(var(--flank-progress,0) * 4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));
+}
 
 /* Subtle atmospheric glow behind headline */
 .hero-glow{
@@ -202,20 +265,11 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   background:radial-gradient(ellipse,rgba(0,212,255,.03) 0%,transparent 60%);
   filter:blur(80px);pointer-events:none;
 }
-/* Solid black behind the video fade zone — blocks glow artifacts */
+/* Solid black behind the mockup fade zone — blocks glow artifacts */
 .hero-floor{
   position:absolute;bottom:0;left:-10%;right:-10%;height:55vh;
   background:var(--bg);
   pointer-events:none;z-index:4;
-}
-/* Video fades to transparent at bottom → reveals black bg = natural blend */
-#hero-video{
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 65%,transparent 90%),
-    linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
-  -webkit-mask-composite:destination-in;
-  mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 65%,transparent 90%),
-    linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
-  mask-composite:intersect;
 }
 
 /* ── Hero center column ── */
@@ -245,37 +299,22 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 .hero-h1{
   font-family:var(--font-head);font-weight:800;
-  font-size:clamp(36px,4.8vw,64px);
-  line-height:1.08;letter-spacing:-.04em;
-  margin:0 0 22px;color:#fff;
+  font-size:clamp(40px,5.5vw,76px);
+  line-height:1.06;letter-spacing:-.04em;
+  margin:0 0 24px;color:#fff;
+  background:linear-gradient(90deg,#fff 0%,#fff 38%,#bfeeff 47%,#dff6ff 50%,#bfeeff 53%,#fff 62%,#fff 100%);
+  background-size:300% 100%;background-position:150% 0;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   opacity:0;transform:translateY(18px);
-  animation:fadeup .7s .55s cubic-bezier(.16,1,.3,1) forwards;
+  animation:fadeup .7s .55s cubic-bezier(.16,1,.3,1) forwards,heroGradientSweep 4s .3s ease-in-out infinite;
+}
+@keyframes heroGradientSweep{
+  0%,2%{background-position:150% 0;}
+  98%,100%{background-position:-50% 0;}
 }
 .hero-h1 em{
   font-family:var(--font-accent);font-weight:400;font-style:italic;
   color:rgba(255,255,255,.85);
-  position:relative;display:inline-block;
-}
-.hero-h1 em::after{
-  content:'Launch fresh creatives weekly.';
-  position:absolute;inset:0;
-  background:linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0,212,255,.45) 35%,
-    rgba(0,212,255,.7) 50%,
-    rgba(0,212,255,.45) 65%,
-    transparent 100%
-  );
-  background-size:200% 100%;
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:waveGlow 4.8s ease-in-out infinite;
-  pointer-events:none;
-}
-@keyframes waveGlow{
-  0%{background-position:200% 0;}
-  100%{background-position:-200% 0;}
 }
 .hero-sub{
   font-size:clamp(14px,1.1vw,17px);color:rgba(255,255,255,.45);
@@ -296,6 +335,24 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   letter-spacing:-.01em;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
 }
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,212,255,.28);filter:brightness(1.08);}
+.hero-btn-big{
+  padding:20px 58px;font-size:18px;font-weight:700;
+  border-radius:var(--r-pill);letter-spacing:-.01em;
+  box-shadow:0 6px 30px rgba(0,212,255,.3),0 0 60px rgba(0,212,255,.1);
+  background:linear-gradient(135deg,#00d4ff 0%,#00b8e6 100%);
+  position:relative;
+}
+.hero-btn-big .btn-arrow{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:rgba(0,0,0,.12);margin-left:4px;
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.hero-btn-big:hover .btn-arrow{transform:translateX(3px);}
+.hero-btn-big:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 12px 50px rgba(0,212,255,.4),0 0 80px rgba(0,212,255,.15);
+}
 .btn-ghost{
   background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);
   border:1px solid rgba(255,255,255,.08);
@@ -410,7 +467,221 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .blur-rv{filter:blur(12px);opacity:0;transform:translateY(20px);transition:filter .9s cubic-bezier(.16,1,.3,1),opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
 .blur-rv.vi{filter:blur(0);opacity:1;transform:none;}
 
-/* ── Scroll Showcase ─────────────────────── */
+/* ── How It Works — numbered steps ──────── */
+#hiw{background:var(--bg);padding:clamp(80px,10vw,160px) 24px;position:relative;}
+.hiw-steps{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(60px,8vw,120px);position:relative;}
+/* Vertical timeline line */
+.hiw-steps::before{
+  content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,transparent,rgba(135,206,250,.25) 10%,rgba(135,206,250,.25) 90%,transparent);
+  transform:translateX(-1px);z-index:0;
+}
+.hiw-timeline-progress{
+  position:absolute;left:50%;top:0;width:2px;height:0%;
+  background:linear-gradient(to bottom,rgba(135,206,250,.6),rgba(135,206,250,.3));
+  transform:translateX(-1px);z-index:1;
+  transition:height .1s linear;
+  box-shadow:0 0 8px rgba(135,206,250,.3);
+}
+/* Timeline dot at progress tip */
+.hiw-timeline-progress::after{
+  content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(135,206,250,.8);
+  box-shadow:0 0 12px rgba(135,206,250,.5),0 0 24px rgba(135,206,250,.2);
+}
+.hiw-step{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,80px);
+  align-items:center;position:relative;z-index:2;
+  transition:filter .5s ease,opacity .5s ease;
+}
+.hiw-step.hiw-blur{filter:blur(4px);opacity:.35;}
+.hiw-step.hiw-focus{filter:none;opacity:1;}
+.hiw-step:nth-child(even){direction:rtl;}
+.hiw-step:nth-child(even) > *{direction:ltr;}
+.hiw-step-text{display:flex;flex-direction:column;gap:16px;}
+.hiw-num{
+  font-family:'Plus Jakarta Sans',var(--font-head),sans-serif;font-weight:800;
+  font-size:clamp(56px,6vw,88px);letter-spacing:-.03em;
+  color:#fff;line-height:.9;
+  -webkit-text-stroke:2px rgba(255,255,255,.15);
+  text-shadow:0 4px 0 rgba(0,0,0,.4);
+}
+.hiw-step:nth-child(3) .hiw-num{color:var(--accent);}
+.hiw-title{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(26px,3vw,42px);line-height:1.15;
+  letter-spacing:-.03em;color:#fff;
+}
+.hiw-desc{
+  font-size:clamp(15px,1.1vw,18px);line-height:1.7;
+  color:rgba(255,255,255,.45);max-width:420px;
+}
+.hiw-visual{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;overflow:hidden;
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  position:relative;
+  transition:transform .6s cubic-bezier(.16,1,.3,1),box-shadow .6s ease;
+}
+.hiw-focus .hiw-visual{
+  transform:scale(1.02);
+  box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 40px rgba(135,206,250,.06);
+}
+.hiw-visual img,.hiw-visual video{
+  width:100%;height:100%;object-fit:cover;
+}
+
+/* ── Just Launched — Autopilot ─────────── */
+#launched{background:var(--bg);padding:clamp(80px,10vw,160px) 24px;position:relative;overflow:hidden;}
+.launched-inner{max-width:900px;margin:0 auto;text-align:center;}
+.launched-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 20px;border-radius:var(--r-pill);
+  background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);
+  font-size:12px;font-weight:700;color:var(--accent);
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:28px;
+}
+.launched-badge::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 12px var(--accent);
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
+.launched-h2{
+  font-family:var(--font-head);font-weight:800;
+  font-size:clamp(32px,4.5vw,64px);line-height:1.06;
+  letter-spacing:-.04em;color:#fff;margin-bottom:20px;
+}
+.launched-sub{
+  font-size:clamp(15px,1.2vw,19px);color:rgba(255,255,255,.4);
+  line-height:1.7;max-width:560px;margin:0 auto 48px;
+}
+.launched-video{
+  max-width:800px;margin:0 auto;border-radius:20px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 20px 80px rgba(0,0,0,.5),0 0 60px rgba(0,212,255,.05);
+}
+.launched-video video{width:100%;display:block;}
+
+/* ── Bento Feature Grid ────────────────── */
+#bento{background:var(--bg);padding:clamp(80px,10vw,140px) 24px;position:relative;}
+.bento-grid{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.bento-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+  padding:clamp(32px,3.5vw,44px);
+  position:relative;overflow:hidden;
+  border-radius:26px;border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+  transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .35s ease,box-shadow .35s ease,background .35s ease;
+}
+.bento-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 0%,rgba(0,212,255,.05),transparent 60%);
+  opacity:0;transition:opacity .4s ease;pointer-events:none;
+}
+.bento-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16);box-shadow:0 28px 60px rgba(0,0,0,.4);}
+.bento-card:hover::before{opacity:1;}
+.bento-card.span-2{grid-column:span 2;}
+.bento-card-eyebrow{
+  font-size:11px;font-weight:700;color:var(--accent);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;
+}
+.bento-card-title{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(26px,2.6vw,34px);line-height:1.14;
+  letter-spacing:-.03em;color:#fff;margin-bottom:10px;
+}
+.bento-card-desc{
+  font-size:13.5px;line-height:1.55;
+  color:rgba(255,255,255,.38);max-width:340px;
+}
+.bento-card-visual{
+  margin-top:24px;border-radius:16px;overflow:hidden;
+  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);
+}
+.launch-panel{
+  margin-top:22px;background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;
+  padding:18px;
+}
+.launch-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.launch-panel-title{font-size:13px;font-weight:600;color:rgba(255,255,255,.5);}
+.launch-panel-tag{
+  font-size:11px;font-weight:700;color:var(--accent);
+  background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);
+  padding:3px 10px;border-radius:999px;
+}
+.launch-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.launch-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:16px;position:relative;overflow:hidden;
+}
+.launch-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+}
+.lc-meta::before{background:linear-gradient(90deg,#1877F2,#42a5f5);}
+.lc-tt::before{background:linear-gradient(90deg,#ff0050,#00f2ea);}
+.launch-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.launch-card-icon{
+  width:38px;height:38px;border-radius:11px;flex-shrink:0;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.lc-meta .launch-card-icon{background:linear-gradient(135deg,#1877F2,#0d65d9);box-shadow:0 6px 16px rgba(24,119,242,.35);}
+.lc-tt .launch-card-icon{background:linear-gradient(135deg,#010101,#333);box-shadow:0 6px 16px rgba(0,0,0,.4);}
+.launch-platform-badge{
+  position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;
+  background:#ef4444;border:2px solid #0a0a0a;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:#fff;font-weight:700;
+}
+.launch-card-live{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;color:#34d399;
+}
+.launch-dot{
+  width:6px;height:6px;border-radius:50%;background:#34d399;
+  box-shadow:0 0 8px rgba(52,211,153,.6);
+  animation:livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.launch-card-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:2px;}
+.launch-card-placements{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:14px;}
+.launch-card-budget{margin-top:auto;}
+.launch-budget-bar{
+  height:4px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:6px;
+}
+.launch-budget-fill{
+  height:100%;border-radius:4px;
+  background:linear-gradient(90deg,#1877F2,#42a5f5);
+}
+.launch-budget-fill.tt-fill{background:linear-gradient(90deg,#ff0050,#00f2ea);}
+.launch-budget-label{font-size:10.5px;color:rgba(255,255,255,.3);font-weight:500;}
+.launch-btn{
+  width:100%;padding:12px;border:none;border-radius:12px;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),#00b4d8);
+  color:#000;font-family:var(--font-body);font-size:13.5px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .2s,box-shadow .3s;
+  box-shadow:0 8px 24px rgba(0,212,255,.25);
+}
+.launch-btn:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(0,212,255,.35);}
+.bento-stat{
+  font-family:var(--font-head);font-weight:800;
+  font-size:clamp(48px,5vw,72px);letter-spacing:-.04em;
+  color:#fff;line-height:1;margin-bottom:8px;
+  background:linear-gradient(180deg,#fff 30%,rgba(255,255,255,.4));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.bento-stat-label{font-size:14px;color:rgba(255,255,255,.35);font-weight:500;}
+
+/* ── Scroll Showcase (legacy) ────────────── */
 #showcase{height:600vh;position:relative;background:var(--bg);}
 #showcase-sticky{
   position:sticky;top:0;height:100vh;width:100%;
@@ -620,14 +891,14 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 
 /* ── Manifesto ───────────────────────────── */
 #manifesto{
-  background:var(--bg);padding:clamp(80px,10vw,140px) clamp(24px,10vw,200px) clamp(40px,5vw,80px);
+  background:var(--bg);padding:clamp(80px,10vw,140px) clamp(24px,10vw,200px) clamp(40px,5vw,60px);
   position:relative;min-height:160vh;
 }
 .manifesto-text{
   font-family:var(--font-head);font-weight:300;
-  font-size:clamp(24px,3vw,38px);
-  line-height:1.45;letter-spacing:-.02em;
-  max-width:840px;margin:0 auto;
+  font-size:clamp(26px,3.3vw,44px);
+  line-height:1.4;letter-spacing:-.02em;
+  max-width:960px;margin:0 auto;
 }
 .manifesto-word{
   color:rgba(255,255,255,.08);
@@ -656,83 +927,157 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 }
 
 /* ── Why Flayr (comparison table) ─────────── */
-#why{background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;}
-.compare-wrap{max-width:860px;margin:0 auto;
-  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);
-  border-radius:24px;padding:4px;backdrop-filter:blur(20px);
+#why{background:var(--bg);padding:clamp(40px,5vw,80px) 24px;position:relative;}
+.compare-wrap{max-width:1040px;margin:0 auto;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:28px;overflow:hidden;
+  backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
+  box-shadow:0 40px 100px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.14);
 }
-.compare-table{width:100%;border-collapse:separate;border-spacing:0;}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;}
 .compare-table th{
-  padding:22px 20px 16px;text-align:center;
-  font-family:var(--font-head);font-size:13px;font-weight:600;color:rgba(255,255,255,.35);
-  letter-spacing:.04em;text-transform:uppercase;
-  vertical-align:middle;
+  padding:34px 24px 26px;text-align:center;
+  font-family:var(--font-head);font-size:15px;font-weight:600;color:rgba(255,255,255,.4);
+  letter-spacing:.03em;
+  vertical-align:middle;position:relative;
 }
-.compare-table th:first-child{text-align:left;color:transparent;padding-left:24px;}
+.compare-table th:first-child{text-align:left;color:transparent;padding-left:36px;width:34%;}
+.compare-table th .th-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:999px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.45);
+}
 .compare-table th.col-flayr{
   color:var(--accent);
-  background:rgba(0,212,255,.06);
-  border-bottom:1px solid rgba(0,212,255,.15);
-  font-weight:700;
+  background:linear-gradient(180deg,rgba(0,212,255,.18),rgba(0,212,255,.05));
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-left:1px solid rgba(0,212,255,.28);border-right:1px solid rgba(0,212,255,.28);
+  font-weight:800;font-size:16px;
+  padding-top:44px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
 }
-.compare-table th.col-flayr .flayr-logo-icon{
-  display:flex;align-items:center;justify-content:center;
-  margin:8px auto 10px;
-  filter:drop-shadow(0 0 10px rgba(0,212,255,.35)) drop-shadow(0 0 20px rgba(0,212,255,.15));
+.compare-table th .th-badge-flayr{
+  background:none;border:none;
+  padding:0;
+  box-shadow:none;
+}
+.th-badge-flayr img{display:block;height:28px;width:auto;}
+.compare-table th.col-flayr .th-best{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#000;font-size:10px;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 14px;border-radius:999px;
+  box-shadow:0 6px 16px rgba(0,212,255,.4);white-space:nowrap;
 }
 .compare-table td{
-  padding:16px 20px;text-align:center;
-  border-top:1px solid rgba(255,255,255,.04);
-  font-size:14px;color:rgba(255,255,255,.45);
+  padding:22px 24px;text-align:center;
+  border-top:1px solid rgba(255,255,255,.07);
+  font-size:16px;color:rgba(255,255,255,.5);
 }
 .compare-table td:first-child{
-  text-align:left;font-size:14px;font-weight:500;color:rgba(255,255,255,.65);
-  padding-left:24px;
+  text-align:left;font-size:16px;font-weight:600;color:rgba(255,255,255,.8);
+  padding-left:36px;
 }
 .compare-table td.col-flayr{
-  background:rgba(0,212,255,.02);
+  background:linear-gradient(180deg,rgba(0,212,255,.12),rgba(0,212,255,.04));
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-left:1px solid rgba(0,212,255,.28);border-right:1px solid rgba(0,212,255,.28);
 }
+.compare-table td.col-flayr .check-icon.yes{
+  background:rgba(0,212,255,.18);color:var(--accent);
+  box-shadow:0 0 0 1px rgba(0,212,255,.25),0 0 16px rgba(0,212,255,.35);
+}
+.compare-table tr:last-child td.col-flayr{
+  border-radius:0 0 20px 20px;border-bottom:1px solid rgba(0,212,255,.4);
+  box-shadow:0 18px 40px rgba(0,212,255,.16);
+}
+.compare-table tr:nth-child(even) td{background:rgba(255,255,255,.015);}
+.compare-table tr:nth-child(even) td.col-flayr{background:linear-gradient(180deg,rgba(0,212,255,.18),rgba(0,212,255,.06));}
 .compare-table tr:first-child td{border-top:none;}
-.check-icon.partial svg{opacity:.5;}
-.check-icon.partial{color:rgba(255,255,255,.3);}
+.compare-table tr:hover td{background:rgba(255,255,255,.035);}
+.compare-table tr:hover td.col-flayr{background:linear-gradient(180deg,rgba(0,212,255,.22),rgba(0,212,255,.08));}
 .check-icon{
-  width:28px;height:28px;border-radius:50%;
+  width:38px;height:38px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
 }
-.check-icon.yes{background:rgba(52,211,153,.15);color:#34d399;}
-.check-icon.no{background:rgba(239,68,68,.12);color:#ef4444;}
+.check-icon.yes{background:rgba(52,211,153,.15);color:#34d399;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(52,211,153,.15),0 8px 20px rgba(52,211,153,.1);}
+.check-icon.no{background:rgba(239,68,68,.08);color:#ef4444;}
 
 
 /* ── Pricing ─────────────────────────────── */
 #pricing{background:var(--bg);padding:clamp(60px,8vw,120px) 24px;position:relative;}
 .pricing-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:clamp(16px,3vw,32px);max-width:820px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;max-width:1080px;margin:0 auto;
+  align-items:stretch;
 }
 .pricing-card{
-  background:rgba(255,255,255,.02);border-radius:var(--r-lg);
-  border:1px solid rgba(255,255,255,.06);
-  padding:clamp(28px,3vw,40px);
-  position:relative;display:flex;flex-direction:column;
-  transition:transform .3s cubic-bezier(.16,1,.3,1);
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+  padding:clamp(32px,3vw,40px);
+  position:relative;display:flex;flex-direction:column;overflow:hidden;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease,border-color .35s ease,background .35s ease;
 }
-.pricing-card:hover{transform:translateY(-4px);}
+.pricing-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 0%,rgba(0,212,255,.05),transparent 60%);
+  opacity:0;transition:opacity .4s ease;pointer-events:none;
+}
+.pricing-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,255,255,.16);
+  box-shadow:0 30px 60px rgba(0,0,0,.45);
+}
+.pricing-card:hover::before{opacity:1;}
 .pricing-card.featured{
-  background:rgba(0,212,255,.03);
-  border-color:rgba(0,212,255,.15);
-  box-shadow:0 12px 48px rgba(0,212,255,.06);
+  background:linear-gradient(180deg,rgba(0,212,255,.1),rgba(0,212,255,.02));
+  border:1px solid rgba(0,212,255,.4);
+  box-shadow:0 30px 70px rgba(0,212,255,.18),0 0 0 1px rgba(0,212,255,.08) inset;
+  transform:translateY(-16px) scale(1.04);
+  z-index:1;
 }
+.pricing-card.featured::before{opacity:1;background:radial-gradient(ellipse at 50% 0%,rgba(0,212,255,.16),transparent 60%);}
+.pricing-card.featured:hover{transform:translateY(-22px) scale(1.04);box-shadow:0 36px 80px rgba(0,212,255,.24),0 0 0 1px rgba(0,212,255,.08) inset;}
 .pricing-badge{
-  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  position:absolute;top:20px;left:50%;transform:translateX(-50%);
   background:var(--accent);color:#000;
-  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  padding:5px 16px;border-radius:var(--r-pill);
+  font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:6px 16px;border-radius:999px;
+  box-shadow:0 6px 16px rgba(0,212,255,.4);white-space:nowrap;
 }
-.pricing-plan{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;opacity:.7;}
-.pricing-price{display:flex;align-items:baseline;gap:4px;margin-bottom:8px;}
-.pricing-amount{font-family:var(--font-head);font-weight:700;font-size:clamp(36px,4vw,48px);color:#fff;line-height:1;}
+.pricing-card.featured{padding-top:clamp(52px,4.5vw,60px);}
+.pricing-icon{
+  width:40px;height:40px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;position:relative;z-index:1;
+  background:linear-gradient(155deg,rgba(255,255,255,.09),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 6px 14px rgba(0,0,0,.25);
+}
+.pricing-card.featured .pricing-icon{
+  background:linear-gradient(135deg,rgba(0,212,255,.25),rgba(0,212,255,.06));
+  border:1px solid rgba(0,212,255,.3);
+  box-shadow:0 8px 24px rgba(0,212,255,.2);
+}
+.pricing-plan{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;}
+.pricing-price{display:flex;align-items:baseline;gap:6px;margin-bottom:6px;}
+.pricing-amount{font-family:var(--font-head);font-weight:700;font-size:clamp(36px,4vw,52px);color:#fff;line-height:1;}
 .pricing-period{font-size:14px;color:var(--txt2);}
-.pricing-desc{font-size:14px;color:var(--txt2);line-height:1.5;margin-bottom:28px;}
+.pricing-desc{font-size:14px;color:var(--txt2);line-height:1.5;margin-bottom:28px;min-height:42px;}
+.pf-check{
+  width:22px;height:22px;border-radius:7px;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,212,255,.12);
+}
+.pricing-card.featured .pf-check{background:rgba(0,212,255,.2);}
 .pricing-btn{
   width:100%;padding:14px;border-radius:var(--r-pill);
   font-family:var(--font-body);font-size:14px;font-weight:600;
@@ -743,10 +1088,53 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .pricing-btn.primary:hover{filter:brightness(1.08);transform:scale(1.02);}
 .pricing-btn.outline{background:transparent;border:1.5px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);}
 .pricing-btn.outline:hover{border-color:var(--accent);background:var(--accent-dim);color:var(--accent);}
-.pricing-features{display:flex;flex-direction:column;gap:12px;}
+.pricing-features{display:flex;flex-direction:column;gap:12px;flex:1;}
 .pricing-feature{display:flex;gap:10px;align-items:flex-start;}
 .pricing-feature svg{flex-shrink:0;margin-top:2px;}
 .pricing-feature span{font-size:13.5px;color:var(--txt2);line-height:1.45;}
+
+.pricing-toggle{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin:0 0 clamp(36px,4vw,52px);
+}
+.pt-opt{font-size:14px;font-weight:600;color:var(--txt2);transition:color .25s;cursor:pointer;user-select:none;}
+.pt-opt.active{color:#fff;}
+.pt-switch{
+  position:relative;width:46px;height:26px;border-radius:999px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);
+  cursor:pointer;padding:0;flex-shrink:0;
+  transition:background .25s,border-color .25s;
+}
+.pt-switch .pt-thumb{
+  position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);
+  transition:transform .28s cubic-bezier(.16,1,.3,1);
+}
+#pricing.billing-yearly .pt-switch{background:var(--accent);border-color:var(--accent);}
+#pricing.billing-yearly .pt-switch .pt-thumb{transform:translateX(20px);}
+.pt-save{
+  display:inline-flex;align-items:center;line-height:1;gap:4px;
+  font-size:12px;font-weight:700;color:var(--accent);
+  background:var(--accent-dim);border:1px solid rgba(0,212,255,.25);
+  padding:7px 12px;border-radius:999px;letter-spacing:.02em;
+  opacity:0;transform:scale(.8) translateX(-6px);pointer-events:none;
+  transition:opacity .3s ease,transform .35s cubic-bezier(.16,1,.3,1);
+}
+#pricing.billing-yearly .pt-save{opacity:1;transform:scale(1) translateX(0);pointer-events:auto;}
+.pricing-discount-row{
+  display:flex;align-items:center;gap:8px;
+  max-height:0;opacity:0;margin-top:-2px;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.16,1,.3,1),opacity .3s ease,margin .4s cubic-bezier(.16,1,.3,1);
+}
+#pricing.billing-yearly .pricing-discount-row{max-height:40px;opacity:1;margin-bottom:20px;}
+.pricing-was{font-size:13px;color:var(--txt2);text-decoration:line-through;opacity:.6;font-weight:500;}
+.pricing-off-badge{
+  font-size:11px;font-weight:700;color:var(--accent);
+  background:var(--accent-dim);border:1px solid rgba(0,212,255,.25);
+  padding:3px 10px;border-radius:999px;letter-spacing:.02em;line-height:1.6;
+}
+.pricing-amount{transition:opacity .16s ease,transform .16s ease,filter .16s ease;}
+.pricing-amount.pt-swap{opacity:0;transform:translateY(5px);filter:blur(3px);}
 
 /* ── FAQ ─────────────────────────────────── */
 #faq{background:var(--bg);padding:clamp(80px,10vw,160px) clamp(24px,5vw,80px);}
@@ -790,6 +1178,25 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   background:var(--bg);padding:clamp(80px,10vw,160px) 24px;
   text-align:center;position:relative;overflow:hidden;
 }
+.cta-bg-vid-wrap{
+  position:absolute;inset:0;z-index:0;
+  pointer-events:none;overflow:hidden;
+  -webkit-mask-image:
+    linear-gradient(to bottom,transparent 0%,#000 45%,#000 100%),
+    linear-gradient(to right,transparent 0%,#000 22%,#000 78%,transparent 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:
+    linear-gradient(to bottom,transparent 0%,#000 45%,#000 100%),
+    linear-gradient(to right,transparent 0%,#000 22%,#000 78%,transparent 100%);
+  mask-composite:intersect;
+}
+.cta-bg-vid{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  transform:scale(1.4);
+  filter:blur(6px);
+  opacity:.2;
+}
+.cta-content{position:relative;z-index:1;}
 .cta-glow{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
@@ -833,7 +1240,11 @@ footer{
   .dash-sidebar{display:none;}
   .stats-grid{grid-template-columns:repeat(2,1fr);}
   .steps-grid{grid-template-columns:1fr;}
-  .pricing-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;gap:16px;}
+  .pricing-card.featured{transform:none;}
+  .pricing-card.featured:hover{transform:translateY(-4px);}
+  .bento-grid{grid-template-columns:1fr;gap:14px;}
+  .bento-card.span-2{grid-column:span 1;}
   .faq-layout{grid-template-columns:1fr;}
   .faq-sticky{position:static;}
   .faq-grid{grid-template-columns:1fr;}
@@ -843,6 +1254,10 @@ footer{
   .footer-links{flex-wrap:wrap;justify-content:center;}
   .phase-content{padding:0 16px;}
   .hero-floats{display:none;}
+  /* HIW: stack on tablet */
+  .hiw-step{grid-template-columns:1fr!important;}
+  .hiw-step:nth-child(even){direction:ltr;}
+  .hiw-steps::before,.hiw-timeline-progress{display:none;}
   /* Formats: hide ghost phones, just show center */
   .phone-ghost{display:none;}
   .formats-carousel{height:auto;padding:0 0 32px;}
@@ -852,7 +1267,8 @@ footer{
   #nav{padding:10px 14px;}
   #nav-inner{height:44px;padding:0 5px 0 14px;}
   .nav-logo img{height:18px!important;margin-top:1px!important;}
-  .nav-cta{padding:7px 16px;font-size:12px;}
+  .nav-cta{padding:6px 6px 6px 13px;font-size:12px;gap:5px;border-radius:var(--r-pill);}
+  .nav-cta-arrow{width:16px;height:16px;font-size:10px;}
 
   /* Hero */
   #hero{padding:90px 16px 40px;}
@@ -863,28 +1279,13 @@ footer{
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
   .hero-trust{gap:6px;font-size:11px;}
 
-  /* Hide bg video on mobile — saves bandwidth for hero video autoplay */
-  #hero-bg-video{display:none!important;}
-
-  /* Hero video — full-width cover, entrance animation */
-  #hero-video{
-    width:100vw!important;max-width:none!important;
-    margin-left:calc(-50vw + 50% + 4px)!important;
-    height:clamp(300px,75vw,440px);
-    margin-top:10px;
-    object-position:center bottom;
-    object-fit:cover!important;
-    opacity:.01;
-    animation:mobVideoIn .8s 1.1s cubic-bezier(.16,1,.3,1) forwards;
-    aspect-ratio:16/9;
-  }
-  /* Visible bottom fade on mobile */
-  #hero-video{
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 72%,transparent 95%)!important;
-    -webkit-mask-composite:auto!important;
-    mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 72%,transparent 95%)!important;
-    mask-composite:add!important;
-  }
+  /* Hero phone — compact on mobile */
+  .hero-mockup{max-width:100%;margin-top:20px;}
+  .hero-phone{width:min(102px,23.4vw);border-radius:15%/7%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.65)) drop-shadow(0 16px 30px rgba(0,0,0,.55));}
+  .hero-flank{width:110px;height:110px;border-radius:6px;}
+  .hero-flank.fl-left{transform:translate(calc(-50% - var(--flank-progress,0) * 100%),-50%) rotate(calc(var(--flank-progress,0) * -4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));}
+  .hero-flank.fl-right{transform:translate(calc(50% + var(--flank-progress,0) * 100%),-50%) rotate(calc(var(--flank-progress,0) * 4deg)) scale(calc(.7 + var(--flank-progress,0) * .3));}
+  .hero-wave{height:220px;}
   .hero-floor{height:25vh!important;}
 
   /* Kill GPU-expensive blur filter on mobile — use simple opacity/transform instead */
@@ -1046,7 +1447,7 @@ footer{
 
   /* Manifesto — bigger text, fewer words per line */
   #manifesto{padding:clamp(50px,8vw,80px) 16px clamp(30px,4vw,60px);min-height:80vh!important;}
-  .manifesto-text{font-size:clamp(26px,7.5vw,34px);line-height:1.5;max-width:100%;}
+  .manifesto-text{font-size:clamp(28px,8vw,40px);line-height:1.45;max-width:100%;}
   .manifesto-word{transition:color .15s linear!important;}
 
   /* Section spacing */
@@ -1055,26 +1456,34 @@ footer{
   .sec-sub{font-size:clamp(14px,3.5vw,16px);}
 
   /* Compare table — visible corners */
-  .compare-wrap{overflow:hidden;border:1px solid rgba(255,255,255,.12)!important;border-radius:16px!important;}
+  .compare-wrap{overflow:hidden;border:1px solid rgba(255,255,255,.12)!important;border-radius:16px!important;padding:0!important;}
   .compare-table{min-width:0;table-layout:fixed;width:100%;}
   .compare-table th,.compare-table td{padding:10px 4px;font-size:11px;}
   .compare-table td:first-child{font-size:11px;padding-left:10px;padding-right:6px;line-height:1.4;}
   .compare-table th:first-child{padding-left:10px;}
-  .compare-table th.col-flayr{padding-top:16px;}
+  .compare-table th.col-flayr,.compare-table td.col-flayr{transform:none!important;box-shadow:none!important;border-radius:0!important;}
+  .compare-table th.col-flayr{padding-top:20px;}
+  .th-best{font-size:8px!important;padding:3px 8px!important;top:5px!important;}
+  .th-badge{font-size:10px!important;padding:4px 8px!important;}
   .check-icon{width:20px;height:20px;}
   .compare-table th:first-child{width:38%;}
   .compare-table th:not(:first-child){width:calc(62% / 3);}
 
   /* Pricing — slide-in animation */
-  .pricing-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;gap:16px;}
   .pricing-card{
     padding:24px 20px;
     opacity:0;transform:translateY(20px);
     transition:opacity .6s ease-out,transform .6s ease-out;
   }
+  .pricing-card.featured{padding-top:44px;}
   .pricing-card.vi{opacity:1;transform:none;}
+  .pricing-card.featured.vi{transform:none;}
   .pricing-card:nth-child(2){transition-delay:.15s;}
+  .pricing-card:nth-child(3){transition-delay:.3s;}
   .pricing-amount{font-size:clamp(32px,8vw,44px);}
+  .bento-grid{grid-template-columns:1fr;gap:14px;}
+  .bento-card.span-2{grid-column:span 1;}
 
   /* FAQ */
   .faq-layout{grid-template-columns:1fr;gap:24px;}
@@ -1085,6 +1494,10 @@ footer{
   #cta{padding:clamp(60px,8vw,100px) 16px;}
   .cta-h2{font-size:clamp(26px,7vw,44px);}
   .cta-sub{font-size:15px;}
+
+  /* Bg videos: skip on mobile (data/battery), swap in a cheap static glow instead */
+  .hero-bg-vid,.cta-bg-vid{display:none!important;}
+  .hero-bg-vid-wrap,.cta-bg-vid-wrap{background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(0,212,255,.08),transparent 70%);}
 
   /* Footer */
   footer{padding:36px 20px 24px;}
@@ -1115,33 +1528,40 @@ footer{
       <li><a href="#pricing">Pricing</a></li>
     </ul>
     <div style="display:flex;align-items:center;gap:4px;">
-      <a href="https://app.useflayr.com/signup" class="nav-cta">Start creating</a>
+      <a href="https://app.useflayr.com/signup" class="nav-cta">Start creating<span class="nav-cta-arrow">→</span></a>
     </div>
   </div>
 </nav>
 
 <!-- Hero -->
 <section id="hero">
-  <video id="hero-bg-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260514_102933_4e8f73b5-775a-4179-b2fb-472f59063dcd.mp4" type="video/mp4"/>
-  </video>
-  <div id="hero-overlay"></div>
+  <div class="hero-bg-vid-wrap">
+    <video class="hero-bg-vid" data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260604_125109_19424216-4e2a-4560-b9f2-f1b5f6eb2c2e.mp4" muted loop playsinline preload="none"></video>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1800 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(140,220,255,.22)"/>
+          <stop offset="100%" stop-color="rgba(140,220,255,0)"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,90 C300,20 600,140 900,80 C1200,20 1500,120 1800,60 L1800,0 L0,0 Z" fill="url(#waveGrad)"/>
+    </svg>
+  </div>
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
-  <div class="hero-floor"></div>
 
   <!-- Center: headline + CTAs -->
   <div class="hero-center">
-    <div class="hero-eyebrow">AI ads for Meta & TikTok</div>
     <div class="hero-h1-wrap">
       <h1 class="hero-h1">
-        Kill ad fatigue.<br>
-        <em>Launch fresh creatives weekly.</em>
+        Stop guessing<br>what ads to run.
       </h1>
     </div>
-    <p class="hero-sub">Flayr learns your brand, generates ready-to-launch UGC ads every week, and pushes them live to Meta & TikTok - <strong style="color:rgba(255,255,255,.85)">on autopilot.</strong></p>
+    <p class="hero-sub">Flayr learns your brand, creates weekly ad creatives, and launches them to Meta & TikTok - <span style="color:rgba(255,255,255,.8);font-weight:600">on autopilot.</span></p>
     <div class="hero-ctas">
-      <a href="https://app.useflayr.com/signup" class="btn-primary">Start creating ads</a>
+      <a href="https://app.useflayr.com/signup" class="btn-primary hero-btn-big">Try it for free <span class="btn-arrow"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     </div>
     <div class="hero-trust">
       <span>No credit card required</span>
@@ -1152,22 +1572,253 @@ footer{
     </div>
   </div>
 
-  <video id="hero-video" autoplay muted loop playsinline preload="auto" src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/header3.mp4"></video>
-</section>
-
-<!-- Stats Bar -->
-<section id="stats">
-  <div class="stats-divider"></div>
-  <div class="stats-grid blur-rv">
-    <div class="stat-cell rv"><div class="stat-val">10K+</div><div class="stat-lbl">Ads Generated</div></div>
-    <div class="stat-cell rv d1"><div class="stat-val">4.2x</div><div class="stat-lbl">Avg ROAS</div></div>
-    <div class="stat-cell rv d2"><div class="stat-val">&lt;3min</div><div class="stat-lbl">Per Ad</div></div>
-    <div class="stat-cell rv d3"><div class="stat-val">$0</div><div class="stat-lbl">Agency Fees</div></div>
+  <div class="hero-mockup">
+    <div class="hero-flank fl-left">
+      <img src="hero-ad-1.png?v=2" alt="Ad creative"/>
+    </div>
+    <div class="hero-phone">
+      <video id="hero-vid" src="hero-phone.mp4" muted loop playsinline preload="auto"></video>
+    </div>
+    <div class="hero-flank fl-right">
+      <img src="hero-ad-2.png?v=2" alt="Ad creative"/>
+    </div>
   </div>
 </section>
 
-<!-- Scroll Showcase -->
-<section id="showcase">
+
+<!-- How It Works — numbered steps -->
+<section id="hiw">
+  <div class="divider-line"></div>
+  <div class="sec-head blur-rv">
+    <div class="sec-eyebrow">How It Works</div>
+    <h2 class="sec-h2">From zero to live ads<br>in <em>3 steps</em></h2>
+  </div>
+  <div class="hiw-steps">
+    <div class="hiw-timeline-progress"></div>
+    <div class="hiw-step rv">
+      <div class="hiw-step-text">
+        <div class="hiw-num">01</div>
+        <div class="hiw-title">Enter your website</div>
+        <div class="hiw-desc">Flayr instantly scans your brand - products, audience, tone, and competitors. No briefs, no onboarding calls.</div>
+      </div>
+      <div class="hiw-visual">
+        <div style="padding:32px;width:100%">
+          <div style="background:rgba(255,255,255,.06);border-radius:16px;padding:18px 22px;margin-bottom:18px">
+            <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border-radius:12px;padding:14px 18px;border:1px solid rgba(0,212,255,.15)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.4;flex-shrink:0"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.5"/><path d="M3 12h18" stroke="#fff" stroke-width="1.5"/></svg>
+              <span style="font-size:14px;color:var(--accent);font-weight:500">yourbrand.com</span><span style="color:var(--accent);animation:blink .9s infinite;font-size:14px;font-weight:300;margin-left:2px;opacity:.6">|</span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:center">
+            <div style="background:var(--accent);border-radius:12px;padding:10px 28px;font-size:13px;color:#000;font-weight:700">Analyze</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hiw-step rv">
+      <div class="hiw-step-text">
+        <div class="hiw-num">02</div>
+        <div class="hiw-title">Get weekly creatives</div>
+        <div class="hiw-desc">Every week, Flayr generates fresh UGC videos, photo ads, and talking head clips - ready to launch.</div>
+      </div>
+      <div class="hiw-visual">
+        <div style="padding:16px;width:100%">
+          <img src="PHOTO.jpg?v=2" alt="Video, UGC & Photo creatives" style="width:80%;border-radius:12px;display:block;margin:0 auto 16px;box-shadow:0 32px 60px rgba(0,0,0,.6),0 14px 28px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4)"/>
+          <div style="text-align:center;font-size:13px;color:rgba(255,255,255,.35);font-weight:500">5 creatives ready</div>
+        </div>
+      </div>
+    </div>
+    <div class="hiw-step rv">
+      <div class="hiw-step-text">
+        <div class="hiw-num">03</div>
+        <div class="hiw-title">Launch & track</div>
+        <div class="hiw-desc">Push ads live to Meta & TikTok in one click. Track ROAS, CTR, and conversions - no Ads Manager needed.</div>
+      </div>
+      <div class="hiw-visual">
+        <div style="padding:28px;width:100%">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="font-size:13px;color:#fff;font-weight:600">Performance</div>
+              <div style="padding:3px 10px;border-radius:100px;background:rgba(52,211,153,.12);font-size:10px;color:#34d399;font-weight:600">+24%</div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <div style="width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.5)"></div>
+              <span style="font-size:10px;color:#34d399;font-weight:600">Live</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 240 80" style="width:100%;height:auto;display:block" fill="none">
+            <defs>
+              <linearGradient id="gfill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(0,212,255,.25)"/>
+                <stop offset="100%" stop-color="rgba(0,212,255,0)"/>
+              </linearGradient>
+              <linearGradient id="gfill2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(52,211,153,.12)"/>
+                <stop offset="100%" stop-color="rgba(52,211,153,0)"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="0" y1="20" x2="240" y2="20" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="40" x2="240" y2="40" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="60" x2="240" y2="60" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <!-- Fill areas -->
+            <path d="M0 65 C20 62 40 58 70 50 C100 42 120 35 150 24 C180 16 210 10 240 6 L240 80 L0 80 Z" fill="url(#gfill)"/>
+            <path d="M0 70 C20 68 40 66 70 60 C100 55 120 50 150 44 C180 40 210 36 240 30 L240 80 L0 80 Z" fill="url(#gfill2)"/>
+            <!-- Lines -->
+            <path d="M0 65 C20 62 40 58 70 50 C100 42 120 35 150 24 C180 16 210 10 240 6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M0 70 C20 68 40 66 70 60 C100 55 120 50 150 44 C180 40 210 36 240 30" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+            <!-- End dot with glow -->
+            <circle cx="240" cy="6" r="3" fill="var(--accent)"/>
+            <circle cx="240" cy="6" r="6" fill="var(--accent)" opacity=".2"/>
+          </svg>
+          <div style="display:flex;gap:6px;margin-top:4px;justify-content:space-between;padding:0 2px">
+            <span style="font-size:8px;color:rgba(255,255,255,.15)">Mon</span>
+            <span style="font-size:8px;color:rgba(255,255,255,.15)">Tue</span>
+            <span style="font-size:8px;color:rgba(255,255,255,.15)">Wed</span>
+            <span style="font-size:8px;color:rgba(255,255,255,.15)">Thu</span>
+            <span style="font-size:8px;color:rgba(255,255,255,.15)">Fri</span>
+            <span style="font-size:8px;color:rgba(255,255,255,.15)">Sat</span>
+            <span style="font-size:8px;color:rgba(255,255,255,.15)">Sun</span>
+          </div>
+          <div style="display:flex;gap:0;margin-top:20px;justify-content:space-between">
+            <div style="text-align:center;flex:1"><div style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em">4.8x</div><div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">ROAS</div></div>
+            <div style="width:1px;background:rgba(255,255,255,.06)"></div>
+            <div style="text-align:center;flex:1"><div style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em">3.8%</div><div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">CTR</div></div>
+            <div style="width:1px;background:rgba(255,255,255,.06)"></div>
+            <div style="text-align:center;flex:1"><div style="font-size:20px;font-weight:800;color:var(--accent);letter-spacing:-.02em">24.8K</div><div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">Reach</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Just Launched: Autopilot -->
+<section id="launched">
+  <div class="divider-line"></div>
+  <div class="launched-inner">
+    <div class="launched-badge blur-rv">Just Launched</div>
+    <h2 class="launched-h2 blur-rv">Autopilot</h2>
+    <p class="launched-sub blur-rv">Flayr now manages everything - launching campaigns, adjusting budgets, swapping creatives - all on its own. You set the goal. Autopilot does the rest.</p>
+    <div class="launched-video blur-rv">
+      <video autoplay muted loop playsinline preload="auto" src="/autopilot-launch.mp4" style="width:100%;display:block"></video>
+    </div>
+  </div>
+</section>
+
+<!-- Feature Bento Grid -->
+<section id="bento">
+  <div class="divider-line"></div>
+  <div class="sec-head blur-rv">
+    <div class="sec-eyebrow">Features</div>
+    <h2 class="sec-h2">Everything you need.<br><em>Nothing you don't.</em></h2>
+  </div>
+  <div class="bento-grid">
+    <div class="bento-card span-2 blur-rv rv">
+      <div class="bento-card-eyebrow">Brand Intelligence</div>
+      <div class="bento-card-title">We learn your brand in seconds</div>
+      <div class="bento-card-desc">Paste your URL. That's it.</div>
+      <div style="margin-top:28px">
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <div style="width:9px;height:9px;border-radius:50%;background:#ff5f57"></div>
+          <div style="width:9px;height:9px;border-radius:50%;background:#febc2e"></div>
+          <div style="width:9px;height:9px;border-radius:50%;background:#28c840"></div>
+          <div style="flex:1;text-align:center;font-size:12px;color:rgba(255,255,255,.4);font-family:var(--font-body)">yourbrand.com</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:linear-gradient(135deg,rgba(0,212,255,.18),rgba(0,212,255,.06));border:1px solid rgba(0,212,255,.25);transform:rotate(-2deg);box-shadow:0 10px 24px rgba(0,212,255,.12)">
+            <span style="font-size:16px">🎯</span><span style="font-size:13px;color:#7fdfff;font-weight:700">Gen Z audience</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:linear-gradient(135deg,rgba(52,211,153,.18),rgba(52,211,153,.06));border:1px solid rgba(52,211,153,.25);transform:rotate(1.5deg);box-shadow:0 10px 24px rgba(52,211,153,.12)">
+            <span style="font-size:16px">🎨</span><span style="font-size:13px;color:#6ee7b7;font-weight:700">Bold & playful tone</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(168,85,247,.06));border:1px solid rgba(168,85,247,.25);transform:rotate(-1deg);box-shadow:0 10px 24px rgba(168,85,247,.12)">
+            <span style="font-size:16px">📦</span><span style="font-size:13px;color:#d8b4fe;font-weight:700">12 products found</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bento-card blur-rv rv d1">
+      <div class="bento-stat">5</div>
+      <div class="bento-stat-label">Fresh ads every week</div>
+      <div style="position:relative;height:140px;margin-top:24px">
+        <div style="position:absolute;left:0;top:16px;width:72px;aspect-ratio:9/16;border-radius:14px;background:linear-gradient(160deg,#0ea5e9,#0369a1);transform:rotate(-9deg);box-shadow:0 14px 26px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.1)"></div>
+        <div style="position:absolute;left:52px;top:0;width:72px;aspect-ratio:9/16;border-radius:14px;background:linear-gradient(160deg,#34d399,#059669);transform:rotate(-2deg);box-shadow:0 18px 32px rgba(0,0,0,.45);border:2px solid rgba(255,255,255,.18);z-index:2;display:flex;align-items:center;justify-content:center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,.9)"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div style="position:absolute;left:104px;top:18px;width:72px;aspect-ratio:9/16;border-radius:14px;background:linear-gradient(160deg,#a855f7,#7c3aed);transform:rotate(8deg);box-shadow:0 14px 26px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.1)"></div>
+      </div>
+    </div>
+    <div class="bento-card blur-rv rv d2">
+      <div class="bento-card-eyebrow">Competitor Intel</div>
+      <div class="bento-card-title">See what's working for others</div>
+      <div class="bento-card-desc">We reverse-engineer their best ads.</div>
+      <div style="margin-top:22px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;transform:rotate(-1.5deg);box-shadow:0 24px 44px rgba(0,0,0,.4)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <div style="width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.6)"></div>
+          <span style="font-size:11px;color:#34d399;font-weight:700;letter-spacing:.04em;text-transform:uppercase">Top performer found</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <img src="image4.png" alt="Competitor ad" style="width:38px;height:38px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid rgba(255,255,255,.08)"/>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;color:#fff;font-weight:600">Competitor ad #214</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Video · 32s hook</div>
+          </div>
+          <div style="font-family:var(--font-head);font-size:22px;font-weight:800;color:#34d399;flex-shrink:0">4.2x</div>
+        </div>
+      </div>
+    </div>
+    <div class="bento-card span-2 blur-rv rv d3">
+      <div class="bento-card-eyebrow">One-Click Launch</div>
+      <div class="bento-card-title">Meta & TikTok in one click</div>
+      <div class="bento-card-desc">No Ads Manager. No exports.</div>
+      <div class="launch-panel">
+        <div class="launch-panel-header">
+          <div class="launch-panel-title">Campaign ready</div>
+          <div class="launch-panel-tag">3 creatives</div>
+        </div>
+        <div class="launch-cards">
+          <div class="launch-card lc-meta">
+            <div class="launch-card-top">
+              <div class="launch-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3V2z"/></svg>
+              </div>
+              <div class="launch-card-live"><span class="launch-dot"></span>Live</div>
+            </div>
+            <div class="launch-card-name">Meta Ads</div>
+            <div class="launch-card-placements">Feed · Reels · Stories</div>
+            <div class="launch-card-budget">
+              <div class="launch-budget-bar"><div class="launch-budget-fill" style="width:72%"></div></div>
+              <div class="launch-budget-label">$50/day · 3 ad sets</div>
+            </div>
+          </div>
+          <div class="launch-card lc-tt">
+            <div class="launch-card-top">
+              <div class="launch-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43V8a8.1 8.1 0 0 0 4.74 1.52v-3.4a4.85 4.85 0 0 1-1.01.57z"/></svg>
+                <span class="launch-platform-badge">2</span>
+              </div>
+              <div class="launch-card-live"><span class="launch-dot"></span>Live</div>
+            </div>
+            <div class="launch-card-name">TikTok Ads</div>
+            <div class="launch-card-placements">For You · Spark Ads</div>
+            <div class="launch-card-budget">
+              <div class="launch-budget-bar"><div class="launch-budget-fill tt-fill" style="width:55%"></div></div>
+              <div class="launch-budget-label">$30/day · 2 ad groups</div>
+            </div>
+          </div>
+        </div>
+        <button class="launch-btn" onclick="return false">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Launch Campaign
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Legacy Scroll Showcase (hidden) -->
+<section id="showcase" style="display:none">
   <div id="showcase-sticky">
     <div class="showcase-glow"></div>
 
@@ -1404,8 +2055,8 @@ footer{
   </div>
 </section>
 
-<!-- Ad Formats -->
-<section id="formats" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;overflow:hidden;">
+<!-- Ad Formats (hidden — replaced by Autopilot) -->
+<section id="formats" style="display:none" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;overflow:hidden;">
   <div class="divider-line"></div>
   <div class="sec-head blur-rv">
     <div class="sec-eyebrow">Ad Formats</div>
@@ -1437,8 +2088,8 @@ footer{
   </div>
 </section>
 
-<!-- How It Works -->
-<section id="how" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;">
+<!-- How It Works (hidden — replaced by new #hiw) -->
+<section id="how" style="display:none" style="background:var(--bg);padding:clamp(100px,12vw,180px) 24px;position:relative;">
   <div class="divider-line"></div>
   <div class="sec-head blur-rv">
     <div class="sec-eyebrow">How It Works</div>
@@ -1535,7 +2186,7 @@ footer{
 </section>
 
 <!-- Why Flayr -->
-<section id="why" style="background:var(--bg);padding:clamp(60px,8vw,120px) 24px;position:relative;">
+<section id="why" style="background:var(--bg);padding:clamp(40px,5vw,80px) 24px;position:relative;">
   <div class="divider-line"></div>
   <div class="sec-head blur-rv">
     <div class="sec-eyebrow">Why Flayr</div>
@@ -1548,12 +2199,13 @@ footer{
         <tr>
           <th></th>
           <th class="col-flayr">
-            <div class="flayr-logo-icon">
-              <img src="logo.png" alt="Flayr" style="height:24px;width:auto;filter:brightness(0) invert(1);drop-shadow(0 0 8px rgba(0,212,255,.4))"/>
-            </div>
+            <span class="th-best">Best value</span>
+            <span class="th-badge th-badge-flayr">
+              <img src="logo.png" alt="Flayr" style="width:auto;filter:brightness(0) invert(1)"/>
+            </span>
           </th>
-          <th>Agencies</th>
-          <th>Other tools</th>
+          <th><span class="th-badge">🏢 Agencies</span></th>
+          <th><span class="th-badge">🛠️ Other tools</span></th>
         </tr>
       </thead>
       <tbody id="compare-body"></tbody>
@@ -1567,38 +2219,64 @@ footer{
   <div class="divider-line"></div>
   <div class="sec-head blur-rv">
     <div class="sec-eyebrow">Pricing</div>
-    <h2 class="sec-h2">Your agency charges more.<br>And delivers <em>less.</em></h2>
+    <h2 class="sec-h2">Your agency: $5k/mo.<br>Flayr: <em>$49.99/mo.</em></h2>
+  </div>
+  <div class="pricing-toggle blur-rv rv">
+    <span class="pt-opt" data-val="monthly">Monthly</span>
+    <button class="pt-switch" id="pt-switch" type="button" role="switch" aria-checked="true" aria-label="Toggle yearly billing">
+      <span class="pt-thumb"></span>
+    </button>
+    <span class="pt-opt active" data-val="yearly">Yearly</span>
+    <span class="pt-save">✨ Save 30%</span>
   </div>
   <div class="pricing-grid">
     <div class="pricing-card blur-rv rv">
+      <div class="pricing-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z" stroke="rgba(255,255,255,.75)" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+      <div class="pricing-plan">Free Trial</div>
+      <div class="pricing-price"><span class="pricing-amount">$0</span></div>
+      <p class="pricing-desc">Try Flayr free. No credit card needed.</p>
+      <a href="https://app.useflayr.com/signup" class="pricing-btn outline">Start free</a>
+      <div class="pricing-features">
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>1 brand</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>10 credits</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Brand intelligence</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Ad Library + editor</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>All ad formats</span></div>
+      </div>
+    </div>
+    <div class="pricing-card blur-rv rv d05">
+      <div class="pricing-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h7l-1 8 11-14h-7l0-6z" stroke="rgba(255,255,255,.75)" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
       <div class="pricing-plan">Starter</div>
-      <div class="pricing-price"><span class="pricing-amount">$49.99</span><span class="pricing-period">/month</span></div>
+      <div class="pricing-price"><span class="pricing-amount" data-monthly="$49.99" data-yearly="$34.99">$34.99</span><span class="pricing-period">/month</span></div>
+      <div class="pricing-discount-row"><span class="pricing-was">$49.99/month</span><span class="pricing-off-badge">30% off</span></div>
       <p class="pricing-desc">For founders testing creative every week.</p>
       <a href="https://app.useflayr.com/signup?plan=starter" class="pricing-btn outline">Start with Starter</a>
       <div class="pricing-features">
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>1 brand</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>100 manual credits/month</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>2 included weekly ads (1 video + 1 photo)</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Product Memory</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ad Library + Built-in editor</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Brand intelligence</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Meta launch queue</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>1 brand</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>100 manual credits/month</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>2 weekly ads (1 video + 1 photo)</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Product Memory</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Ad Library + Built-in editor</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Brand intelligence</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Meta launch queue</span></div>
       </div>
     </div>
     <div class="pricing-card featured blur-rv rv d1">
       <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.5 2 4 5.5 4 9.5 0 2-1 4-2 5.5l-2 3-2-3c-1-1.5-2-3.5-2-5.5C8 7.5 9.5 4 12 2z" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round"/><circle cx="12" cy="10.5" r="1.4" fill="var(--accent)"/></svg></div>
       <div class="pricing-plan">Growth</div>
-      <div class="pricing-price"><span class="pricing-amount">$149.99</span><span class="pricing-period">/month</span></div>
+      <div class="pricing-price"><span class="pricing-amount" data-monthly="$149.99" data-yearly="$104.99">$104.99</span><span class="pricing-period">/month</span></div>
+      <div class="pricing-discount-row"><span class="pricing-was">$149.99/month</span><span class="pricing-off-badge">30% off</span></div>
       <p class="pricing-desc">For brands that need a real creative rhythm.</p>
       <a href="https://app.useflayr.com/signup?plan=growth" class="pricing-btn primary">Start with Growth</a>
       <div class="pricing-features">
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>3 brands</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>300 manual credits/month</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>5 included weekly ads (3 videos + 2 photos)</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Product Memory + App assets</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ad Library + Built-in editor</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Brand + Competitor intelligence</span></div>
-        <div class="pricing-feature"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--accent)" stroke-width="1.2" opacity=".2"/><path d="M5 8l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Meta campaign launch + monitoring</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>3 brands</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>300 manual credits/month</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>5 weekly ads (3 videos + 2 photos)</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Product Memory + App assets</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Ad Library + Built-in editor</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Brand + Competitor intelligence</span></div>
+        <div class="pricing-feature"><span class="pf-check"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 8.5l2.5 2.5 5.5-6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Meta campaign launch + monitoring</span></div>
       </div>
     </div>
   </div>
@@ -1616,11 +2294,16 @@ footer{
 
 <!-- Final CTA -->
 <section id="cta">
+  <div class="cta-bg-vid-wrap">
+    <video class="cta-bg-vid" data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260604_125109_19424216-4e2a-4560-b9f2-f1b5f6eb2c2e.mp4" muted loop playsinline preload="none"></video>
+  </div>
   <div class="cta-glow"></div>
-  <h2 class="cta-h2 blur-rv rv">Your next winning ad is<br><em>60 seconds</em> away.</h2>
-  <p class="cta-sub blur-rv rv d1">Join brands creating high-performing Meta ads on autopilot - starting at $49.99/mo.</p>
-  <div class="blur-rv rv d2">
-    <a href="https://app.useflayr.com/signup" class="btn-primary" style="font-size:16px;padding:17px 44px;">Start Creating Ads</a>
+  <div class="cta-content">
+    <h2 class="cta-h2 blur-rv rv">Your next winning ad is<br><em>60 seconds</em> away.</h2>
+    <p class="cta-sub blur-rv rv d1">Join brands creating high-performing Meta ads on autopilot - starting at $49.99/mo.</p>
+    <div class="blur-rv rv d2">
+      <a href="https://app.useflayr.com/signup" class="btn-primary" style="font-size:16px;padding:17px 44px;">Start Creating Ads</a>
+    </div>
   </div>
 </section>
 
@@ -1645,17 +2328,78 @@ footer{
 (function(){
 'use strict';
 
-/* ── Desktop: swap hero video to full-size version ── */
-if (!window.matchMedia('(max-width:600px)').matches) {
-  const hv = document.getElementById('hero-video');
-  if (hv) hv.src = 'https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/hero-phones-v2.mp4';
-}
-
-/* ── Nav morph on scroll ─────────────────── */
+/* ── Nav morph + hero stat reveal on scroll ── */
 const navInner = document.getElementById('nav-inner');
+const heroEl = document.getElementById('hero');
+const heroMockup = document.querySelector('.hero-mockup');
 window.addEventListener('scroll', () => {
   navInner.classList.toggle('scrolled', window.scrollY > 60);
+  if (heroMockup) {
+    const t = Math.max(0, Math.min(1, (window.scrollY - 40) / 360));
+    const progress = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    heroMockup.style.setProperty('--flank-progress', progress.toFixed(4));
+  }
 }, { passive: true });
+
+/* ── Hero video autoplay when visible ── */
+const heroVid = document.getElementById('hero-vid');
+if (heroVid) {
+  const vidObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) heroVid.play().catch(()=>{}); else heroVid.pause(); });
+  }, { threshold: 0.3 });
+  vidObs.observe(heroVid);
+}
+
+/* ── Decorative bg videos (hero + cta): skip entirely on mobile to save data/battery, only load+play near viewport on desktop ── */
+(function setupBgVideos() {
+  if (!window.matchMedia('(min-width:601px)').matches) return;
+  document.querySelectorAll('.hero-bg-vid,.cta-bg-vid').forEach(vid => {
+    const bgVidObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          if (!vid.src) { vid.src = vid.dataset.src; vid.load(); }
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.01, rootMargin: '400px 0px' });
+    bgVidObs.observe(vid);
+  });
+})();
+
+/* ── Pricing monthly/yearly toggle ── */
+(function setupPricingToggle() {
+  const pricingSection = document.getElementById('pricing');
+  const sw = document.getElementById('pt-switch');
+  if (!pricingSection || !sw) return;
+  const opts = pricingSection.querySelectorAll('.pt-opt');
+  let first = true;
+  function setBilling(mode) {
+    const yearly = mode === 'yearly';
+    pricingSection.classList.toggle('billing-yearly', yearly);
+    sw.setAttribute('aria-checked', yearly ? 'true' : 'false');
+    opts.forEach(o => o.classList.toggle('active', o.dataset.val === mode));
+    const amounts = pricingSection.querySelectorAll('.pricing-amount[data-monthly]');
+    if (first) {
+      amounts.forEach(el => { el.textContent = yearly ? el.dataset.yearly : el.dataset.monthly; });
+      first = false;
+      return;
+    }
+    amounts.forEach(el => {
+      el.classList.add('pt-swap');
+      setTimeout(() => {
+        el.textContent = yearly ? el.dataset.yearly : el.dataset.monthly;
+        el.classList.remove('pt-swap');
+      }, 160);
+    });
+  }
+  sw.addEventListener('click', () => {
+    setBilling(pricingSection.classList.contains('billing-yearly') ? 'monthly' : 'yearly');
+  });
+  opts.forEach(o => o.addEventListener('click', () => setBilling(o.dataset.val)));
+  setBilling('yearly');
+})();
 
 /* ── Hero product cards gentle float after entrance ── */
 document.querySelectorAll('.float-card').forEach((card, i) => {
@@ -2455,11 +3199,11 @@ const compareRows = [
   { feature:'Weekly fresh creatives', flayr:'yes', agency:'no', tools:'no' },
   { feature:'Under 3 min per ad', flayr:'yes', agency:'no', tools:'yes' },
   { feature:'Brand intelligence built-in', flayr:'yes', agency:'no', tools:'no' },
-  { feature:'Competitor analysis', flayr:'yes', agency:'yes', tools:'no' },
-  { feature:'One-click Meta launch', flayr:'yes', agency:'no', tools:'no' },
-  { feature:'UGC video generation', flayr:'yes', agency:'yes', tools:'yes' },
+  { feature:'Competitor analysis', flayr:'yes', agency:'yes', tools:'yes' },
+  { feature:'One-click Meta launch', flayr:'yes', agency:'yes', tools:'yes' },
+  { feature:'UGC video generation', flayr:'yes', agency:'yes', tools:'no' },
   { feature:'No contracts or minimums', flayr:'yes', agency:'no', tools:'yes' },
-  { feature:'From $49.99/mo', flayr:'yes', agency:'no', tools:'no' },
+  { feature:'From $49.99/mo', flayr:'yes', agency:'no', tools:'yes' },
 ];
 function cellIcon(v) {
   if (v === 'yes') return `<span class="check-icon yes">${CK}</span>`;
@@ -2502,6 +3246,47 @@ if (faqGrid) {
     </div>
   `).join('');
 }
+
+/* ── How It Works: timeline progress + focus/blur ── */
+(function initHiwTimeline() {
+  const hiwSection = document.getElementById('hiw');
+  const steps = document.querySelectorAll('.hiw-step');
+  const progressBar = document.querySelector('.hiw-timeline-progress');
+  if (!hiwSection || !steps.length || !progressBar) return;
+
+  function updateHiw() {
+    const rect = hiwSection.getBoundingClientRect();
+    const sectionTop = rect.top;
+    const sectionHeight = rect.height;
+    const viewH = window.innerHeight;
+    const scrolled = Math.max(0, Math.min(1, (viewH * 0.4 - sectionTop) / sectionHeight));
+    progressBar.style.height = (scrolled * 100) + '%';
+
+    let closestIdx = 0;
+    let closestDist = Infinity;
+    steps.forEach((step, i) => {
+      const r = step.getBoundingClientRect();
+      const center = r.top + r.height / 2;
+      const dist = Math.abs(center - viewH * 0.5);
+      if (dist < closestDist) { closestDist = dist; closestIdx = i; }
+    });
+
+    steps.forEach((step, i) => {
+      if (i === closestIdx && closestDist < viewH * 0.5) {
+        step.classList.add('hiw-focus');
+        step.classList.remove('hiw-blur');
+      } else if (Math.abs(i - closestIdx) <= 1 && closestDist < viewH * 0.5) {
+        step.classList.remove('hiw-focus');
+        step.classList.add('hiw-blur');
+      } else {
+        step.classList.remove('hiw-focus', 'hiw-blur');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', () => requestAnimationFrame(updateHiw), { passive: true });
+  updateHiw();
+})();
 
 /* ── Scroll reveal ───────────────────────── */
 const io = new IntersectionObserver(entries => {
