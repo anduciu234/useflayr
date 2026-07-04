@@ -36,7 +36,6 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="preload" href="hero-phone.mp4" as="video" fetchpriority="high"/>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'"/>
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"/></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -1589,13 +1588,13 @@ footer{
 
   <div class="hero-mockup">
     <div class="hero-flank fl-left">
-      <img src="hero-ad-1.png?v=2" alt="Ad creative"/>
+      <img src="hero-ad-1.webp" alt="Ad creative" width="520" height="520"/>
     </div>
     <div class="hero-phone">
-      <video id="hero-vid" src="hero-phone.mp4" muted loop playsinline preload="auto" fetchpriority="high"></video>
+      <video id="hero-vid" src="hero-phone.mp4" muted loop playsinline preload="auto"></video>
     </div>
     <div class="hero-flank fl-right">
-      <img src="hero-ad-2.png?v=2" alt="Ad creative"/>
+      <img src="hero-ad-2.webp" alt="Ad creative" width="520" height="520"/>
     </div>
   </div>
 </section>
@@ -1716,7 +1715,7 @@ footer{
     <h2 class="launched-h2 blur-rv">Autopilot</h2>
     <p class="launched-sub blur-rv">Flayr now manages everything - launching campaigns, adjusting budgets, swapping creatives - all on its own. You set the goal. Autopilot does the rest.</p>
     <div class="launched-video blur-rv">
-      <video autoplay muted loop playsinline preload="auto" src="/autopilot-launch.mp4" style="width:100%;display:block"></video>
+      <video class="lazy-vid" muted loop playsinline preload="none" data-src="/autopilot-launch.mp4" style="width:100%;display:block"></video>
     </div>
   </div>
 </section>
@@ -1914,7 +1913,7 @@ footer{
             <div class="iphone-btn vol1"></div><div class="iphone-btn vol2"></div><div class="iphone-btn vol3"></div><div class="iphone-btn pwr"></div>
             <div class="iphone-screen"><div class="iphone-island"></div><div class="iphone-bar"></div>
               <div class="iphone-content" style="flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden">
-                <video src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/vidref.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+                <video class="lazy-vid" muted loop playsinline preload="none" data-src="https://edzfofxmthuwzibgjsam.supabase.co/storage/v1/object/public/vids%20site/vidref.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
                 <div style="position:absolute;bottom:0;left:0;right:0;padding:14px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);z-index:5">
                   <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:4px"><span style="color:rgba(255,255,255,.5)">Est. CTR</span><span style="color:#34d399;font-weight:700">4.2%</span></div>
                   <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:6px"><span style="color:rgba(255,255,255,.5)">ROAS</span><span style="color:#34d399;font-weight:700">5.1x</span></div>
@@ -2379,9 +2378,12 @@ if (heroVid) {
   vidObs.observe(heroVid);
 }
 
-/* ── Decorative bg videos (hero + cta): lazy-load + only play near viewport, on all screen sizes ── */
+/* ── Decorative bg videos (hero + cta + other below-fold autoplay clips): lazy-load + only
+   play near viewport, on all screen sizes — these used to fetch eagerly via the `autoplay`
+   attribute regardless of scroll position, competing for bandwidth with actually-critical
+   above-the-fold resources and dragging out mobile LCP badly. ── */
 (function setupBgVideos() {
-  document.querySelectorAll('.hero-bg-vid,.cta-bg-vid').forEach(vid => {
+  document.querySelectorAll('.hero-bg-vid,.cta-bg-vid,.lazy-vid').forEach(vid => {
     const bgVidObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
