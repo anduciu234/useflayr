@@ -11,5 +11,13 @@
     { "src": "/sitemap.xml",   "dest": "/sitemap.xml" },
     { "src": "/(.*\\.(?:html|txt|xml|png|jpg|jpeg|svg|gif|ico|webp|mp4|webm|css|js|woff2?|ttf|eot)$)", "dest": "/$1" },
     { "src": "/(.*)",          "dest": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*\\.(?:png|jpg|jpeg|svg|gif|ico|webp|mp4|webm|woff2?|ttf|eot))",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+      ]
+    }
   ]
 }
