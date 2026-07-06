@@ -2324,18 +2324,37 @@ footer{
 
 <!-- Footer -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-logo" style="display:flex;align-items:center">
-      <img src="logo.png" alt="Flayr" style="height:24px;width:auto"/>
+  <div class="footer-inner" style="flex-direction:column;align-items:stretch;gap:0;">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;padding-bottom:36px;">
+      <div class="footer-logo" style="display:flex;align-items:center">
+        <img src="logo.png" alt="Flayr" style="height:24px;width:auto"/>
+      </div>
+      <div style="display:flex;gap:64px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;">Compare</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="/blog/flayr-vs-fastlane" style="color:rgba(255,255,255,.55);text-decoration:none;font-size:13.5px;">Flayr vs Fastlane</a>
+            <a href="/blog/flayr-vs-arcads" style="color:rgba(255,255,255,.55);text-decoration:none;font-size:13.5px;">Flayr vs Arcads</a>
+            <a href="/blog/flayr-vs-makeugc" style="color:rgba(255,255,255,.55);text-decoration:none;font-size:13.5px;">Flayr vs MakeUGC</a>
+            <a href="/blog/flayr-vs-lightreel" style="color:rgba(255,255,255,.55);text-decoration:none;font-size:13.5px;">Flayr vs LightReel</a>
+            <a href="/blog/best-arcads-alternatives" style="color:rgba(255,255,255,.55);text-decoration:none;font-size:13.5px;">Best Arcads Alternatives</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;">Company</div>
+          <div class="footer-links" style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#showcase">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="#showcase">Features</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);">
+      <div class="footer-copy">© 2026 Flayr. All rights reserved.</div>
     </div>
-    <div class="footer-copy">© 2026 Flayr. All rights reserved.</div>
   </div>
 </footer>
 
