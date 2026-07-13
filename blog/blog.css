@@ -253,11 +253,23 @@ h1.vs-title .vs-word::before {
   color: var(--white); display: flex; justify-content: space-between; align-items: center; gap: 12px;
 }
 .faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary h3 { font: inherit; color: inherit; margin: 0; }
 .faq-item summary::after {
   content: '+'; font-size: 22px; font-weight: 300; color: var(--accent); flex-shrink: 0; transition: transform .2s;
 }
 .faq-item[open] summary::after { transform: rotate(45deg); }
 .faq-item .faq-a { padding: 0 24px 24px; font-size: 15.5px; color: var(--muted); line-height: 1.7; max-width: 620px; }
+
+/* Related articles */
+.related-articles { margin-top: 64px; }
+.related-articles h2 { font-family: var(--font-d); font-size: 22px; margin-bottom: 16px; }
+.related-articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.related-articles-grid a {
+  display: block; background: var(--s3); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px 18px; font-size: 14.5px; font-weight: 500; color: var(--white); text-decoration: none;
+  transition: border-color .2s;
+}
+.related-articles-grid a:hover { border-color: rgba(110,224,255,.3); text-decoration: none; }
 
 /* Bottom CTA — video island */
 .blog-cta {

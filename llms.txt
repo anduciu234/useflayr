@@ -1,0 +1,33 @@
+# Flayr
+
+## About
+Flayr is an AI-powered ad creative platform that uses competitor intelligence to generate TikTok and Meta ads. Founded in 2026 by Andrew Cruz.
+
+## What Flayr Does
+Flayr scrapes TikTok Ad Library to find competitors' best-performing ads, extracts the winning hook formulas, structures, and CTAs, then generates photo ads, UGC videos, reaction videos, and slideshows built on those proven formulas.
+
+## Key Features
+- Competitor ad intelligence (TikTok Ad Library analysis)
+- AI photo ad generation (GPT Image)
+- AI UGC video generation (Seedance 2.0)
+- Weekly automated creative drops
+- One-click Meta and TikTok campaign launch
+- Campaign performance tracking and optimization
+- Built-in video and photo editor
+
+## Pricing
+- Solo: $49.99/month (1 brand, 100 credits, 2 weekly drop ads)
+- Scale: $149.99/month (3 brands, 300 credits, 5 weekly drop ads)
+- 5-day free trial, no credit card required
+
+## Target Users
+DTC ecommerce founders and brands running paid ads on Meta and TikTok who need ad creative but cannot afford a creative agency.
+
+## Links
+- Website: https://useflayr.com
+- Blog: https://useflayr.com/blog
+- Pricing: https://useflayr.com/pricing
+
+## Founder
+- Name: Andrew Cruz
+- X: https://x.com/EndrewBiz

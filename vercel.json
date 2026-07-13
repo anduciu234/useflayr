@@ -1,5 +1,6 @@
 {
   "routes": [
+    { "src": "/(.*)", "has": [{ "type": "host", "value": "useflayr.com" }], "dest": "https://www.useflayr.com/$1", "status": 301 },
     { "src": "/auth/callback", "dest": "/auth/callback.html" },
     { "src": "/api/deauth",    "dest": "/api/deauth.html" },
     { "src": "/api/delete",    "dest": "/api/delete.html" },
@@ -9,9 +10,12 @@
     { "src": "/x-card",        "dest": "/x-card.html" },
     { "src": "/robots.txt",    "dest": "/robots.txt" },
     { "src": "/sitemap.xml",   "dest": "/sitemap.xml" },
+    { "src": "/llms.txt",      "dest": "/llms.txt" },
     { "src": "/(.*\\.(?:html|txt|xml|png|jpg|jpeg|svg|gif|ico|webp|mp4|webm|css|js|woff2?|ttf|eot)$)", "dest": "/$1" },
+    { "src": "/blog/?$",       "dest": "/blog/index.html" },
     { "src": "/blog/([a-z0-9-]+)/?$", "dest": "/blog/$1.html" },
-    { "src": "/(.*)",          "dest": "/index.html" }
+    { "src": "/",               "dest": "/index.html" },
+    { "src": "/(.*)",           "dest": "/404.html", "status": 404 }
   ],
   "headers": [
     {
