@@ -46,7 +46,7 @@
     });
   }
 
-  var revealSelectors = ['.quick-answer', '.reveal-section', '.faq-item', '.blog-cta'];
+  var revealSelectors = ['.quick-answer', '.reveal-section', '.faq-item', '.blog-cta', '.blog-featured', '.blog-latest'];
   var revealEls = document.querySelectorAll(revealSelectors.join(','));
   revealEls.forEach(function (el, i) {
     el.classList.add('blur-rv');
