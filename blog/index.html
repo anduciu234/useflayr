@@ -55,6 +55,20 @@
   .blog-hero{grid-template-columns:1fr;}
   .blog-featured{min-height:320px;}
 }
+
+.blog-grid-title{font-family:var(--font-d);font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,247,.4);margin:0 0 16px;}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.blog-grid-card{display:flex;flex-direction:column;gap:10px;padding:22px;border:1px solid var(--border);border-radius:16px;background:var(--s3);text-decoration:none;transition:border-color .2s ease,transform .2s ease;}
+.blog-grid-card:hover{border-color:rgba(110,224,255,.3);transform:translateY(-2px);text-decoration:none;}
+.blog-grid-card h3{font-family:var(--font-d);font-size:16.5px;font-weight:700;letter-spacing:-.01em;line-height:1.35;color:var(--white);}
+.blog-grid-card p{font-size:13.5px;color:var(--muted);line-height:1.55;flex:1;}
+
+@media (max-width: 900px){
+  .blog-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width: 640px){
+  .blog-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -121,6 +135,46 @@
         </div>
       </a>
     </div>
+  </div>
+
+  <h3 class="blog-grid-title">More guides</h3>
+  <div class="blog-grid">
+    <a class="blog-grid-card" href="/blog/do-ai-ads-actually-work">
+      <span class="tag-chip-sm">Ad Performance</span>
+      <h3>Do AI ads actually work?</h3>
+      <p>What the data actually shows about AI-generated ad performance in 2026, and where it still falls short.</p>
+      <div class="post-meta-sm">6 min read</div>
+    </a>
+    <a class="blog-grid-card" href="/blog/which-companies-use-ai-ads">
+      <span class="tag-chip-sm">Industry Trends</span>
+      <h3>Which companies are using AI ads?</h3>
+      <p>From Coca-Cola to hundreds of quiet DTC brands, AI ad creative has become standard practice.</p>
+      <div class="post-meta-sm">6 min read</div>
+    </a>
+    <a class="blog-grid-card" href="/blog/ai-ads-vs-human-ads">
+      <span class="tag-chip-sm">Ad Strategy</span>
+      <h3>AI ads vs human ads</h3>
+      <p>We compared cost, format, and performance to find out which actually wins, and when.</p>
+      <div class="post-meta-sm">5 min read</div>
+    </a>
+    <a class="blog-grid-card" href="/blog/are-ai-ads-legal">
+      <span class="tag-chip-sm">Compliance</span>
+      <h3>Are AI ads legal?</h3>
+      <p>What's actually required, what's changing, and how to stay compliant without killing your output.</p>
+      <div class="post-meta-sm">6 min read</div>
+    </a>
+    <a class="blog-grid-card" href="/blog/ai-ads-for-ecommerce">
+      <span class="tag-chip-sm">Ecommerce</span>
+      <h3>AI ads for ecommerce</h3>
+      <p>A practical guide to using AI ad creative for your store without wasting money on the wrong formats.</p>
+      <div class="post-meta-sm">6 min read</div>
+    </a>
+    <a class="blog-grid-card" href="/blog/ai-ads-that-dont-look-fake">
+      <span class="tag-chip-sm">Creative Quality</span>
+      <h3>AI ads that don't look fake</h3>
+      <p>How to generate AI ad creative that viewers can't distinguish from human-made content.</p>
+      <div class="post-meta-sm">7 min read</div>
+    </a>
   </div>
 </div>
 
