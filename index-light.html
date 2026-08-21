@@ -1664,7 +1664,7 @@ footer{
   /* Hero — anchor near top (not centered) but still reserve a full screen of height, so content isn't cut short and the next section doesn't peek into view while the headline is still fading in. 100svh (small viewport height) instead of 100vh avoids the address-bar-collapse reflow jump on first scroll. */
   #hero{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:100px 16px 40px;}
   .hero-center{max-width:100%;padding-top:26px;}
-  .hero-h1{font-size:clamp(32px,9.2vw,42px);}
+  .hero-h1{font-size:clamp(36px,10.2vw,46px);}
   .hero-br-mobile{display:inline;}
   .hero-sub{font-size:14px;max-width:100%;}
   .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;width:100%;}
@@ -1676,10 +1676,10 @@ footer{
      intrinsic content width. Constrained narrower than full-bleed and a
      touch taller than the previous low-bar treatment. */
   .hero-input-wrap{width:100%;}
-  .hero-input-pill{width:92%;min-width:0;max-width:360px;margin:0 auto 16px;padding:9px 9px 9px 22px;gap:10px;}
-  .hero-input-field{font-size:14px;}
-  .hero-input-submit{width:42px;height:42px;}
-  .hero-input-icon svg{width:17px;height:17px;}
+  .hero-input-pill{width:100%;min-width:0;max-width:420px;margin:0 auto 16px;padding:11px 11px 11px 24px;gap:10px;}
+  .hero-input-field{font-size:15px;}
+  .hero-input-submit{width:46px;height:46px;}
+  .hero-input-icon svg{width:18px;height:18px;}
   .hero-demo-wrap{margin-top:44px!important;max-width:220px!important;}
 
   /* Hero flow — stack single column on mobile */
@@ -1707,12 +1707,12 @@ footer{
      transform lagged behind on .rv's slow .8s curve. That combo is what read as the section
      "blurring immediately" and feeling heavier/slower than the rest of the page. */
   .hiw-step.rv{transition:filter .15s linear,opacity .15s linear,transform .15s linear;}
-  .hiw-steps{gap:22vh;}
+  .hiw-steps{gap:34vh;}
 
   /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only.
      The always-on .hero-bg-overlay radial whitewash (tuned for desktop's much larger canvas)
      was also stacking on top and washing the image out further — soften it on mobile too. */
-  .hero-bg-vid{opacity:1;filter:saturate(1.25) contrast(1.08);}
+  .hero-bg-vid{opacity:.88;filter:saturate(1.2) contrast(1.06);}
   .hero-bg-overlay{
     background:
       radial-gradient(ellipse 1000px 700px at 50% 28%,rgba(245,246,248,.14) 0%,rgba(245,246,248,.07) 45%,transparent 75%),
@@ -1927,21 +1927,12 @@ footer{
   .compare-table th:first-child{width:32%;}
   .compare-table th:not(:first-child){width:calc(68% / 4);}
 
-  /* Flayr-column light: on mobile the column is much taller than it is wide, so a beam
-     traveling the perimeter spends nearly all its time crawling the long vertical sides —
-     it reads as a stray moving line, not a light circling the column. A static pulsing
-     outline (tried previously) read as flat/inert instead. A vertical scanning glow suits
-     the tall narrow shape much better — it's the same "light moving through the column"
-     idea, just oriented along the axis the column is actually long on. */
-  .compare-flayr-outline .cfo-glow,.compare-flayr-outline .cfo-beam{display:none!important;}
-  .compare-flayr-outline .cfo-base{display:block;stroke:rgba(0,212,255,.28);stroke-width:1.5;fill:none;}
-  .compare-flayr-scan{display:block;border-radius:16px;}
-  .compare-flayr-scan-bar{animation:cfoScan 3.4s cubic-bezier(.45,0,.55,1) infinite;}
-  @keyframes cfoScan{
-    0%{top:-42%;}
-    60%{top:100%;}
-    100%{top:100%;}
-  }
+  /* Flayr-column light: every beam/outline treatment tried here (traveling perimeter beam,
+     static pulsing outline, vertical scanning glow) read as clutter on mobile — drop it
+     entirely. A flat tint on the column keeps it identifiable without any motion. */
+  .compare-flayr-outline{display:none!important;}
+  .compare-flayr-scan{display:none!important;}
+  .compare-table th.col-flayr,.compare-table td.col-flayr{background:rgba(0,212,255,.05)!important;}
 
   /* Pricing — slide-in animation */
   .pricing-grid{grid-template-columns:1fr;gap:16px;}
@@ -4004,15 +3995,17 @@ if (faqGrid) {
         // softening the instant it was off by a few px — leaving almost no window to actually
         // read it. Give it a plateau: stay fully sharp within clearZone, only start blurring
         // beyond that, so each step gets real screen-time in focus before it fades out.
-        // clearZone is intentionally tight (paired with .hiw-steps' 22vh mobile gap) so only
+        // clearZone is intentionally tight (paired with .hiw-steps' 34vh mobile gap) so only
         // one step is ever in the plateau at a time — otherwise neighbors sit at near-full
-        // opacity simultaneously and the "focused" one barely reads as different.
-        const clearZone = viewH * 0.08;
-        const blurRange = viewH * 0.45;
+        // opacity simultaneously and the "focused" one barely reads as different. blurRange
+        // is kept short relative to the gap so a neighbor is nearly gone well before the next
+        // one becomes the focus — less text competing on screen at once.
+        const clearZone = viewH * 0.06;
+        const blurRange = viewH * 0.28;
         const norm = dist <= clearZone ? 0 : Math.max(0, Math.min(1, (dist - clearZone) / (blurRange - clearZone)));
         const focus = 1 - norm;
-        step.style.filter = norm < 0.02 ? 'none' : `blur(${(norm * 7).toFixed(2)}px)`;
-        step.style.opacity = (0.14 + focus * 0.86).toFixed(3);
+        step.style.filter = norm < 0.02 ? 'none' : `blur(${(norm * 8).toFixed(2)}px)`;
+        step.style.opacity = (0.08 + focus * 0.92).toFixed(3);
         step.style.transform = `scale(${(0.94 + focus * 0.06).toFixed(4)})`;
       });
     }
