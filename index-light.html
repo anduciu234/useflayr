@@ -419,6 +419,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
   color:rgba(10,12,20,.85);
 }
 .hero-accent-word{color:var(--accent);}
+.hero-br-mobile{display:none;}
 .hero-sub{
   font-size:clamp(14px,1.1vw,17px);color:rgba(10,12,20,.72);
   line-height:1.7;max-width:460px;margin:0 0 32px;
@@ -1244,6 +1245,16 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);-webkit-
 .compare-flayr-outline .cfo-base{display:none;}
 .compare-flayr-outline .cfo-glow{fill:none;stroke:rgba(0,212,255,.32);stroke-width:3.5;stroke-linecap:round;filter:blur(4px);}
 .compare-flayr-outline .cfo-beam{fill:none;stroke:#a9edff;stroke-width:1.5;stroke-linecap:round;opacity:.75;}
+.compare-flayr-scan{position:absolute;pointer-events:none;z-index:3;overflow:hidden;display:none;}
+.compare-flayr-scan-bar{position:absolute;left:0;right:0;height:42%;top:-42%;
+  background:linear-gradient(to bottom,
+    transparent,
+    rgba(0,212,255,.5) 40%,
+    rgba(180,240,255,.9) 50%,
+    rgba(0,212,255,.5) 60%,
+    transparent);
+  filter:blur(2px);
+}
 .compare-table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;}
 .compare-table th{
   padding:34px 24px 26px;text-align:center;
@@ -1652,23 +1663,24 @@ footer{
 
   /* Hero — anchor near top (not centered) but still reserve a full screen of height, so content isn't cut short and the next section doesn't peek into view while the headline is still fading in. 100svh (small viewport height) instead of 100vh avoids the address-bar-collapse reflow jump on first scroll. */
   #hero{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:100px 16px 40px;}
-  .hero-center{max-width:100%;padding-top:10px;}
-  .hero-h1{font-size:clamp(36px,10.5vw,46px);}
+  .hero-center{max-width:100%;padding-top:26px;}
+  .hero-h1{font-size:clamp(32px,9.2vw,42px);}
+  .hero-br-mobile{display:inline;}
   .hero-sub{font-size:14px;max-width:100%;}
   .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;width:100%;}
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
   .hero-trust{gap:6px;font-size:11px;}
-  /* Pill: full-width and shorter than desktop's tall padding/button so it reads
-     as a long, low bar instead of a squat rounded box. hero-center is a
-     column flex with align-items:center, so block children shrink-wrap to
-     content width by default — width:100% is needed or the pill (and its
-     placeholder text) just sizes to its intrinsic content width. */
+  /* Pill: hero-center is a column flex with align-items:center, so block
+     children shrink-wrap to content width by default — an explicit width
+     is needed or the pill (and its placeholder text) just sizes to its
+     intrinsic content width. Constrained narrower than full-bleed and a
+     touch taller than the previous low-bar treatment. */
   .hero-input-wrap{width:100%;}
-  .hero-input-pill{width:100%;min-width:0;max-width:100%;margin-bottom:16px;padding:6px 6px 6px 20px;gap:10px;}
+  .hero-input-pill{width:92%;min-width:0;max-width:360px;margin:0 auto 16px;padding:9px 9px 9px 22px;gap:10px;}
   .hero-input-field{font-size:14px;}
-  .hero-input-submit{width:38px;height:38px;}
+  .hero-input-submit{width:42px;height:42px;}
   .hero-input-icon svg{width:17px;height:17px;}
-  .hero-demo-wrap{margin-top:20px!important;}
+  .hero-demo-wrap{margin-top:44px!important;max-width:220px!important;}
 
   /* Hero flow — stack single column on mobile */
   .hero-flow{grid-template-columns:1fr;gap:28px;padding:0;margin-top:40px;}
@@ -1695,16 +1707,26 @@ footer{
      transform lagged behind on .rv's slow .8s curve. That combo is what read as the section
      "blurring immediately" and feeling heavier/slower than the rest of the page. */
   .hiw-step.rv{transition:filter .15s linear,opacity .15s linear,transform .15s linear;}
+  .hiw-steps{gap:22vh;}
 
-  /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only */
-  .hero-bg-vid{opacity:.85;filter:blur(0.5px) saturate(.92) contrast(.95);}
+  /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only.
+     The always-on .hero-bg-overlay radial whitewash (tuned for desktop's much larger canvas)
+     was also stacking on top and washing the image out further — soften it on mobile too. */
+  .hero-bg-vid{opacity:1;filter:saturate(1.25) contrast(1.08);}
+  .hero-bg-overlay{
+    background:
+      radial-gradient(ellipse 1000px 700px at 50% 28%,rgba(245,246,248,.14) 0%,rgba(245,246,248,.07) 45%,transparent 75%),
+      radial-gradient(ellipse 620px 520px at 2% 84%,rgba(245,246,248,.2) 0%,rgba(245,246,248,.09) 55%,transparent 80%),
+      radial-gradient(ellipse 620px 520px at 98% 84%,rgba(245,246,248,.2) 0%,rgba(245,246,248,.09) 55%,transparent 80%),
+      linear-gradient(180deg,rgba(245,246,248,.04) 0%,rgba(245,246,248,.02) 46%,var(--bg) 92%);
+  }
   .hero-bg-vid-wrap::after{
     background:linear-gradient(to bottom,
       transparent 0%,
-      rgba(245,246,248,.06) 40%,
-      rgba(245,246,248,.22) 60%,
-      rgba(245,246,248,.55) 76%,
-      rgba(245,246,248,.85) 88%,
+      rgba(245,246,248,.03) 46%,
+      rgba(245,246,248,.1) 64%,
+      rgba(245,246,248,.32) 80%,
+      rgba(245,246,248,.68) 90%,
       var(--bg) 98%);
   }
   .cta-bg-vid{opacity:.4;}
@@ -1905,19 +1927,20 @@ footer{
   .compare-table th:first-child{width:32%;}
   .compare-table th:not(:first-child){width:calc(68% / 4);}
 
-  /* Flayr-column light: on mobile the column is much taller than it is wide,
-     so the traveling 16%-perimeter beam spends nearly all 7s crawling up/down
-     the long vertical sides — it reads as a stray moving line, not a light
-     circling the column. Replace it with a static full outline that gently
-     pulses in place instead of animating around the perimeter. */
+  /* Flayr-column light: on mobile the column is much taller than it is wide, so a beam
+     traveling the perimeter spends nearly all its time crawling the long vertical sides —
+     it reads as a stray moving line, not a light circling the column. A static pulsing
+     outline (tried previously) read as flat/inert instead. A vertical scanning glow suits
+     the tall narrow shape much better — it's the same "light moving through the column"
+     idea, just oriented along the axis the column is actually long on. */
   .compare-flayr-outline .cfo-glow,.compare-flayr-outline .cfo-beam{display:none!important;}
-  .compare-flayr-outline .cfo-base{
-    display:block;stroke:rgba(0,212,255,.4);stroke-width:1.5;fill:none;
-    animation:cfoPulse 2.6s ease-in-out infinite;
-  }
-  @keyframes cfoPulse{
-    0%,100%{stroke-opacity:.4;}
-    50%{stroke-opacity:.9;}
+  .compare-flayr-outline .cfo-base{display:block;stroke:rgba(0,212,255,.28);stroke-width:1.5;fill:none;}
+  .compare-flayr-scan{display:block;border-radius:16px;}
+  .compare-flayr-scan-bar{animation:cfoScan 3.4s cubic-bezier(.45,0,.55,1) infinite;}
+  @keyframes cfoScan{
+    0%{top:-42%;}
+    60%{top:100%;}
+    100%{top:100%;}
   }
 
   /* Pricing — slide-in animation */
@@ -1994,7 +2017,7 @@ footer{
   <!-- Center: headline + input -->
   <div class="hero-center">
     <div class="hero-h1-wrap">
-      <h1 class="hero-h1">Stop guessing<br>what <span class="hero-accent-word">ads</span> to run.</h1>
+      <h1 class="hero-h1">Stop guessing<br>what <span class="hero-accent-word">ads</span><br class="hero-br-mobile"> to run.</h1>
     </div>
     <p class="hero-sub">Your competitors' best ads, <span style="color:rgba(10,12,20,.94);font-weight:600">rebuilt for your brand.</span></p>
     <div class="hero-input-wrap">
@@ -2668,6 +2691,7 @@ footer{
       <rect class="cfo-glow"></rect>
       <rect class="cfo-beam"></rect>
     </svg>
+    <div class="compare-flayr-scan" id="compare-flayr-scan"><div class="compare-flayr-scan-bar"></div></div>
     <table class="compare-table">
       <thead>
         <tr>
@@ -3843,6 +3867,14 @@ if (compareBody) {
       flayrOutline.style.width = width + 'px';
       flayrOutline.style.height = height + 'px';
 
+      const flayrScan = document.getElementById('compare-flayr-scan');
+      if (flayrScan) {
+        flayrScan.style.left = left + 'px';
+        flayrScan.style.top = top + 'px';
+        flayrScan.style.width = width + 'px';
+        flayrScan.style.height = height + 'px';
+      }
+
       const rx = 16;
       const strokeInset = 1;
       const w = Math.max(0, width - strokeInset * 2);
@@ -3972,13 +4004,16 @@ if (faqGrid) {
         // softening the instant it was off by a few px — leaving almost no window to actually
         // read it. Give it a plateau: stay fully sharp within clearZone, only start blurring
         // beyond that, so each step gets real screen-time in focus before it fades out.
-        const clearZone = viewH * 0.22;
-        const blurRange = viewH * 0.6;
+        // clearZone is intentionally tight (paired with .hiw-steps' 22vh mobile gap) so only
+        // one step is ever in the plateau at a time — otherwise neighbors sit at near-full
+        // opacity simultaneously and the "focused" one barely reads as different.
+        const clearZone = viewH * 0.08;
+        const blurRange = viewH * 0.45;
         const norm = dist <= clearZone ? 0 : Math.max(0, Math.min(1, (dist - clearZone) / (blurRange - clearZone)));
         const focus = 1 - norm;
-        step.style.filter = norm < 0.02 ? 'none' : `blur(${(norm * 6).toFixed(2)}px)`;
-        step.style.opacity = (0.28 + focus * 0.72).toFixed(3);
-        step.style.transform = `scale(${(0.96 + focus * 0.04).toFixed(4)})`;
+        step.style.filter = norm < 0.02 ? 'none' : `blur(${(norm * 7).toFixed(2)}px)`;
+        step.style.opacity = (0.14 + focus * 0.86).toFixed(3);
+        step.style.transform = `scale(${(0.94 + focus * 0.06).toFixed(4)})`;
       });
     }
 
