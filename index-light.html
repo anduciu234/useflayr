@@ -2874,7 +2874,7 @@ if (heroVid) {
    attribute regardless of scroll position, competing for bandwidth with actually-critical
    above-the-fold resources and dragging out mobile LCP badly. ── */
 (function setupBgVideos() {
-  document.querySelectorAll('.hero-bg-vid,.cta-bg-vid,.lazy-vid').forEach(vid => {
+  document.querySelectorAll('.cta-bg-vid,.lazy-vid').forEach(vid => {
     const bgVidObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
