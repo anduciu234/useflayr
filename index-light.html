@@ -1675,7 +1675,7 @@ footer{
      is needed or the pill (and its placeholder text) just sizes to its
      intrinsic content width. Constrained narrower than full-bleed and a
      touch taller than the previous low-bar treatment. */
-  .hero-input-wrap{width:100%;}
+  .hero-input-wrap{width:100%;margin-top:8px;}
   .hero-input-pill{width:100%;min-width:0;max-width:420px;margin:0 auto 16px;padding:11px 11px 11px 24px;gap:10px;}
   .hero-input-field{font-size:15px;}
   .hero-input-submit{width:46px;height:46px;}
@@ -1712,7 +1712,7 @@ footer{
   /* Bg videos: barely visible at .2 opacity on small/dim mobile screens — boost on mobile only.
      The always-on .hero-bg-overlay radial whitewash (tuned for desktop's much larger canvas)
      was also stacking on top and washing the image out further — soften it on mobile too. */
-  .hero-bg-vid{opacity:.88;filter:saturate(1.2) contrast(1.06);}
+  .hero-bg-vid{opacity:.72;filter:saturate(1.2) contrast(1.06);}
   .hero-bg-overlay{
     background:
       radial-gradient(ellipse 1000px 700px at 50% 28%,rgba(245,246,248,.14) 0%,rgba(245,246,248,.07) 45%,transparent 75%),
@@ -1731,8 +1731,11 @@ footer{
   }
   .cta-bg-vid{opacity:.4;}
 
-  /* Comparison table Flayr logo — was overflowing the badge/row on narrow columns */
-  .th-badge-flayr img{height:16px;}
+  /* Comparison table Flayr logo — was overflowing the badge/row on narrow columns.
+     The desktop -7px translateX (compensating for the wordmark's larger glyph shape at
+     28px) leaves it visibly off-center under the "Best value" badge at this smaller
+     size — drop it so the logo centers under the badge like the stack's flex intends. */
+  .th-badge-flayr img{height:16px;transform:none;}
 
   /* Footer link columns — stack into one clean column instead of wrapping unevenly */
   footer{padding:36px 20px 18px;}
