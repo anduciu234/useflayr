@@ -1653,13 +1653,21 @@ footer{
   /* Hero — anchor near top (not centered) but still reserve a full screen of height, so content isn't cut short and the next section doesn't peek into view while the headline is still fading in. 100svh (small viewport height) instead of 100vh avoids the address-bar-collapse reflow jump on first scroll. */
   #hero{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:100px 16px 40px;}
   .hero-center{max-width:100%;padding-top:10px;}
-  .hero-h1{font-size:clamp(30px,8vw,42px);}
+  .hero-h1{font-size:clamp(36px,10.5vw,46px);}
   .hero-sub{font-size:14px;max-width:100%;}
   .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;width:100%;}
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;width:100%;padding:14px 20px;}
   .hero-trust{gap:6px;font-size:11px;}
-  .hero-input-pill{min-width:0;max-width:100%;margin-bottom:16px;}
+  /* Pill: full-width and shorter than desktop's tall padding/button so it reads
+     as a long, low bar instead of a squat rounded box. hero-center is a
+     column flex with align-items:center, so block children shrink-wrap to
+     content width by default — width:100% is needed or the pill (and its
+     placeholder text) just sizes to its intrinsic content width. */
+  .hero-input-wrap{width:100%;}
+  .hero-input-pill{width:100%;min-width:0;max-width:100%;margin-bottom:16px;padding:6px 6px 6px 20px;gap:10px;}
   .hero-input-field{font-size:14px;}
+  .hero-input-submit{width:38px;height:38px;}
+  .hero-input-icon svg{width:17px;height:17px;}
   .hero-demo-wrap{margin-top:20px!important;}
 
   /* Hero flow — stack single column on mobile */
@@ -1672,6 +1680,11 @@ footer{
 
   .hero-wave{height:220px;}
   .hero-floor{height:25vh!important;}
+
+  /* Hero → How-it-works: the two sections' own padding was stacking into a
+     ~120px dead flat-color gap with nothing bridging them. Tighten it. */
+  #hero{padding-bottom:16px;}
+  #hiw{padding-top:44px;}
 
   /* How it works: focus/blur amount is written directly per-frame from JS as a continuous
      function of scroll distance (see updateHiwMobile below) — this short transition just
@@ -1892,9 +1905,20 @@ footer{
   .compare-table th:first-child{width:32%;}
   .compare-table th:not(:first-child){width:calc(68% / 4);}
 
-  /* Flayr-column light: keep a faint always-on outline so the beam reads as
-     circling the column instead of a stray line on tall mobile tables */
-  .compare-flayr-outline .cfo-base{display:block;stroke:rgba(0,212,255,.24);stroke-width:1.25;fill:none;}
+  /* Flayr-column light: on mobile the column is much taller than it is wide,
+     so the traveling 16%-perimeter beam spends nearly all 7s crawling up/down
+     the long vertical sides — it reads as a stray moving line, not a light
+     circling the column. Replace it with a static full outline that gently
+     pulses in place instead of animating around the perimeter. */
+  .compare-flayr-outline .cfo-glow,.compare-flayr-outline .cfo-beam{display:none!important;}
+  .compare-flayr-outline .cfo-base{
+    display:block;stroke:rgba(0,212,255,.4);stroke-width:1.5;fill:none;
+    animation:cfoPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes cfoPulse{
+    0%,100%{stroke-opacity:.4;}
+    50%{stroke-opacity:.9;}
+  }
 
   /* Pricing — slide-in animation */
   .pricing-grid{grid-template-columns:1fr;gap:16px;}
@@ -3841,12 +3865,14 @@ if (compareBody) {
       });
 
       if (beamAnim) beamAnim.cancel();
-      const keyframes = [
-        { strokeDashoffset: 0 },
-        { strokeDashoffset: -perimeter }
-      ];
-      beam.animate(keyframes, { duration: 7000, iterations: Infinity, easing: 'linear' });
-      beamAnim = glow.animate(keyframes, { duration: 7000, iterations: Infinity, easing: 'linear' });
+      if (window.innerWidth > 600) {
+        const keyframes = [
+          { strokeDashoffset: 0 },
+          { strokeDashoffset: -perimeter }
+        ];
+        beam.animate(keyframes, { duration: 7000, iterations: Infinity, easing: 'linear' });
+        beamAnim = glow.animate(keyframes, { duration: 7000, iterations: Infinity, easing: 'linear' });
+      }
     };
     positionFlayrOutline();
     window.addEventListener('resize', positionFlayrOutline);
@@ -4014,7 +4040,12 @@ setTimeout(observeBlur, 200);
     ticking = false;
     const r = wrap.getBoundingClientRect();
     const vh = window.innerHeight;
-    const range = Math.min(vh * 0.9, 620);
+    /* Resolve fully once the wrap is entirely inside the viewport. Since this
+       banner is the very last thing on the page, scrolling can never push its
+       top past (vh - height) — a fixed px "range" (as before) assumed more
+       room below it than a short page actually has, so on mobile the image
+       stayed permanently blurred/ghosted, never reaching ease=1. */
+    const range = Math.max(r.height, 1);
     let p = (vh - r.top) / range;
     p = Math.max(0, Math.min(1, p));
     const ease = 1 - Math.pow(1 - p, 3);
