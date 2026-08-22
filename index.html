@@ -2015,9 +2015,9 @@ footer{
     </div>
     <p class="hero-sub">Your competitors' best ads, <span style="color:rgba(10,12,20,.94);font-weight:600">rebuilt for your brand.</span></p>
     <div class="hero-input-wrap">
-      <form class="hero-input-pill" onsubmit="var u=this.querySelector('.hero-input-field').value.trim();window.location.href='https://app.useflayr.com/signup'+(u?('?url='+encodeURIComponent(u)):'');return false;">
+      <form class="hero-input-pill" onsubmit="var u=this.querySelector('.hero-input-field').value.trim();if(!u)return false;window.location.href='https://app.useflayr.com/signup?url='+encodeURIComponent(u);return false;">
         <span class="hero-input-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 15l6-6M10 6l1-1a4 4 0 015.66 5.66l-2 2M14 18l-1 1a4 4 0 01-5.66-5.66l2-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <input type="text" id="heroInputField" class="hero-input-field" placeholder="Paste your brand URL"/>
+        <input type="text" inputmode="url" autocomplete="url" name="url" id="heroInputField" class="hero-input-field" placeholder="Paste your brand URL" aria-label="Brand website URL" required/>
         <button type="submit" class="hero-input-submit" aria-label="Analyze">
           <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
